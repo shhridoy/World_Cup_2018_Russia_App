@@ -4,20 +4,19 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="5dp"
-    android:layout_marginStart="5dp"
-    android:layout_marginEnd="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginTop="3dp"
-    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginTop="1dp"
+    android:layout_marginBottom="0dp"
     android:id="@+id/LLListItem">
 
     <android.support.v7.widget.CardView
         android:id="@+id/CardViewListItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="3dp"
-        app:cardElevation="3dp">
+        app:cardCornerRadius="2dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -25,19 +24,20 @@
             android:layout_height="wrap_content"
             android:id="@+id/RLListItem">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/RL2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:padding="5dp">
 
                 <TextView
                     android:id="@+id/tv_date_time"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
                     android:textAlignment="textStart"
                     android:text="Thu 14.06.2018 21:00"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/md_grey_700"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
@@ -45,38 +45,110 @@
 
                 <TextView
                     android:id="@+id/tv_round"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
                     android:textAlignment="textEnd"
                     android:text="Round 1"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/md_grey_700"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:gravity="end" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    android:id="@+id/tv_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="1 : 0"
+                    android:textStyle="normal"
+                    android:textColor="#000000"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignBottom="@+id/teamImage_1"
+                    android:layout_alignTop="@+id/teamImage_1"
+                    android:gravity="center_vertical"/>
+
+                <ImageView
+                    android:id="@+id/teamImage_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_action_circle"
+                    android:layout_toLeftOf="@id/tv_score"
+                    android:layout_toStartOf="@id/tv_score"
+                     />
 
                 <TextView
                     android:id="@+id/tv_team1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="Russia"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#000000"
-                    android:textStyle="bold" />
-
-                <android.support.v4.widget.CircleImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher_background"
-                    android:layout_toEndOf="@id/tv_team1"
-                    android:layout_toRightOf="@id/tv_team1" />
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_centerVertical="true"
+                    android:text="Russia"
+                    android:layout_alignBottom="@id/teamImage_1"
+                    android:layout_alignTop="@id/teamImage_1"
+                    android:textSize="17sp"
+                    android:textColor="@color/md_grey_900"
+                    android:textStyle="normal"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:layout_gravity="start"/>
+
+                <ImageView
+                    android:id="@+id/teamImage_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_action_circle"
+                    android:layout_toRightOf="@id/tv_score"
+                    android:layout_toEndOf="@id/tv_score"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_team2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="Saudi Arabia"
+                    android:layout_alignBottom="@id/teamImage_2"
+                    android:layout_alignTop="@id/teamImage_2"
+                    android:textSize="17sp"
+                    android:textColor="@color/md_grey_900"
+                    android:textStyle="normal"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:maxEms="10"
+                    android:ellipsize="end"
+                    android:layout_gravity="end" />
 
             </RelativeLayout>
 
