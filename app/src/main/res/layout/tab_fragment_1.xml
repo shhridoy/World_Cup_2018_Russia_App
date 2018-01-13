@@ -5,8 +5,35 @@
     android:layout_height="match_parent"
     android:background="@color/md_grey_300">
 
+
+
+    <Spinner
+        android:id="@+id/RoundChooserSpiner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:spinnerMode="dialog"
+        android:textAlignment="center">
+
+    </Spinner>
+
+    <ImageView
+        android:src="@drawable/ic_down_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/RoundChooserSpiner"
+        android:layout_alignTop="@id/RoundChooserSpiner"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/RecyclerView"
+        android:layout_below="@id/RoundChooserSpiner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
