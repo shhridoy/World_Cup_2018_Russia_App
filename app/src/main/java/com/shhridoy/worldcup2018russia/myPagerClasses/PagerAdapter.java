@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.shhridoy.worldcup2018russia.myTabFragments.TabFragment1;
-import com.shhridoy.worldcup2018russia.myTabFragments.TabFragment2;
-import com.shhridoy.worldcup2018russia.myTabFragments.TabFragment3;
+import com.shhridoy.worldcup2018russia.myTabFragments.MatchesFragment;
+import com.shhridoy.worldcup2018russia.myTabFragments.TablesFragment;
+import com.shhridoy.worldcup2018russia.myTabFragments.GoalsFragment;
 
 /**
  * Created by Dream Land on 1/12/2018.
@@ -25,13 +25,13 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                TabFragment1 tab1 = new TabFragment1();
+                MatchesFragment tab1 = new MatchesFragment();
                 return tab1;
             case 1:
-                TabFragment2 tab2 = new TabFragment2();
+                TablesFragment tab2 = new TablesFragment();
                 return tab2;
             case 2:
-                TabFragment3 tab3 = new TabFragment3();
+                GoalsFragment tab3 = new GoalsFragment();
                 return tab3;
             default:
                 return null;

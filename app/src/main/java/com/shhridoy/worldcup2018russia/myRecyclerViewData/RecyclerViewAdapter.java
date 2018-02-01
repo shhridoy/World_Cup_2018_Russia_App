@@ -24,13 +24,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<MatchesListItems> itemsList = null;
     private List<TablesListItems> tablesListItems = null;
+    private List<GoalsListItems> goalsListItems = null;
     private Context context;
     private String tag;
-
-    public RecyclerViewAdapter(List<MatchesListItems> itemsList, Context context) {
-        this.itemsList = itemsList;
-        this.context = context;
-    }
 
     public RecyclerViewAdapter(List<MatchesListItems> itemsList, Context context, String tag) {
         this.itemsList = itemsList;
@@ -44,15 +40,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.tag = tag;
     }
 
+    public RecyclerViewAdapter(String tag, List<GoalsListItems> goalsListItems, Context context) {
+        this.goalsListItems = goalsListItems;
+        this.context = context;
+        this.tag = tag;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         switch (tag) {
-            case "Matchs":
+            case "Matches":
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.match_list_item, parent, false);
                 break;
             case "Tables":
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.table_list_item, parent, false);
+                break;
+            case "Goals":
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.goals_list_item, parent, false);
                 break;
             default:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.match_list_item, parent, false);
@@ -110,6 +115,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                 break;
 
+            case "Goals":
+                GoalsListItems goalList = goalsListItems.get(position);
+                holder.tvNo.setText((position+1)+".");
+                holder.tvName.setText(goalList.getName());
+                holder.tvGoal.setText(goalList.getGoal());
+                break;
+
             default:
                 final MatchesListItems listItem = itemsList.get(position);
                 holder.tvDateTime.setText(listItem.getDate());
@@ -123,7 +135,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return tag.equals("Tables") ? tablesListItems.size() : itemsList.size();
+        switch (tag) {
+            case "Tables":
+                return tablesListItems.size();
+            case "Goals":
+                return goalsListItems.size();
+            default:
+                return itemsList.size();
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -139,15 +158,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView tvStatusP1, tvStatusP2, tvStatusP3, tvStatusP4;
         CircleImageView imgTeamFlag1, imgTeamFlag2, imgTeamFlag3, imgTeamFlag4;
 
+        // Goals View
+        TextView tvNo, tvName, tvGoal;
+
         ViewHolder(View itemView) {
             super(itemView);
             switch (tag) {
-                case "Matches":
-                    tvDateTime = itemView.findViewById(R.id.tv_date_time);
-                    tvRound = itemView.findViewById(R.id.tv_round);
-                    tvTeam1 = itemView.findViewById(R.id.tv_team1);
-                    tvTeam2 = itemView.findViewById(R.id.tv_team2);
-                    tvScore = itemView.findViewById(R.id.tv_score);
+                case "Goals":
+                    tvNo = itemView.findViewById(R.id.tv_no);
+                    tvName = itemView.findViewById(R.id.tv_name);
+                    tvGoal = itemView.findViewById(R.id.tv_goal);
                     break;
                 case "Tables":
                     tvGroup = itemView.findViewById(R.id.tv_group);
@@ -190,7 +210,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onClick(View v) {
-            String t =  tag.equals("Matches")? tvTeam1.getText()+ " and "+tvTeam2.getText()+" match." : tvGroup.getText().toString();
+            String t =  null;
+            if (tag.equals("Matches")) {
+                t = tvTeam1.getText()+ " and "+tvTeam2.getText()+" match.";
+            } else if (tag.equals("Tables")) {
+                t = tvGroup.getText().toString();
+            } else {
+                t = tvName.getText().toString();
+            }
             Toast.makeText(context, "Clicked on "+t, Toast.LENGTH_SHORT).show();
         }
     }

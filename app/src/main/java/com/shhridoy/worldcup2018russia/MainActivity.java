@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Matches"));
-        tabLayout.addTab(tabLayout.newTab().setText("Table"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tables"));
         tabLayout.addTab(tabLayout.newTab().setText("Goals"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 

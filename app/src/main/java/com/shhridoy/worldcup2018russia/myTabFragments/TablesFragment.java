@@ -19,7 +19,7 @@ import java.util.List;
  * Created by Dream Land on 1/12/2018.
  */
 
-public class TabFragment2 extends Fragment {
+public class TablesFragment extends Fragment {
 
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -27,7 +27,7 @@ public class TabFragment2 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_fragment_2, container, false);
+        View rootView = inflater.inflate(R.layout.tables_fragment, container, false);
 
         recyclerView = rootView.findViewById(R.id.RecyclerView);
         recyclerView.setHasFixedSize(true);

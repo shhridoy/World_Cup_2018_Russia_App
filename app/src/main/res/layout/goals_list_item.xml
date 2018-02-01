@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="2dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginTop="1dp"
+    android:layout_marginBottom="0dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/CardViewListItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="2dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:text="1."
+                android:layout_alignTop="@+id/tv_name"
+                android:layout_alignBottom="@+id/tv_name"
+                android:textSize="17sp"
+                android:textColor="@color/md_grey_900"
+                android:textStyle="normal"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:ellipsize="marquee"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_team"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ru"
+                android:layout_toEndOf="@id/tv_no"
+                android:layout_toRightOf="@id/tv_no"/>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:text="Russia"
+                android:layout_alignBottom="@id/image_team"
+                android:layout_alignTop="@id/image_team"
+                android:textSize="17sp"
+                android:textColor="@color/md_grey_900"
+                android:textStyle="normal"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:layout_toRightOf="@id/image_team"
+                android:layout_toEndOf="@id/image_team"/>
+
+            <TextView
+                android:id="@+id/tv_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="00"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:layout_alignBottom="@id/tv_name"
+                android:layout_alignTop="@id/tv_name"
+                android:textSize="17sp"
+                android:textColor="@color/md_grey_900"
+                android:textStyle="normal"
+                android:layout_gravity="end"
+                android:textAlignment="center"
+                android:gravity="center_vertical" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

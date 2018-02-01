@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Dream Land on 1/12/2018.
  */
 
-public class TabFragment1 extends Fragment {
+public class MatchesFragment extends Fragment {
 
     Spinner chooserSpinner;
     RecyclerView recyclerView;
@@ -35,7 +35,7 @@ public class TabFragment1 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_fragment_1, container, false);
+        View rootView = inflater.inflate(R.layout.matches_fragment, container, false);
 
         chooserSpinner = rootView.findViewById(R.id.RoundChooserSpiner);
         recyclerView = rootView.findViewById(R.id.RecyclerView);
