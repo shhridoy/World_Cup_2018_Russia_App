@@ -78,17 +78,17 @@
                     android:layout_alignTop="@+id/teamImage_1"
                     android:gravity="center_vertical"/>
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/teamImage_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="44dp"
+                    android:layout_height="35dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_action_circle"
+                    android:src="@drawable/ru"
                     android:layout_toLeftOf="@id/tv_score"
                     android:layout_toStartOf="@id/tv_score"
                      />
@@ -113,17 +113,17 @@
                     android:ellipsize="marquee"
                     android:layout_gravity="start"/>
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/teamImage_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="45dp"
+                    android:layout_height="35dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_action_circle"
+                    android:src="@drawable/sa"
                     android:layout_toRightOf="@id/tv_score"
                     android:layout_toEndOf="@id/tv_score"
                     />

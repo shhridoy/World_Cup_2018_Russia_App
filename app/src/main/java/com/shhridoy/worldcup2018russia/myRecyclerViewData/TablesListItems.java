@@ -1,0 +1,49 @@
+package com.shhridoy.worldcup2018russia.myRecyclerViewData;
+
+/**
+ * Created by Dream Land on 2/1/2018.
+ */
+
+public class TablesListItems {
+
+    private String group;
+    private String teamNo;
+    private String teamName;
+    private String flagLink;
+    private String status;
+
+    public TablesListItems(String group, String teamNo, String teamName, String flagLink, String status) {
+        this.group = group;
+        this.teamNo = teamNo;
+        this.teamName = teamName;
+        this.flagLink = flagLink;
+        this.status = status;
+    }
+
+    public TablesListItems(String group, String teamNo, String teamName, String status) {
+        this.group = group;
+        this.teamNo = teamNo;
+        this.teamName = teamName;
+        this.status = status;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public String getTeamNo() {
+        return teamNo;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public String getFlagLink() {
+        return flagLink;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+}
