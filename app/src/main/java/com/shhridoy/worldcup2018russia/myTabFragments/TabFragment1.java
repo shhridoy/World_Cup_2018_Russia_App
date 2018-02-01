@@ -2,7 +2,6 @@ package com.shhridoy.worldcup2018russia.myTabFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +14,7 @@ import android.widget.Toast;
 
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
-import com.shhridoy.worldcup2018russia.myRecyclerViewData.MyAdapter;
+import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +80,7 @@ public class TabFragment1 extends Fragment {
         MatchesListItems item7 = new MatchesListItems("Sat 16.06.18 22:00", "Round 1", "Peru", "Denmark", "- : -");
         matchesListItems.add(item7);
 
-        adapter = new MyAdapter(matchesListItems, getContext(), "Matches");
+        adapter = new RecyclerViewAdapter(matchesListItems, getContext(), "Matches");
         recyclerView.setAdapter(adapter);
 
         return rootView;

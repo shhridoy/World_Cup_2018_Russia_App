@@ -20,25 +20,25 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Dream Land on 1/12/2018.
  */
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private List<MatchesListItems> itemsList = null;
     private List<TablesListItems> tablesListItems = null;
     private Context context;
     private String tag;
 
-    public MyAdapter(List<MatchesListItems> itemsList, Context context) {
+    public RecyclerViewAdapter(List<MatchesListItems> itemsList, Context context) {
         this.itemsList = itemsList;
         this.context = context;
     }
 
-    public MyAdapter(List<MatchesListItems> itemsList, Context context, String tag) {
+    public RecyclerViewAdapter(List<MatchesListItems> itemsList, Context context, String tag) {
         this.itemsList = itemsList;
         this.context = context;
         this.tag = tag;
     }
 
-    public MyAdapter( Context context, List<TablesListItems> tablesListItems, String tag) {
+    public RecyclerViewAdapter(Context context, List<TablesListItems> tablesListItems, String tag) {
         this.tablesListItems = tablesListItems;
         this.context = context;
         this.tag = tag;

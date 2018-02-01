@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shhridoy.worldcup2018russia.R;
-import com.shhridoy.worldcup2018russia.myRecyclerViewData.MyAdapter;
+import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.TablesListItems;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class TabFragment2 extends Fragment {
         );
         listItems.add(item3);
 
-        adapter = new MyAdapter(getContext(), listItems, "Tables");
+        adapter = new RecyclerViewAdapter(getContext(), listItems, "Tables");
         recyclerView.setAdapter(adapter);
 
         return rootView;
