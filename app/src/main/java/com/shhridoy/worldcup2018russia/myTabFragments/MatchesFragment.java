@@ -1,9 +1,11 @@
 package com.shhridoy.worldcup2018russia.myTabFragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +44,7 @@ public class MatchesFragment extends Fragment {
     List<MatchesListItems> matchesListItems;
     ArrayAdapter<String> spinnerAdapter;
     String[] spinnerItems;
+    static final String MY_DATA = "https://shhridoy.github.io/json/worldcup2018.js";
 
 
     @Override
@@ -59,30 +73,73 @@ public class MatchesFragment extends Fragment {
             }
         });
 
-        MatchesListItems item1 = new MatchesListItems("Thu 14.06.18 21:00", "Round 1", "Russia", "Saudi Arab", "1 : 1");
-        matchesListItems.add(item1);
-
-        MatchesListItems item2 = new MatchesListItems("Fri 15.06.18 18:00", "Round 1", "Egypt", "Uruguay", "0 : 2");
-        matchesListItems.add(item2);
-
-        MatchesListItems item3 = new MatchesListItems("Fri 15.06.18 21:00", "Round 1", "Morocco", "Iran", "1 : 0");
-        matchesListItems.add(item3);
-
-        MatchesListItems item4 = new MatchesListItems("Sat 16.06.18 00:00", "Round 1", "Portugal", "Spain", "2 : 2");
-        matchesListItems.add(item4);
-
-        MatchesListItems item5 = new MatchesListItems("Sat 16.06.18 16:00", "Round 1", "France", "Australia", "- : -");
-        matchesListItems.add(item5);
-
-        MatchesListItems item6 = new MatchesListItems("Sat 16.06.18 19:00", "Round 1", "Argentina", "Iceland", "- : -");
-        matchesListItems.add(item6);
-
-        MatchesListItems item7 = new MatchesListItems("Sat 16.06.18 22:00", "Round 1", "Peru", "Denmark", "- : -");
-        matchesListItems.add(item7);
-
-        adapter = new RecyclerViewAdapter(matchesListItems, getContext(), "Matches");
-        recyclerView.setAdapter(adapter);
+        loadRecyclerViewFromJson();
 
         return rootView;
+    }
+
+    private void loadRecyclerViewFromJson() {
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading data....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        //ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyle);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, MY_DATA,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        progressDialog.dismiss();
+                        Toast.makeText(getContext(), "Responses", Toast.LENGTH_LONG).show();
+
+                        try {
+                            matchesListItems.clear();
+
+                            JSONObject jsonObject = new JSONObject("Matches");
+                            JSONArray jsonArray = jsonObject.getJSONArray("Round1");
+                            int LENGTH = jsonArray.length();
+
+                            for (int i = 0; i < jsonArray.length()-2; i++) {
+                                JSONObject object = (JSONObject) jsonArray.get(i);
+
+                                String date = object.getString("date");
+                                String round = object.getString("round");
+                                String team1 = object.getString("team1");
+                                String flagTeam1 = object.getString("flagTeam1");
+                                String team2 = object.getString("team2");
+                                String flagTeam2 = object.getString("flagTeam2");
+                                String score = object.getString("score");
+
+                                MatchesListItems list = new MatchesListItems(date, round, team1, team2, score);
+
+                                matchesListItems.add(list);
+                                adapter = new RecyclerViewAdapter(matchesListItems, getContext(), "Matches");
+                                recyclerView.setAdapter(adapter);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Log.i("EROR", error.getMessage());
+                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        requestQueue.add(stringRequest);
     }
 }
