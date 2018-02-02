@@ -134,12 +134,11 @@ public class MatchesFragment extends Fragment {
                     }
                 });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(15000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
 }
