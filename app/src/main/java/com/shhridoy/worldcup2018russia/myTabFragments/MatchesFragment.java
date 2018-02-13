@@ -2,6 +2,7 @@ package com.shhridoy.worldcup2018russia.myTabFragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.shhridoy.worldcup2018russia.R;
+import com.shhridoy.worldcup2018russia.myRecyclerViewData.Api;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
 
@@ -31,6 +33,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Dream Land on 1/12/2018.
@@ -45,6 +52,7 @@ public class MatchesFragment extends Fragment {
     ArrayAdapter<String> spinnerAdapter;
     String[] spinnerItems;
     static final String MY_DATA = "https://shhridoy.github.io/json/worldcup2018.js";
+    static final String TEMP_DATA = "https://api.myjson.com/bins/196pel";
 
 
     @Override
@@ -73,9 +81,48 @@ public class MatchesFragment extends Fragment {
             }
         });
 
-        loadRecyclerViewFromJson();
+        //loadRecyclerViewFromJson();
+        RetrofitFunc();
 
         return rootView;
+    }
+
+    private void RetrofitFunc() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Api api = retrofit.create(Api.class);
+
+        Call<List<MatchesListItems>> call = api.getMatches();
+
+        call.enqueue(new Callback<List<MatchesListItems>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<MatchesListItems>> call, @NonNull retrofit2.Response<List<MatchesListItems>> response) {
+
+                List<MatchesListItems> matches = response.body();
+
+                matchesListItems.clear();
+
+                for (MatchesListItems mat : matches) {
+                    MatchesListItems list = new MatchesListItems(
+                            mat.getDate(), mat.getRound(), mat.getTeam1(), mat.getTeam2(), mat.getScore()
+                    );
+                    matchesListItems.add(list);
+                }
+                adapter = new RecyclerViewAdapter(matchesListItems, getContext(), "Matches");
+                recyclerView.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<MatchesListItems>> call, @NonNull Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.i("ERROR", t.getMessage());
+            }
+        });
+
     }
 
     private void loadRecyclerViewFromJson() {
@@ -85,7 +132,7 @@ public class MatchesFragment extends Fragment {
         progressDialog.show();
         //ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyle);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, MY_DATA,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, TEMP_DATA,
 
                 new Response.Listener<String>() {
                     @Override
@@ -101,7 +148,7 @@ public class MatchesFragment extends Fragment {
                             JSONArray jsonArray = jsonObject.getJSONArray("Round1");
                             int LENGTH = jsonArray.length();
 
-                            for (int i = 0; i < jsonArray.length()-2; i++) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = (JSONObject) jsonArray.get(i);
 
                                 String date = object.getString("date");
