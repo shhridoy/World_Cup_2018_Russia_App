@@ -1,6 +1,5 @@
 package com.shhridoy.worldcup2018russia.myTabFragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -17,9 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shhridoy.worldcup2018russia.R;
-import com.shhridoy.worldcup2018russia.myRecyclerViewData.Api;
+import com.shhridoy.worldcup2018russia.myRetrofitApi.Api;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.GoalsListItems;
-import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -45,6 +43,7 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
     RecyclerView.Adapter adapter;
     List<GoalsListItems> listItemsTeams, listItemsPlayers;
     boolean isDataSynced =false;
+    boolean isLinkFailed;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,10 +53,11 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
 
         listItemsTeams = new ArrayList<>();
         listItemsPlayers = new ArrayList<>();
+        isLinkFailed = false;
 
 
         if (!isDataSynced) {
-            retrofitDataPopulationFunc();
+            retieveJsonData();
         }
 
         rb1.setOnClickListener(this);
@@ -87,7 +87,6 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()) {
             case R.id.radioButton1:
             case R.id.LL1:
-                Toast.makeText(getContext(), rb1.getText().toString(), Toast.LENGTH_LONG).show();
                 tvNameTitle.setText("Teams Name");
                 rb1.setChecked(true);
                 rb2.setChecked(false);
@@ -96,7 +95,6 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.radioButton2:
             case R.id.LL2:
-                Toast.makeText(getContext(), rb2.getText().toString(), Toast.LENGTH_LONG).show();
                 tvNameTitle.setText("Players Name");
                 rb1.setChecked(false);
                 rb2.setChecked(true);
@@ -106,16 +104,29 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    private void retrofitDataPopulationFunc() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    private void retieveJsonData() {
+        Retrofit retrofit;
+        Api api;
+        Call<List<GoalsListItems>> call;
+        if (isLinkFailed) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(Api.BASE_URL2)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-        isDataSynced = false;
-        Api api = retrofit.create(Api.class);
+            api = retrofit.create(Api.class);
 
-        Call<List<GoalsListItems>> call = api.getGoals();
+            call = api.getGoals2();
+        } else {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(Api.BASE_URL1)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            api = retrofit.create(Api.class);
+
+            call = api.getGoals1();
+        }
 
         call.enqueue(new Callback<List<GoalsListItems>>() {
             @Override
@@ -148,8 +159,12 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
 
             @Override
             public void onFailure(@NonNull Call<List<GoalsListItems>> call, @NonNull Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 Log.i("ERROR", t.getMessage());
+
+                Toast.makeText(getContext(), "Server access failed!", Toast.LENGTH_SHORT).show();
+
+                isLinkFailed = true;
+                retieveJsonData();
             }
         });
 

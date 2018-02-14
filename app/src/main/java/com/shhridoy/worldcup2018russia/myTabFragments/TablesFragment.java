@@ -12,8 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.shhridoy.worldcup2018russia.R;
-import com.shhridoy.worldcup2018russia.myRecyclerViewData.Api;
-import com.shhridoy.worldcup2018russia.myRecyclerViewData.GoalsListItems;
+import com.shhridoy.worldcup2018russia.myRetrofitApi.Api;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.TablesListItems;
 
@@ -35,6 +34,7 @@ public class TablesFragment extends Fragment {
     RecyclerView.Adapter adapter;
     List<TablesListItems> listItems;
     boolean isDataSynced = false;
+    boolean isLinkFailed;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,9 +45,10 @@ public class TablesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         listItems = new ArrayList<>();
+        isLinkFailed = false;
 
         if (!isDataSynced) {
-            retrofitDataPopulationFunc();
+            retrieveJsonData();
         } else {
             adapter = new RecyclerViewAdapter(getContext(), listItems, "Tables");
             recyclerView.setAdapter(adapter);
@@ -56,17 +57,29 @@ public class TablesFragment extends Fragment {
         return rootView;
     }
 
-    private void retrofitDataPopulationFunc() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    private void retrieveJsonData() {
+        Retrofit retrofit;
+        Api api;
+        Call<List<TablesListItems>> call;
+        if (isLinkFailed) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(Api.BASE_URL2)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-        isDataSynced = false;
+            api = retrofit.create(Api.class);
 
-        Api api = retrofit.create(Api.class);
+            call = api.getTables2();
+        } else {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(Api.BASE_URL1)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-        Call<List<TablesListItems>> call = api.getTables();
+            api = retrofit.create(Api.class);
+
+            call = api.getTables1();
+        }
 
         call.enqueue(new Callback<List<TablesListItems>>() {
             @Override
@@ -93,9 +106,13 @@ public class TablesFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<List<TablesListItems>> call, @NonNull Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 Log.i("ERROR", t.getMessage());
+
+                Toast.makeText(getContext(), "Server access failed!", Toast.LENGTH_SHORT).show();
+
                 isDataSynced = false;
+                isLinkFailed = true;
+                retrieveJsonData();
             }
         });
 

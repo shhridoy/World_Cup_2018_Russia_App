@@ -135,31 +135,47 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 holder.tvNo.setText((position+1)+".");
                 holder.tvName.setText(goalList.getName());
                 holder.tvGoal.setText(goalList.getGoal());
-                if (goalList.getFlagLink() != null) {
+                if (!goalList.getFlagLink().isEmpty()) {
                     Picasso.with(context).load(goalList.getFlagLink()).into(holder.teamImg);
+                } else {
+                    Picasso.with(context).load(R.drawable.ic_action_circle).into(holder.teamImg);
                 }
                 break;
 
             default:
                 final MatchesListItems listItem = itemsList.get(position);
-                holder.tvDateTime.setText(listItem.getDate());
+                String[] splitDateTime = listItem.getDate().split("/");
+                String international = splitDateTime[0];
+                String bangladeshi = splitDateTime[1];
+                holder.tvDateTime.setText(bangladeshi);
                 holder.tvRound.setText(listItem.getRound());
+
                 if (listItem.getTeam1().equals("Saudi Arabia") || listItem.getTeam1().equals("Switzerland") ||
-                        listItem.getTeam1().equals("South Korea")  ) {
+                        listItem.getTeam1().equals("South Korea") || listItem.getTeam1().contains("of")
+                        || listItem.getTeam1().contains("Group") || listItem.getTeam1().contains("Winner")) {
                     holder.tvTeam1.setTextSize(14);
+                } else {
+                    holder.tvTeam1.setTextSize(16);
                 }
                 if ( listItem.getTeam2().equals("Saudi Arabia") ||
                     listItem.getTeam2().equals("Switzerland") ||
-                    listItem.getTeam2().equals("South Korea") ){
+                    listItem.getTeam2().equals("South Korea") || listItem.getTeam1().contains("of")
+                        || listItem.getTeam1().contains("Group")){
                     holder.tvTeam2.setTextSize(14);
+                } else {
+                    holder.tvTeam2.setTextSize(16);
                 }
                 holder.tvTeam1.setText(listItem.getTeam1());
                 holder.tvTeam2.setText(listItem.getTeam2());
                 holder.tvScore.setText(listItem.getScore());
-                if (listItem.getFlagTeam1() != null) {
+                if (listItem.getFlagTeam1().isEmpty()) {
+                    Picasso.with(context).load(R.drawable.ic_action_circle).into(holder.imgvTeam1);
+                } else {
                     Picasso.with(context).load(listItem.getFlagTeam1()).into(holder.imgvTeam1);
                 }
-                if (listItem.getFlagTeam2() != null) {
+                if (listItem.getFlagTeam2().isEmpty()) {
+                    Picasso.with(context).load(R.drawable.ic_action_circle).into(holder.imgvTeam2);
+                } else {
                     Picasso.with(context).load(listItem.getFlagTeam2()).into(holder.imgvTeam2);
                 }
                 break;
