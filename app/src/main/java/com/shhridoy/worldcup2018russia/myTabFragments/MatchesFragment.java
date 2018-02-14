@@ -53,6 +53,7 @@ public class MatchesFragment extends Fragment {
     String[] spinnerItems;
     static final String MY_DATA = "https://shhridoy.github.io/json/worldcup2018.js";
     static final String TEMP_DATA = "https://api.myjson.com/bins/196pel";
+    boolean isDataSynced = false;
 
 
     @Override
@@ -82,7 +83,13 @@ public class MatchesFragment extends Fragment {
         });
 
         //loadRecyclerViewFromJson();
-        RetrofitFunc();
+
+        if (!isDataSynced) {
+            RetrofitFunc();
+        } else {
+            adapter = new RecyclerViewAdapter(matchesListItems, getContext(), "Matches");
+            recyclerView.setAdapter(adapter);
+        }
 
         return rootView;
     }
@@ -92,6 +99,8 @@ public class MatchesFragment extends Fragment {
                 .baseUrl(Api.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+        isDataSynced = false;
 
         Api api = retrofit.create(Api.class);
 
@@ -105,14 +114,20 @@ public class MatchesFragment extends Fragment {
 
                 matchesListItems.clear();
 
-                for (MatchesListItems mat : matches) {
-                    MatchesListItems list = new MatchesListItems(
-                            mat.getDate(), mat.getRound(), mat.getTeam1(), mat.getTeam2(), mat.getScore()
-                    );
-                    matchesListItems.add(list);
+                if (matches != null) {
+                    for (MatchesListItems mat : matches) {
+                        MatchesListItems list = new MatchesListItems(
+                                mat.getDate(), mat.getRound(),
+                                mat.getTeam1(), mat.getFlagTeam1(),
+                                mat.getTeam2(), mat.getFlagTeam2(),
+                                mat.getScore()
+                        );
+                        matchesListItems.add(list);
+                    }
                 }
                 adapter = new RecyclerViewAdapter(matchesListItems, getContext(), "Matches");
                 recyclerView.setAdapter(adapter);
+                isDataSynced = true;
 
             }
 

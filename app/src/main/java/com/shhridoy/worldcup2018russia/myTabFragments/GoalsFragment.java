@@ -2,9 +2,11 @@ package com.shhridoy.worldcup2018russia.myTabFragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +17,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shhridoy.worldcup2018russia.R;
+import com.shhridoy.worldcup2018russia.myRecyclerViewData.Api;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.GoalsListItems;
+import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Dream Land on 1/12/2018.
@@ -35,6 +44,7 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     List<GoalsListItems> listItemsTeams, listItemsPlayers;
+    boolean isDataSynced =false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,29 +55,10 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
         listItemsTeams = new ArrayList<>();
         listItemsPlayers = new ArrayList<>();
 
-        GoalsListItems itemT1 = new GoalsListItems("Brazil", "4");
-        listItemsTeams.add(itemT1);
-        GoalsListItems itemT2 = new GoalsListItems("Argentina", "4");
-        listItemsTeams.add(itemT2);
-        GoalsListItems itemT3 = new GoalsListItems("Germany", "3");
-        listItemsTeams.add(itemT3);
-        GoalsListItems itemT4 = new GoalsListItems("Spain", "1");
-        listItemsTeams.add(itemT4);
-        GoalsListItems itemT5 = new GoalsListItems("France", "1");
-        listItemsTeams.add(itemT5);
-        GoalsListItems itemT6 = new GoalsListItems("Russia", "1");
-        listItemsTeams.add(itemT6);
-        GoalsListItems itemT7 = new GoalsListItems("Portugal", "1");
-        listItemsTeams.add(itemT7);
 
-        GoalsListItems itemP1 = new GoalsListItems("Neymar", "3");
-        listItemsPlayers.add(itemP1);
-        GoalsListItems itemP2 = new GoalsListItems("Messi", "3");
-        listItemsPlayers.add(itemP2);
-        GoalsListItems itemP3 = new GoalsListItems("C. Ronaldo", "2");
-        listItemsPlayers.add(itemP3);
-        GoalsListItems itemP4 = new GoalsListItems("Aguaro", "1");
-        listItemsPlayers.add(itemP4);
+        if (!isDataSynced) {
+            retrofitDataPopulationFunc();
+        }
 
         rb1.setOnClickListener(this);
         rb2.setOnClickListener(this);
@@ -113,6 +104,55 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
                 recyclerView.setAdapter(adapter);
                 break;
         }
+    }
+
+    private void retrofitDataPopulationFunc() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        isDataSynced = false;
+        Api api = retrofit.create(Api.class);
+
+        Call<List<GoalsListItems>> call = api.getGoals();
+
+        call.enqueue(new Callback<List<GoalsListItems>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<GoalsListItems>> call, @NonNull retrofit2.Response<List<GoalsListItems>> response) {
+
+                List<GoalsListItems> goals = response.body();
+
+                listItemsTeams.clear();
+                listItemsPlayers.clear();
+
+                if (goals != null) {
+                    for (GoalsListItems goal : goals) {
+                        GoalsListItems list = new GoalsListItems(
+                                goal.getFlagLink(),
+                                goal.getName(),
+                                goal.getGoal(),
+                                goal.getTag()
+                        );
+                        if (goal.getTag().equals("P")) {
+                            listItemsPlayers.add(list);
+                        } else {
+                            listItemsTeams.add(list);
+                        }
+                    }
+                }
+                adapter = new RecyclerViewAdapter("Goals", listItemsTeams, getContext());
+                recyclerView.setAdapter(adapter);
+                isDataSynced = true;
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<GoalsListItems>> call, @NonNull Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.i("ERROR", t.getMessage());
+            }
+        });
+
     }
 
     private void iniViews(View v) {

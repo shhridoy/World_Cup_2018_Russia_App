@@ -80,8 +80,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/teamImage_1"
-                    android:layout_width="44dp"
-                    android:layout_height="35dp"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginStart="10dp"
@@ -115,8 +115,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/teamImage_2"
-                    android:layout_width="45dp"
-                    android:layout_height="35dp"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginStart="10dp"

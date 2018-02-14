@@ -1,19 +1,29 @@
 package com.shhridoy.worldcup2018russia.myTabFragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.shhridoy.worldcup2018russia.R;
+import com.shhridoy.worldcup2018russia.myRecyclerViewData.Api;
+import com.shhridoy.worldcup2018russia.myRecyclerViewData.GoalsListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.TablesListItems;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Dream Land on 1/12/2018.
@@ -24,6 +34,7 @@ public class TablesFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     List<TablesListItems> listItems;
+    boolean isDataSynced = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,27 +46,58 @@ public class TablesFragment extends Fragment {
 
         listItems = new ArrayList<>();
 
-        TablesListItems item1 = new TablesListItems(
-                "Group A", "1. 2. 3. 4.", "Russia, Saudi Arabia, Egypt, Uruguay",
-                "1 0 2.1, 1 2 0.5, 1 -2 0.5, 1 3 +0.1"
-        );
-        listItems.add(item1);
-
-        TablesListItems item2 = new TablesListItems(
-                "Group B", "1. 2. 3. 4.", "Portugal, Spain, Morocco, Iran",
-                "1 0 -2.1, 1 2 0.5, 0 0 0, 0 0 0"
-        );
-        listItems.add(item2);
-
-        TablesListItems item3 = new TablesListItems(
-                "Group C", "1. 2. 3. 4.", "France, Australia, Peru, Denmark",
-                "1 0 -2.1, 1 2 0.5, 1 0 -.5, 1 2 +1.0"
-        );
-        listItems.add(item3);
-
-        adapter = new RecyclerViewAdapter(getContext(), listItems, "Tables");
-        recyclerView.setAdapter(adapter);
+        if (!isDataSynced) {
+            retrofitDataPopulationFunc();
+        } else {
+            adapter = new RecyclerViewAdapter(getContext(), listItems, "Tables");
+            recyclerView.setAdapter(adapter);
+        }
 
         return rootView;
+    }
+
+    private void retrofitDataPopulationFunc() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        isDataSynced = false;
+
+        Api api = retrofit.create(Api.class);
+
+        Call<List<TablesListItems>> call = api.getTables();
+
+        call.enqueue(new Callback<List<TablesListItems>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<TablesListItems>> call, @NonNull retrofit2.Response<List<TablesListItems>> response) {
+
+                List<TablesListItems> tables = response.body();
+
+                listItems.clear();
+
+                if (tables != null) {
+                    for (TablesListItems table : tables) {
+                        TablesListItems list = new TablesListItems(
+                                table.getGroup(), table.getTeamNo(),
+                                table.getTeamName(), table.getFlagLink(),
+                                table.getStatus()
+                        );
+                        listItems.add(list);
+                    }
+                }
+                adapter = new RecyclerViewAdapter(getContext(), listItems, "Tables");
+                recyclerView.setAdapter(adapter);
+                isDataSynced = true;
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<TablesListItems>> call, @NonNull Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.i("ERROR", t.getMessage());
+                isDataSynced = false;
+            }
+        });
+
     }
 }

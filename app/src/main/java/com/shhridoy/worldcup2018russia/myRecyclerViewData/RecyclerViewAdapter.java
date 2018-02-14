@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 
 import com.shhridoy.worldcup2018russia.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -113,6 +114,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 holder.tvStatusGrd4.setText(team4Split[1]);
                 holder.tvStatusPts4.setText(team4Split[2]);
 
+                String[] flagLinks = tableItem.getFlagLink().split(" ");
+                if (flagLinks[0] != null) {
+                    Picasso.with(context).load(flagLinks[0]).into(holder.imgTeamFlag1);
+                }
+                if (flagLinks[1] != null) {
+                    Picasso.with(context).load(flagLinks[1]).into(holder.imgTeamFlag2);
+                }
+                if (flagLinks[2] != null) {
+                    Picasso.with(context).load(flagLinks[2]).into(holder.imgTeamFlag3);
+                }
+                if (flagLinks[3] != null) {
+                    Picasso.with(context).load(flagLinks[3]).into(holder.imgTeamFlag4);
+                }
+
                 break;
 
             case "Goals":
@@ -120,15 +135,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 holder.tvNo.setText((position+1)+".");
                 holder.tvName.setText(goalList.getName());
                 holder.tvGoal.setText(goalList.getGoal());
+                if (goalList.getFlagLink() != null) {
+                    Picasso.with(context).load(goalList.getFlagLink()).into(holder.teamImg);
+                }
                 break;
 
             default:
                 final MatchesListItems listItem = itemsList.get(position);
                 holder.tvDateTime.setText(listItem.getDate());
                 holder.tvRound.setText(listItem.getRound());
+                if (listItem.getTeam1().equals("Saudi Arabia") || listItem.getTeam1().equals("Switzerland") ||
+                        listItem.getTeam1().equals("South Korea")  ) {
+                    holder.tvTeam1.setTextSize(14);
+                }
+                if ( listItem.getTeam2().equals("Saudi Arabia") ||
+                    listItem.getTeam2().equals("Switzerland") ||
+                    listItem.getTeam2().equals("South Korea") ){
+                    holder.tvTeam2.setTextSize(14);
+                }
                 holder.tvTeam1.setText(listItem.getTeam1());
                 holder.tvTeam2.setText(listItem.getTeam2());
                 holder.tvScore.setText(listItem.getScore());
+                if (listItem.getFlagTeam1() != null) {
+                    Picasso.with(context).load(listItem.getFlagTeam1()).into(holder.imgvTeam1);
+                }
+                if (listItem.getFlagTeam2() != null) {
+                    Picasso.with(context).load(listItem.getFlagTeam2()).into(holder.imgvTeam2);
+                }
                 break;
         }
     }
@@ -149,6 +182,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         // Matches View
         TextView tvDateTime, tvRound, tvTeam1, tvTeam2, tvScore;
+        CircleImageView imgvTeam1, imgvTeam2;
 
         // Tables View
         TextView tvGroup, tvTeamNo1, tvTeamNo2, tvTeamNo3, tvTeamNo4;
@@ -160,6 +194,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         // Goals View
         TextView tvNo, tvName, tvGoal;
+        CircleImageView teamImg;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -168,6 +203,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     tvNo = itemView.findViewById(R.id.tv_no);
                     tvName = itemView.findViewById(R.id.tv_name);
                     tvGoal = itemView.findViewById(R.id.tv_goal);
+                    teamImg = itemView.findViewById(R.id.image_team);
                     break;
                 case "Tables":
                     tvGroup = itemView.findViewById(R.id.tv_group);
@@ -202,6 +238,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     tvTeam1 = itemView.findViewById(R.id.tv_team1);
                     tvTeam2 = itemView.findViewById(R.id.tv_team2);
                     tvScore = itemView.findViewById(R.id.tv_score);
+                    imgvTeam1 = itemView.findViewById(R.id.teamImage_1);
+                    imgvTeam2 = itemView.findViewById(R.id.teamImage_2);
                     break;
             }
 
