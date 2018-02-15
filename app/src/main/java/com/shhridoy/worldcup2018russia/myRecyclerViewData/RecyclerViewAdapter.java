@@ -87,6 +87,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 holder.tvTeamName3.setText(splitTeamName[2]);
                 holder.tvTeamName4.setText(splitTeamName[3]);
 
+                Picasso.with(context).load(Flags.getFlag(splitTeamName[0])).into(holder.imgTeamFlag1);
+                Picasso.with(context).load(Flags.getFlag(splitTeamName[1])).into(holder.imgTeamFlag2);
+                Picasso.with(context).load(Flags.getFlag(splitTeamName[2])).into(holder.imgTeamFlag3);
+                Picasso.with(context).load(Flags.getFlag(splitTeamName[3])).into(holder.imgTeamFlag4);
+
                 String[] splitTeamStatus = tableItem.getStatus().split(", ");
 
                 String team1Status = splitTeamStatus[0];
@@ -114,7 +119,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 holder.tvStatusGrd4.setText(team4Split[1]);
                 holder.tvStatusPts4.setText(team4Split[2]);
 
-                String[] flagLinks = tableItem.getFlagLink().split(" ");
+                /*String[] flagLinks = tableItem.getFlagLink().split(" ");
                 if (flagLinks[0] != null) {
                     Picasso.with(context).load(flagLinks[0]).into(holder.imgTeamFlag1);
                 }
@@ -126,7 +131,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
                 if (flagLinks[3] != null) {
                     Picasso.with(context).load(flagLinks[3]).into(holder.imgTeamFlag4);
-                }
+                }*/
 
                 break;
 
@@ -135,11 +140,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 holder.tvNo.setText((position+1)+".");
                 holder.tvName.setText(goalList.getName());
                 holder.tvGoal.setText(goalList.getGoal());
-                if (!goalList.getFlagLink().isEmpty()) {
+                /*if (!goalList.getFlagLink().isEmpty()) {
                     Picasso.with(context).load(goalList.getFlagLink()).into(holder.teamImg);
                 } else {
                     Picasso.with(context).load(R.drawable.ic_action_circle).into(holder.teamImg);
-                }
+                }*/
+                // TAG SHOULD BE JUST LIKE THIS (T SPAIN)
+                String[] tagSplit = goalList.getTag().split(" ");
+                Picasso.with(context).load(Flags.getFlag(tagSplit[1])).into(holder.teamImg);
                 break;
 
             default:
@@ -168,6 +176,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 holder.tvTeam1.setText(listItem.getTeam1());
                 holder.tvTeam2.setText(listItem.getTeam2());
                 holder.tvScore.setText(listItem.getScore());
+                /*
                 if (listItem.getFlagTeam1().isEmpty()) {
                     Picasso.with(context).load(R.drawable.ic_action_circle).into(holder.imgvTeam1);
                 } else {
@@ -177,7 +186,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     Picasso.with(context).load(R.drawable.ic_action_circle).into(holder.imgvTeam2);
                 } else {
                     Picasso.with(context).load(listItem.getFlagTeam2()).into(holder.imgvTeam2);
-                }
+                }*/
+                Picasso.with(context).load(Flags.getFlag(listItem.getTeam1())).into(holder.imgvTeam1);
+                Picasso.with(context).load(Flags.getFlag(listItem.getTeam2())).into(holder.imgvTeam2);
                 break;
         }
     }

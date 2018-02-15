@@ -107,6 +107,7 @@ public class MatchesFragment extends Fragment {
         return rootView;
     }
 
+    // INNER ADAPTER CLASS FOR SPINNER
     class SpinnerAdapter extends BaseAdapter {
 
         String[] rounds;
