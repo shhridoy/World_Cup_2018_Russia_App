@@ -5,6 +5,8 @@ package com.shhridoy.worldcup2018russia.myRecyclerViewData;
  */
 
 public class MatchesListItems {
+
+    private int id;
     private String date;
     private String round;
     private String team1;
@@ -13,7 +15,17 @@ public class MatchesListItems {
     private String flagTeam2;
     private String score;
 
+    public MatchesListItems(int id, String date, String round, String team1, String team2, String score) {
+        this.id = id;
+        this.date = date;
+        this.round = round;
+        this.team1 = team1;
+        this.team2 = team2;
+        this.score = score;
+    }
+
     public MatchesListItems(String date, String round, String team1, String team2, String score) {
+        this.id = id;
         this.date = date;
         this.round = round;
         this.team1 = team1;
@@ -31,10 +43,8 @@ public class MatchesListItems {
         this.score = score;
     }
 
-    public MatchesListItems(String date, String round, String team1) {
-        this.date = date;
-        this.round = round;
-        this.team1 = team1;
+    public int getId() {
+        return id;
     }
 
     public String getDate() {

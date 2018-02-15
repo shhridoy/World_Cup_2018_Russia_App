@@ -2,6 +2,10 @@ package com.shhridoy.worldcup2018russia.myTabFragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteException;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -27,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.shhridoy.worldcup2018russia.R;
+import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
 import com.shhridoy.worldcup2018russia.myRetrofitApi.Api;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
@@ -56,12 +61,14 @@ public class MatchesFragment extends Fragment {
     SpinnerAdapter spinnerAdapter;
     String[] roundItems, dateItems;
 
-    // URL FOR JSON PURSING USING VOLLEY
-    static final String MY_DATA = "https://shhridoy.github.io/json/worldcup2018.js";
+    // FIRST URL FOR JSON PURSING USING VOLLEY
+    static String MATCHES_LINK = "https://shhridoy.github.io/json/worldcup2018/matches.json";
 
-    boolean isDataSynced = false;
-    boolean isLinkFailed;
-    String round;
+    boolean isDataSynced;
+    boolean isLinkFailed = false;
+    String ROUND;
+    //DatabaseHelper dbHelper;
+    static boolean noData;
 
 
     @Override
@@ -72,9 +79,11 @@ public class MatchesFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.RecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         matchesListItems = new ArrayList<>();
 
-        isLinkFailed = false;
+        //dbHelper = new DatabaseHelper(getContext());
+        //noData = dbHelper.retrieveMatchesData().getCount() == 0;
 
         roundItems = new String[]{"Round 1", "Round 2", "Round 3", "Round of 16", "Quarter-finals", "Semi-finals", "3rd Place Playoff", "Final"};
         dateItems = new String[]{"14 Jun - 19 Jun", "19 Jun - 24 Jun", "25 Jun - 28 Jun", "30 Jun - 03 Jul", "06 Jul - 07 Jul", "10 Jul - 11 Jul", "14 Jul", "15 Jul"};
@@ -82,13 +91,15 @@ public class MatchesFragment extends Fragment {
         spinnerAdapter = new SpinnerAdapter(roundItems, dateItems, getContext());
         chooserSpinner.setAdapter(spinnerAdapter);
         chooserSpinner.setSelection(0);
-        round = roundItems[0];
+
+        ROUND = roundItems[0];
 
         chooserSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                round = roundItems[position];
-                retrieveJsonData();
+                ROUND = roundItems[position];
+                //retrieveJsonData();
+                //populateRecyclerViewFromDB();
             }
 
             @Override
@@ -97,12 +108,14 @@ public class MatchesFragment extends Fragment {
             }
         });
 
-        if (!isDataSynced) {
-            retrieveJsonData();
+        /*if (isInternetOn()) {
+            retrieveDataFromJson();
         } else {
-            adapter = new RecyclerViewAdapter(matchesListItems, getContext(), "Matches");
-            recyclerView.setAdapter(adapter);
-        }
+            Toast.makeText(getContext(), "Please Check Internet Connection!!", Toast.LENGTH_SHORT).show();
+        }*/
+
+        retrieveJsonData();
+        //populateRecyclerViewFromDB();
 
         return rootView;
     }
@@ -152,6 +165,130 @@ public class MatchesFragment extends Fragment {
         }
     }
 
+
+    /*private void populateRecyclerViewFromDB() {
+        Cursor cursor = dbHelper.retrieveMatchesData();
+        matchesListItems.clear();
+        noData = cursor.getCount() == 0;
+
+        if (noData) {
+            Toast.makeText(getContext(), "Data doesn't sync yet!!", Toast.LENGTH_SHORT).show();
+        } else {
+            while (cursor.moveToNext()) {
+                String round = cursor.getString(2);
+                if (ROUND.equals(round)) {
+                    int id = cursor.getInt(0);
+                    String date = cursor.getString(1);
+                    String team1 = cursor.getString(3);
+                    String team2 = cursor.getString(4);
+                    String score = cursor.getString(5);
+                    MatchesListItems list = new MatchesListItems(id, date, round, team1, team2, score);
+                    matchesListItems.add(list);
+                }
+            }
+            adapter = new RecyclerViewAdapter(matchesListItems, getContext(), "Matches");
+            recyclerView.setAdapter(adapter);
+        }
+    }
+
+    private void saveMatchesData (String date, String round, String team1, String team2, String score) {
+        try {
+            dbHelper.insertMatchesData(date, round, team1, team2, score);
+        } catch (SQLiteException e) {
+            Toast.makeText(getContext(), "Error occurs while saving data!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateMatchesData(int id, String date, String round, String team1, String team2, String score) {
+        boolean updated = dbHelper.updateMatchesData(id, date, round, team1, team2, score);
+        if (!updated) {
+            Toast.makeText(getContext(), "Doesn't updated!", Toast.LENGTH_SHORT).show();
+        }
+    }*/
+
+    // FUNCTION FOR RETRIEVE JSON DATA USING VOLLEY (NOT USED)
+    /*private void retrieveDataFromJson() {
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading data....");
+        progressDialog.setCancelable(false);
+        //progressDialog.show();
+        //ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyle);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, MATCHES_LINK,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        progressDialog.dismiss();
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = (JSONObject) jsonArray.get(i);
+                                String date = object.getString("date");
+                                String round = object.getString("round");
+                                String team1 = object.getString("team1");
+                                //String flagTeam1 = object.getString("flagTeam1");
+                                String team2 = object.getString("team2");
+                                //String flagTeam2 = object.getString("flagTeam2");
+                                String score = object.getString("score");
+                                if (noData) {
+                                    saveMatchesData(date, round, team1, team2, score);
+                                } else {
+                                    updateMatchesData(i+1, date, round, team1, team2, score);
+                                }
+                            }
+
+                            //populateRecyclerViewFromDB();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getContext(), "Exception arises!!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Log.i("EROR", error.getMessage());
+                        Toast.makeText(getContext(), "Error Occurs!!", Toast.LENGTH_LONG).show();
+                        // SECOND URL FOR JSON PURSING USING VOLLEY
+                        MATCHES_LINK = "https://jsonblob.com/api/270a9124-115b-11e8-8318-97970fcd3530";
+                        retrieveDataFromJson();
+                    }
+                });
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
+    }*/
+
+    /*private boolean isInternetOn() {
+
+        // get Connectivity Manager object to check connection
+        ConnectivityManager connec = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Check for network connections
+        assert connec != null;
+        if (connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTED ||
+                connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTING ||
+                connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.CONNECTING ||
+                connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.CONNECTED) {
+
+            return true;
+        } else if (connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.DISCONNECTED ||
+                connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.DISCONNECTED) {
+
+            return false;
+        }
+
+        return false;
+    }*/
+
     // FUNCTION FOR RETRIEVE THE JSON DATA USING RETROFIT
     private void retrieveJsonData() {
 
@@ -180,110 +317,37 @@ public class MatchesFragment extends Fragment {
             call = api.getMatches1();
         }
 
-        isDataSynced = false;
-
         call.enqueue(new Callback<List<MatchesListItems>>() {
             @Override
             public void onResponse(@NonNull Call<List<MatchesListItems>> call, @NonNull retrofit2.Response<List<MatchesListItems>> response) {
 
                 List<MatchesListItems> matches = response.body();
-
                 matchesListItems.clear();
 
                 if (matches != null) {
                     for (MatchesListItems mat : matches) {
-                        if (round.equals(mat.getRound())) {
-                            MatchesListItems list = new MatchesListItems(
+                        if (ROUND.equals(mat.getRound())) {
+                            MatchesListItems listItems = new MatchesListItems(
                                     mat.getDate(), mat.getRound(),
-                                    mat.getTeam1(), mat.getFlagTeam1(),
-                                    mat.getTeam2(), mat.getFlagTeam2(),
-                                    mat.getScore()
+                                    mat.getTeam1(), mat.getTeam2(), mat.getScore()
                             );
-                            matchesListItems.add(list);
+                            matchesListItems.add(listItems);
                         }
                     }
                 }
+
                 adapter = new RecyclerViewAdapter(matchesListItems, getContext(), "Matches");
                 recyclerView.setAdapter(adapter);
-                isDataSynced = true;
             }
 
             @Override
             public void onFailure(@NonNull Call<List<MatchesListItems>> call, @NonNull Throwable t) {
-                //Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 Log.i("ERROR", t.getMessage());
-
                 Toast.makeText(getContext(), "Server access failed!", Toast.LENGTH_SHORT).show();
-
                 isLinkFailed = true;
                 retrieveJsonData();
             }
         });
 
-    }
-
-    // FUNCTION FOR RETRIEVE JSON DATA USING VOLLEY (NOT USED)
-    private void loadRecyclerViewFromJson() {
-        final ProgressDialog progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading data....");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        //ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyle);
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, MY_DATA,
-
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Responses", Toast.LENGTH_LONG).show();
-
-                        try {
-                            matchesListItems.clear();
-
-                            JSONObject jsonObject = new JSONObject("Matches");
-                            JSONArray jsonArray = jsonObject.getJSONArray("Round1");
-                            int LENGTH = jsonArray.length();
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject object = (JSONObject) jsonArray.get(i);
-
-                                String date = object.getString("date");
-                                String round = object.getString("round");
-                                String team1 = object.getString("team1");
-                                String flagTeam1 = object.getString("flagTeam1");
-                                String team2 = object.getString("team2");
-                                String flagTeam2 = object.getString("flagTeam2");
-                                String score = object.getString("score");
-
-                                MatchesListItems list = new MatchesListItems(date, round, team1, team2, score);
-
-                                matchesListItems.add(list);
-                                adapter = new RecyclerViewAdapter(matchesListItems, getContext(), "Matches");
-                                recyclerView.setAdapter(adapter);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
-                        Log.i("EROR", error.getMessage());
-                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(15000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(stringRequest);
     }
 }
