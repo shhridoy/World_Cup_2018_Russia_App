@@ -51,10 +51,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // INSERT VALUES IN MATCHES TABLE
-    public boolean insertMatchesData (String date, String round, String team1, String team2, String score) {
+    public boolean insertMatchesData (String id, String date, String round, String team1, String team2, String score) {
 
         try {
             ContentValues cv = new ContentValues();
+            cv.put(Constants.M_ID, id);
             cv.put(Constants.DATE, date);
             cv.put(Constants.ROUND, round);
             cv.put(Constants.TEAM1, team1);
@@ -72,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // UPDATE VALUES IN MATCHES TABLE
-    public boolean updateMatchesData (int id, String date, String round, String team1, String team2, String score) {
+    public boolean updateMatchesData (String id, String date, String round, String team1, String team2, String score) {
         try {
             ContentValues cv = new ContentValues();
             cv.put(Constants.DATE, date);
@@ -81,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cv.put(Constants.TEAM2, team2);
             cv.put(Constants.SCORE, score);
             int result = this.getWritableDatabase()
-                    .update(Constants.MATCHES_TABLE, cv, Constants.M_ID+" =?", new String[]{String.valueOf(id)});
+                    .update(Constants.MATCHES_TABLE, cv, Constants.M_ID+"='"+id+"'", null);
             this.getWritableDatabase().close();
             if (result > 0) {
                 return true;
@@ -160,6 +161,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    // CHECK IF DATA EXISTS IN GOALS TABLE
+    public boolean isExistsInGoals(String searchItem) {
+        String[] columns = { Constants.NAME };
+        String selection = Constants.NAME + " =?";
+        String[] selectionArgs = { searchItem };
+        String limit = "1";
+
+        Cursor cursor = this.getReadableDatabase()
+                .query(Constants.GOAL_TABLE, columns, selection, selectionArgs, null, null, null, limit);
+
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        return exists;
+    }
+
     // UPDATE VALUES IN GOALS TABLE
     public boolean updateGoalsData(int id, String name, String goal, String tag) {
         try {
@@ -179,9 +195,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    // RETRIEVE ALL DATA FROM GOALS TABLE
+    // RETRIEVE ALL DATA FROM GOALS TABLE ORDER BY NUMBER OF GOALS IN DESCENDING MODE
     public Cursor retrieveGoalsData() {
-        return this.getReadableDatabase().rawQuery("SELECT * FROM "+Constants.GOAL_TABLE, null);
+        return this.getReadableDatabase()
+                .rawQuery("SELECT * FROM "+Constants.GOAL_TABLE+" ORDER BY "+Constants.GOALS+" DESC", null);
     }
 
 }

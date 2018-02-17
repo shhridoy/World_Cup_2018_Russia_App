@@ -21,7 +21,7 @@ public class Constants {
 
     public static final String CREATE_MATCHES_TABLE = "CREATE TABLE "+ MATCHES_TABLE +
             "( " +
-            M_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            M_ID +" TEXT PRIMARY KEY, " +
             DATE +" TEXT, " +
             ROUND +" TEXT, " +
             TEAM1 + " TEXT, " +

@@ -6,17 +6,10 @@ package com.shhridoy.worldcup2018russia.myRecyclerViewData;
 
 public class GoalsListItems {
 
-    private String flagLink;
+    private int id;
     private String name;
     private String goal;
     private String tag;
-
-    public GoalsListItems(String flagLink, String name, String goal, String tag) {
-        this.flagLink = flagLink;
-        this.name = name;
-        this.goal = goal;
-        this.tag = tag;
-    }
 
     public GoalsListItems(String name, String goal, String tag) {
         this.name = name;
@@ -24,8 +17,15 @@ public class GoalsListItems {
         this.tag = tag;
     }
 
-    public String getFlagLink() {
-        return flagLink;
+    public GoalsListItems(int id, String name, String goal, String tag) {
+        this.id = id;
+        this.name = name;
+        this.goal = goal;
+        this.tag = tag;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,8 +27,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
-import com.shhridoy.worldcup2018russia.myRecyclerViewData.TablesListItems;
-import com.shhridoy.worldcup2018russia.myRetrofitApi.Api;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.GoalsListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
 
@@ -39,11 +36,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Dream Land on 1/12/2018.
@@ -59,11 +51,11 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     List<GoalsListItems> listItemsTeams, listItemsPlayers;
-    boolean isDataSynced =false;
-    boolean isLinkFailed;
 
     DatabaseHelper dbHelper;
     static boolean noData;
+
+    boolean isSecondLinkFailed = false;
 
     // FIRST URL FOR JSON PURSING USING VOLLEY
     static String GOALS_LINK = "https://shhridoy.github.io/json/worldcup2018/goals.json";
@@ -76,7 +68,6 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
 
         listItemsTeams = new ArrayList<>();
         listItemsPlayers = new ArrayList<>();
-        isLinkFailed = false;
 
         dbHelper = new DatabaseHelper(getContext());
         noData = dbHelper.retrieveGoalsData().getCount() == 0;
@@ -133,6 +124,20 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    private void iniViews(View v) {
+        radioGroup = v.findViewById(R.id.radioGroup);
+        rb1 = v.findViewById(R.id.radioButton1);
+        rb2 = v.findViewById(R.id.radioButton2);
+        ll1 = v.findViewById(R.id.LL1);
+        ll2 = v.findViewById(R.id.LL2);
+        tvNameTitle = v.findViewById(R.id.tv_name_title);
+        tvGoalTitle = v.findViewById(R.id.tv_goals_title);
+
+        recyclerView = v.findViewById(R.id.RecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
     private void populateRecyclerViewFromDB() {
         Cursor cursor = dbHelper.retrieveGoalsData();
         listItemsTeams.clear();
@@ -147,7 +152,7 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
                 String name = cursor.getString(1);
                 String goal = cursor.getString(2);
                 String tag = cursor.getString(3);
-                GoalsListItems goalsListItems = new GoalsListItems(name, goal, tag);
+                GoalsListItems goalsListItems = new GoalsListItems(id, name, goal, tag);
                 String[] tagSplit = tag.split(" ");
                 if (tagSplit[0].equals("P")) {
                     listItemsPlayers.add(goalsListItems);
@@ -174,7 +179,7 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    // FUNCTION FOR RETRIEVE JSON DATA USING VOLLEY (NOT USED)
+    // FUNCTION FOR RETRIEVE JSON DATA USING VOLLEY
     private void retrieveDataFromJson() {
         final ProgressDialog progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading data....");
@@ -200,7 +205,11 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
                                 if (noData) {
                                     saveGoalsData(name, goal, tag);
                                 } else {
-                                    updateGoalsData(i+1, name, goal, tag);
+                                    if (dbHelper.isExistsInGoals(name)) {
+                                        updateGoalsData(getId(name), name, goal, tag);
+                                    } else {
+                                        saveGoalsData(name, goal, tag);
+                                    }
                                 }
                             }
 
@@ -217,10 +226,13 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         Log.i("ERROR", error.getMessage());
-                        Toast.makeText(getContext(), "Error Occurs!!", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getContext(), "Error Occurs!!", Toast.LENGTH_LONG).show();
                         // SECOND URL FOR JSON PURSING USING VOLLEY
                         GOALS_LINK = "https://jsonblob.com/api/9460269c-115d-11e8-8318-811b17a0bdd7";
-                        retrieveDataFromJson();
+                        if (!isSecondLinkFailed) {
+                            retrieveDataFromJson();
+                        }
+                        isSecondLinkFailed = true;
                     }
                 });
 
@@ -230,6 +242,18 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
+    }
+
+    private int getId(String name) {
+        Cursor cursor = dbHelper.retrieveGoalsData();
+        int id = 0;
+        while (cursor.moveToNext()) {
+            if (name.equals(cursor.getString(1))) {
+                id = cursor.getInt(0);
+                break;
+            }
+        }
+        return id;
     }
 
     private boolean isInternetOn() {
@@ -252,86 +276,5 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
         }
 
         return false;
-    }
-
-    private void retieveJsonData() {
-        Retrofit retrofit;
-        Api api;
-        Call<List<GoalsListItems>> call;
-        if (isLinkFailed) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(Api.BASE_URL2)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            api = retrofit.create(Api.class);
-
-            call = api.getGoals2();
-        } else {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(Api.BASE_URL1)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            api = retrofit.create(Api.class);
-
-            call = api.getGoals1();
-        }
-
-        call.enqueue(new Callback<List<GoalsListItems>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<GoalsListItems>> call, @NonNull retrofit2.Response<List<GoalsListItems>> response) {
-
-                List<GoalsListItems> goals = response.body();
-
-                listItemsTeams.clear();
-                listItemsPlayers.clear();
-
-                if (goals != null) {
-                    for (GoalsListItems goal : goals) {
-                        GoalsListItems list = new GoalsListItems(
-                                goal.getFlagLink(),
-                                goal.getName(),
-                                goal.getGoal(),
-                                goal.getTag()
-                        );
-                        String[] tagSplit = goal.getTag().split(" ");
-                        if (tagSplit[0].equals("P")) {
-                            listItemsPlayers.add(list);
-                        } else {
-                            listItemsTeams.add(list);
-                        }
-                    }
-                }
-                adapter = new RecyclerViewAdapter("Goals", listItemsTeams, getContext());
-                recyclerView.setAdapter(adapter);
-                isDataSynced = true;
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<GoalsListItems>> call, @NonNull Throwable t) {
-                Log.i("ERROR", t.getMessage());
-
-                Toast.makeText(getContext(), "Server access failed!", Toast.LENGTH_SHORT).show();
-
-                isLinkFailed = true;
-                retieveJsonData();
-            }
-        });
-
-    }
-
-    private void iniViews(View v) {
-        radioGroup = v.findViewById(R.id.radioGroup);
-        rb1 = v.findViewById(R.id.radioButton1);
-        rb2 = v.findViewById(R.id.radioButton2);
-        ll1 = v.findViewById(R.id.LL1);
-        ll2 = v.findViewById(R.id.LL2);
-        tvNameTitle = v.findViewById(R.id.tv_name_title);
-        tvGoalTitle = v.findViewById(R.id.tv_goals_title);
-
-        recyclerView = v.findViewById(R.id.RecyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 }

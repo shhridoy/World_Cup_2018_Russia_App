@@ -10,16 +10,7 @@ public class TablesListItems {
     private String group;
     private String teamNo;
     private String teamName;
-    private String flagLink;
     private String status;
-
-    public TablesListItems(String group, String teamNo, String teamName, String flagLink, String status) {
-        this.group = group;
-        this.teamNo = teamNo;
-        this.teamName = teamName;
-        this.flagLink = flagLink;
-        this.status = status;
-    }
 
     public TablesListItems(String group, String teamNo, String teamName, String status) {
         this.group = group;
@@ -27,6 +18,7 @@ public class TablesListItems {
         this.teamName = teamName;
         this.status = status;
     }
+
 
     public TablesListItems(int id, String group, String teamNo, String teamName, String status) {
         this.id = id;
@@ -50,10 +42,6 @@ public class TablesListItems {
 
     public String getTeamName() {
         return teamName;
-    }
-
-    public String getFlagLink() {
-        return flagLink;
     }
 
     public String getStatus() {

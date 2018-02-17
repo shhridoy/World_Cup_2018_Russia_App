@@ -3,11 +3,8 @@ package com.shhridoy.worldcup2018russia.myTabFragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteException;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,9 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +27,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
-import com.shhridoy.worldcup2018russia.myRetrofitApi.Api;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
 
@@ -42,11 +36,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Dream Land on 1/12/2018.
@@ -64,12 +53,11 @@ public class MatchesFragment extends Fragment {
     // FIRST URL FOR JSON PURSING USING VOLLEY
     static String MATCHES_LINK = "https://shhridoy.github.io/json/worldcup2018/matches.json";
 
-    boolean isDataSynced;
-    boolean isLinkFailed = false;
     String ROUND;
     DatabaseHelper dbHelper;
     static boolean noData;
 
+    boolean isSecondLinkFailed = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,8 +102,6 @@ public class MatchesFragment extends Fragment {
         } else {
             Toast.makeText(getContext(), "Please Check Internet Connection!!", Toast.LENGTH_SHORT).show();
         }
-
-        //retrieveJsonData();
 
         return rootView;
     }
@@ -175,10 +161,11 @@ public class MatchesFragment extends Fragment {
             Toast.makeText(getContext(), "Data doesn't sync yet!!", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
-                String round = cursor.getString(2);
-                if (ROUND.equals(round)) {
-                    int id = cursor.getInt(0);
+                String round1 = cursor.getString(2);
+                if (ROUND.equals(round1)) {
+                    String id = cursor.getString(0);
                     String date = cursor.getString(1);
+                    String round = cursor.getString(2);
                     String team1 = cursor.getString(3);
                     String team2 = cursor.getString(4);
                     String score = cursor.getString(5);
@@ -191,21 +178,21 @@ public class MatchesFragment extends Fragment {
         }
     }
 
-    private void saveMatchesData (String date, String round, String team1, String team2, String score) {
-        boolean added = dbHelper.insertMatchesData(date, round, team1, team2, score);
+    private void saveMatchesData (String id, String date, String round, String team1, String team2, String score) {
+        boolean added = dbHelper.insertMatchesData(id, date, round, team1, team2, score);
         if (!added) {
             Toast.makeText(getContext(), "Data can't be added!!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void updateMatchesData(int id, String date, String round, String team1, String team2, String score) {
+    private void updateMatchesData(String id, String date, String round, String team1, String team2, String score) {
         boolean updated = dbHelper.updateMatchesData(id, date, round, team1, team2, score);
         if (!updated) {
             Toast.makeText(getContext(), "Doesn't updated!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // FUNCTION FOR RETRIEVE JSON DATA USING VOLLEY (NOT USED)
+    // FUNCTION FOR RETRIEVE JSON DATA USING VOLLEY
     private void retrieveDataFromJson() {
         final ProgressDialog progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading data....");
@@ -225,17 +212,16 @@ public class MatchesFragment extends Fragment {
                             JSONArray jsonArray = new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = (JSONObject) jsonArray.get(i);
+                                String id = object.getString("id");
                                 String date = object.getString("date");
                                 String round = object.getString("round");
                                 String team1 = object.getString("team1");
-                                //String flagTeam1 = object.getString("flagTeam1");
                                 String team2 = object.getString("team2");
-                                //String flagTeam2 = object.getString("flagTeam2");
                                 String score = object.getString("score");
                                 if (noData) {
-                                    saveMatchesData(date, round, team1, team2, score);
+                                    saveMatchesData(id, date, round, team1, team2, score);
                                 } else {
-                                    updateMatchesData(i+1, date, round, team1, team2, score);
+                                    updateMatchesData(id, date, round, team1, team2, score);
                                 }
                             }
 
@@ -251,11 +237,14 @@ public class MatchesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        Log.i("EROR", error.getMessage());
-                        Toast.makeText(getContext(), "Error Occurs!!", Toast.LENGTH_LONG).show();
+                        Log.i("ERROR", error.getMessage());
+                        //Toast.makeText(getContext(), "Error Occurs!!", Toast.LENGTH_LONG).show();
                         // SECOND URL FOR JSON PURSING USING VOLLEY
                         MATCHES_LINK = "https://jsonblob.com/api/270a9124-115b-11e8-8318-97970fcd3530";
-                        retrieveDataFromJson();
+                        if (!isSecondLinkFailed) {
+                            retrieveDataFromJson();
+                        }
+                        isSecondLinkFailed = true;
                     }
                 });
 
@@ -265,20 +254,6 @@ public class MatchesFragment extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
-    }
-
-    private int getId(String date, String round, String team1, String team2) {
-        int id = 0;
-        while (dbHelper.retrieveMatchesData().moveToNext()) {
-            if (date.equals(dbHelper.retrieveMatchesData().getString(1)) &&
-                    round.equals(dbHelper.retrieveMatchesData().getString(2)) &&
-                    team1.equals(dbHelper.retrieveMatchesData().getString(3)) &&
-                    team2.equals(dbHelper.retrieveMatchesData().getString(4))) {
-                id = dbHelper.retrieveMatchesData().getInt(0);
-                break;
-            }
-        }
-        return id;
     }
 
     private boolean isInternetOn() {
@@ -301,67 +276,5 @@ public class MatchesFragment extends Fragment {
         }
 
         return false;
-    }
-
-    // FUNCTION FOR RETRIEVE THE JSON DATA USING RETROFIT
-    private void retrieveJsonData() {
-
-        //ProgressBar progressBar = new ProgressBar(getContext(), null, android.R.attr.progressBarStyleSmall);
-
-        Retrofit retrofit;
-        Api api;
-        Call<List<MatchesListItems>> call;
-        if (isLinkFailed) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(Api.BASE_URL2)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            api = retrofit.create(Api.class);
-
-            call = api.getMatches2();
-        } else {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(Api.BASE_URL1)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            api = retrofit.create(Api.class);
-
-            call = api.getMatches1();
-        }
-
-        call.enqueue(new Callback<List<MatchesListItems>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<MatchesListItems>> call, @NonNull retrofit2.Response<List<MatchesListItems>> response) {
-
-                List<MatchesListItems> matches = response.body();
-                matchesListItems.clear();
-
-                if (matches != null) {
-                    for (MatchesListItems mat : matches) {
-                        if (ROUND.equals(mat.getRound())) {
-                            MatchesListItems listItems = new MatchesListItems(
-                                    mat.getDate(), mat.getRound(),
-                                    mat.getTeam1(), mat.getTeam2(), mat.getScore()
-                            );
-                            matchesListItems.add(listItems);
-                        }
-                    }
-                }
-
-                adapter = new RecyclerViewAdapter(matchesListItems, getContext(), "Matches");
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<MatchesListItems>> call, @NonNull Throwable t) {
-                Log.i("ERROR", t.getMessage());
-                Toast.makeText(getContext(), "Server access failed!", Toast.LENGTH_SHORT).show();
-                isLinkFailed = true;
-                retrieveJsonData();
-            }
-        });
-
     }
 }
