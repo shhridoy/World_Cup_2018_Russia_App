@@ -35,7 +35,7 @@ public class Constants {
     public static final String POINT_TABLE = "points";
 
     public static final String P_ID = "pid";
-    public static final String GROUP = "group";
+    public static final String GROUP_NO = "group_no";
     public static final String TEAM_NO = "team_no";
     public static final String TEAM_NAME = "team_name";
     public static final String STATUS = "status";
@@ -43,7 +43,7 @@ public class Constants {
     public static final String CREATE_POINTS_TABLE = "CREATE TABLE " + POINT_TABLE +
             "( " +
             P_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            GROUP + " TEXT, " +
+            GROUP_NO + " TEXT, " +
             TEAM_NO + " TEXT, " +
             TEAM_NAME + " TEXT, " +
             STATUS + " TEXT);";

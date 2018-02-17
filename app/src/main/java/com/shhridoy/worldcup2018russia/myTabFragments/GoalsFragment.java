@@ -1,5 +1,9 @@
 package com.shhridoy.worldcup2018russia.myTabFragments;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -15,10 +19,23 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.shhridoy.worldcup2018russia.R;
+import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
+import com.shhridoy.worldcup2018russia.myRecyclerViewData.TablesListItems;
 import com.shhridoy.worldcup2018russia.myRetrofitApi.Api;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.GoalsListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +62,12 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
     boolean isDataSynced =false;
     boolean isLinkFailed;
 
+    DatabaseHelper dbHelper;
+    static boolean noData;
+
+    // FIRST URL FOR JSON PURSING USING VOLLEY
+    static String GOALS_LINK = "https://shhridoy.github.io/json/worldcup2018/goals.json";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.goals_fragment, container, false);
@@ -55,9 +78,15 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
         listItemsPlayers = new ArrayList<>();
         isLinkFailed = false;
 
+        dbHelper = new DatabaseHelper(getContext());
+        noData = dbHelper.retrieveGoalsData().getCount() == 0;
 
-        if (!isDataSynced) {
-            retieveJsonData();
+        populateRecyclerViewFromDB();
+
+        if (isInternetOn()) {
+            retrieveDataFromJson();
+        } else {
+            Toast.makeText(getContext(), "Please Check Internet Connection!!", Toast.LENGTH_SHORT).show();
         }
 
         rb1.setOnClickListener(this);
@@ -102,6 +131,127 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
                 recyclerView.setAdapter(adapter);
                 break;
         }
+    }
+
+    private void populateRecyclerViewFromDB() {
+        Cursor cursor = dbHelper.retrieveGoalsData();
+        listItemsTeams.clear();
+        listItemsPlayers.clear();
+        noData = cursor.getCount() == 0;
+
+        if (noData) {
+            Toast.makeText(getContext(), "Data doesn't sync yet!!", Toast.LENGTH_SHORT).show();
+        } else {
+            while (cursor.moveToNext()) {
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String goal = cursor.getString(2);
+                String tag = cursor.getString(3);
+                GoalsListItems goalsListItems = new GoalsListItems(name, goal, tag);
+                String[] tagSplit = tag.split(" ");
+                if (tagSplit[0].equals("P")) {
+                    listItemsPlayers.add(goalsListItems);
+                } else {
+                    listItemsTeams.add(goalsListItems);
+                }
+            }
+            adapter = new RecyclerViewAdapter("Goals", listItemsTeams, getContext());
+            recyclerView.setAdapter(adapter);
+        }
+    }
+
+    private void saveGoalsData (String name, String goal, String tag) {
+        boolean added = dbHelper.insertGoalsData(name, goal, tag);
+        if (!added) {
+            Toast.makeText(getContext(), "Data can't be added!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateGoalsData(int id, String name, String goal, String tag) {
+        boolean updated = dbHelper.updateGoalsData(id, name, goal, tag);
+        if (!updated) {
+            Toast.makeText(getContext(), "Doesn't updated!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // FUNCTION FOR RETRIEVE JSON DATA USING VOLLEY (NOT USED)
+    private void retrieveDataFromJson() {
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading data....");
+        progressDialog.setCancelable(false);
+        //progressDialog.show();
+        //ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyle);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GOALS_LINK,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        progressDialog.dismiss();
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = (JSONObject) jsonArray.get(i);
+                                String name = object.getString("name");
+                                String goal = object.getString("goal");
+                                String tag = object.getString("tag");
+                                if (noData) {
+                                    saveGoalsData(name, goal, tag);
+                                } else {
+                                    updateGoalsData(i+1, name, goal, tag);
+                                }
+                            }
+
+                            populateRecyclerViewFromDB();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getContext(), "Exception arises!!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Log.i("ERROR", error.getMessage());
+                        Toast.makeText(getContext(), "Error Occurs!!", Toast.LENGTH_LONG).show();
+                        // SECOND URL FOR JSON PURSING USING VOLLEY
+                        GOALS_LINK = "https://jsonblob.com/api/9460269c-115d-11e8-8318-811b17a0bdd7";
+                        retrieveDataFromJson();
+                    }
+                });
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
+    }
+
+    private boolean isInternetOn() {
+
+        // get Connectivity Manager object to check connection
+        ConnectivityManager connec = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Check for network connections
+        assert connec != null;
+        if (connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTED ||
+                connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTING ||
+                connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.CONNECTING ||
+                connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.CONNECTED) {
+
+            return true;
+        } else if (connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.DISCONNECTED ||
+                connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.DISCONNECTED) {
+
+            return false;
+        }
+
+        return false;
     }
 
     private void retieveJsonData() {

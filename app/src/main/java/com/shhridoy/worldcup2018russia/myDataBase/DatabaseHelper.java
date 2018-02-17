@@ -102,7 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean insertPointsData (String group, String teamNo, String teamName, String status) {
         try {
             ContentValues cv = new ContentValues();
-            cv.put(Constants.GROUP, group);
+            cv.put(Constants.GROUP_NO, group);
             cv.put(Constants.TEAM_NO, teamNo);
             cv.put(Constants.TEAM_NAME, teamName);
             cv.put(Constants.STATUS, status);
@@ -121,7 +121,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean updatePointsData(int id, String group, String teamNo, String teamName, String status) {
         try {
             ContentValues cv = new ContentValues();
-            cv.put(Constants.GROUP, group);
+            cv.put(Constants.GROUP_NO, group);
             cv.put(Constants.TEAM_NO, teamNo);
             cv.put(Constants.TEAM_NAME, teamName);
             cv.put(Constants.STATUS, status);

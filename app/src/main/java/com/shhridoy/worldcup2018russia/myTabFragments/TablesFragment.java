@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -24,7 +25,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
-import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
 import com.shhridoy.worldcup2018russia.myRetrofitApi.Api;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.TablesListItems;
@@ -32,6 +32,7 @@ import com.shhridoy.worldcup2018russia.myRecyclerViewData.TablesListItems;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,10 +71,10 @@ public class TablesFragment extends Fragment {
         listItems = new ArrayList<>();
         isLinkFailed = false;
 
-        //dbHelper = new DatabaseHelper(getContext());
-        //noData = dbHelper.retrievePointsData().getCount() == 0;
+        dbHelper = new DatabaseHelper(getContext());
+        noData = dbHelper.retrievePointsData().getCount() == 0;
 
-        //populateRecyclerViewFromDB();
+        populateRecyclerViewFromDB();
 
         if (isInternetOn()) {
             retrieveDataFromJson();
@@ -94,11 +95,11 @@ public class TablesFragment extends Fragment {
         } else {
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
-                String group = cursor.getString(1);
+                String groupNo = cursor.getString(1);
                 String teamNo = cursor.getString(2);
                 String teamName = cursor.getString(3);
                 String status = cursor.getString(4);
-                TablesListItems tablesListItems = new TablesListItems(id, group, teamNo, teamName, status);
+                TablesListItems tablesListItems = new TablesListItems(id, groupNo, teamNo, teamName, status);
                 listItems.add(tablesListItems);
             }
             adapter = new RecyclerViewAdapter(getContext(), listItems, "Tables");
@@ -135,30 +136,23 @@ public class TablesFragment extends Fragment {
                     public void onResponse(String response) {
 
                         progressDialog.dismiss();
-                        listItems.clear();
 
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = (JSONObject) jsonArray.get(i);
-                                String group = object.getString("group");
+                                String groupNo = object.getString("group");
                                 String teamNo = object.getString("teamNo");
                                 String teamName = object.getString("teamName");
                                 String status = object.getString("status");
-
-                                TablesListItems tablesListItems = new TablesListItems(i+1, group, teamNo, teamName, status);
-                                listItems.add(tablesListItems);
-
-                                /*if (noData) {
-                                    saveTablesData(group, teamNo, teamName, status);
+                                if (noData) {
+                                    saveTablesData(groupNo, teamNo, teamName, status);
                                 } else {
-                                    updatesTablesData(i+1, group, teamNo, teamName, status);
-                                }*/
+                                    updatesTablesData(i+1, groupNo, teamNo, teamName, status);
+                                }
                             }
 
-                            //populateRecyclerViewFromDB();
-                            adapter = new RecyclerViewAdapter(getContext(), listItems, "Tables");
-                            recyclerView.setAdapter(adapter);
+                            populateRecyclerViewFromDB();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -170,7 +164,7 @@ public class TablesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        Log.i("EROR", error.getMessage());
+                        Log.i("ERROR", error.getMessage());
                         Toast.makeText(getContext(), "Error Occurs!!", Toast.LENGTH_LONG).show();
                         // SECOND URL FOR JSON PURSING USING VOLLEY
                         TABLES_LINK = "https://jsonblob.com/api/e2aa1d0a-115d-11e8-8318-b311bf439c9f";
