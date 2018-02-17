@@ -87,10 +87,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 holder.tvTeamName3.setText(splitTeamName[2]);
                 holder.tvTeamName4.setText(splitTeamName[3]);
 
-                Picasso.with(context).load(Flags.getFlag(splitTeamName[0])).into(holder.imgTeamFlag1);
+                holder.imgTeamFlag1.setImageResource(Flags.getFlag(splitTeamName[0]));
+                holder.imgTeamFlag2.setImageResource(Flags.getFlag(splitTeamName[1]));
+                holder.imgTeamFlag3.setImageResource(Flags.getFlag(splitTeamName[2]));
+                holder.imgTeamFlag4.setImageResource(Flags.getFlag(splitTeamName[3]));
+
+                /*Picasso.with(context).load(Flags.getFlag(splitTeamName[0])).into(holder.imgTeamFlag1);
                 Picasso.with(context).load(Flags.getFlag(splitTeamName[1])).into(holder.imgTeamFlag2);
                 Picasso.with(context).load(Flags.getFlag(splitTeamName[2])).into(holder.imgTeamFlag3);
-                Picasso.with(context).load(Flags.getFlag(splitTeamName[3])).into(holder.imgTeamFlag4);
+                Picasso.with(context).load(Flags.getFlag(splitTeamName[3])).into(holder.imgTeamFlag4);*/
 
                 String[] splitTeamStatus = tableItem.getStatus().split(", ");
 
@@ -147,7 +152,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }*/
                 // TAG SHOULD BE JUST LIKE THIS (T SPAIN)
                 String[] tagSplit = goalList.getTag().split(" ");
-                Picasso.with(context).load(Flags.getFlag(tagSplit[1])).into(holder.teamImg);
+                holder.teamImg.setImageResource(Flags.getFlag(tagSplit[1]));
+                //Picasso.with(context).load(Flags.getFlag(tagSplit[1])).into(holder.teamImg);
                 break;
 
             default:
@@ -187,8 +193,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 } else {
                     Picasso.with(context).load(listItem.getFlagTeam2()).into(holder.imgvTeam2);
                 }*/
-                Picasso.with(context).load(Flags.getFlag(listItem.getTeam1())).into(holder.imgvTeam1);
-                Picasso.with(context).load(Flags.getFlag(listItem.getTeam2())).into(holder.imgvTeam2);
+                holder.imgvTeam1.setImageResource(Flags.getFlag(listItem.getTeam1()));
+                holder.imgvTeam2.setImageResource(Flags.getFlag(listItem.getTeam2()));
+                //Picasso.with(context).load(Flags.getFlag(listItem.getTeam1())).into(holder.imgvTeam1);
+                //Picasso.with(context).load(Flags.getFlag(listItem.getTeam2())).into(holder.imgvTeam2);
                 break;
         }
     }

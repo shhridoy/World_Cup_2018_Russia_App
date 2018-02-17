@@ -53,6 +53,7 @@ public class Constants {
 
     // GOALS TABLE CONSTANTS
     public static final String GOAL_TABLE = "goals";
+
     public static final String G_ID = "gid";
     public static final String NAME = "name";
     public static final String GOALS = "goal";

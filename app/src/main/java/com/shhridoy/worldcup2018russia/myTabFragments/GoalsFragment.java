@@ -145,7 +145,8 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
                                 goal.getGoal(),
                                 goal.getTag()
                         );
-                        if (goal.getTag().equals("P")) {
+                        String[] tagSplit = goal.getTag().split(" ");
+                        if (tagSplit[0].equals("P")) {
                             listItemsPlayers.add(list);
                         } else {
                             listItemsTeams.add(list);

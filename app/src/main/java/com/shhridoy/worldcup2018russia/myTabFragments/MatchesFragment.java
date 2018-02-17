@@ -67,7 +67,7 @@ public class MatchesFragment extends Fragment {
     boolean isDataSynced;
     boolean isLinkFailed = false;
     String ROUND;
-    //DatabaseHelper dbHelper;
+    DatabaseHelper dbHelper;
     static boolean noData;
 
 
@@ -82,8 +82,8 @@ public class MatchesFragment extends Fragment {
 
         matchesListItems = new ArrayList<>();
 
-        //dbHelper = new DatabaseHelper(getContext());
-        //noData = dbHelper.retrieveMatchesData().getCount() == 0;
+        dbHelper = new DatabaseHelper(getContext());
+        noData = dbHelper.retrieveMatchesData().getCount() == 0;
 
         roundItems = new String[]{"Round 1", "Round 2", "Round 3", "Round of 16", "Quarter-finals", "Semi-finals", "3rd Place Playoff", "Final"};
         dateItems = new String[]{"14 Jun - 19 Jun", "19 Jun - 24 Jun", "25 Jun - 28 Jun", "30 Jun - 03 Jul", "06 Jul - 07 Jul", "10 Jul - 11 Jul", "14 Jul", "15 Jul"};
@@ -98,8 +98,7 @@ public class MatchesFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 ROUND = roundItems[position];
-                //retrieveJsonData();
-                //populateRecyclerViewFromDB();
+                populateRecyclerViewFromDB();
             }
 
             @Override
@@ -108,14 +107,15 @@ public class MatchesFragment extends Fragment {
             }
         });
 
-        /*if (isInternetOn()) {
+        populateRecyclerViewFromDB();
+
+        if (isInternetOn()) {
             retrieveDataFromJson();
         } else {
             Toast.makeText(getContext(), "Please Check Internet Connection!!", Toast.LENGTH_SHORT).show();
-        }*/
+        }
 
-        retrieveJsonData();
-        //populateRecyclerViewFromDB();
+        //retrieveJsonData();
 
         return rootView;
     }
@@ -166,7 +166,7 @@ public class MatchesFragment extends Fragment {
     }
 
 
-    /*private void populateRecyclerViewFromDB() {
+    private void populateRecyclerViewFromDB() {
         Cursor cursor = dbHelper.retrieveMatchesData();
         matchesListItems.clear();
         noData = cursor.getCount() == 0;
@@ -192,10 +192,9 @@ public class MatchesFragment extends Fragment {
     }
 
     private void saveMatchesData (String date, String round, String team1, String team2, String score) {
-        try {
-            dbHelper.insertMatchesData(date, round, team1, team2, score);
-        } catch (SQLiteException e) {
-            Toast.makeText(getContext(), "Error occurs while saving data!!", Toast.LENGTH_SHORT).show();
+        boolean added = dbHelper.insertMatchesData(date, round, team1, team2, score);
+        if (!added) {
+            Toast.makeText(getContext(), "Data can't be added!!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -204,10 +203,10 @@ public class MatchesFragment extends Fragment {
         if (!updated) {
             Toast.makeText(getContext(), "Doesn't updated!", Toast.LENGTH_SHORT).show();
         }
-    }*/
+    }
 
     // FUNCTION FOR RETRIEVE JSON DATA USING VOLLEY (NOT USED)
-    /*private void retrieveDataFromJson() {
+    private void retrieveDataFromJson() {
         final ProgressDialog progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading data....");
         progressDialog.setCancelable(false);
@@ -221,6 +220,7 @@ public class MatchesFragment extends Fragment {
                     public void onResponse(String response) {
 
                         progressDialog.dismiss();
+
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -239,7 +239,7 @@ public class MatchesFragment extends Fragment {
                                 }
                             }
 
-                            //populateRecyclerViewFromDB();
+                            populateRecyclerViewFromDB();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -265,9 +265,23 @@ public class MatchesFragment extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
-    }*/
+    }
 
-    /*private boolean isInternetOn() {
+    private int getId(String date, String round, String team1, String team2) {
+        int id = 0;
+        while (dbHelper.retrieveMatchesData().moveToNext()) {
+            if (date.equals(dbHelper.retrieveMatchesData().getString(1)) &&
+                    round.equals(dbHelper.retrieveMatchesData().getString(2)) &&
+                    team1.equals(dbHelper.retrieveMatchesData().getString(3)) &&
+                    team2.equals(dbHelper.retrieveMatchesData().getString(4))) {
+                id = dbHelper.retrieveMatchesData().getInt(0);
+                break;
+            }
+        }
+        return id;
+    }
+
+    private boolean isInternetOn() {
 
         // get Connectivity Manager object to check connection
         ConnectivityManager connec = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -287,7 +301,7 @@ public class MatchesFragment extends Fragment {
         }
 
         return false;
-    }*/
+    }
 
     // FUNCTION FOR RETRIEVE THE JSON DATA USING RETROFIT
     private void retrieveJsonData() {

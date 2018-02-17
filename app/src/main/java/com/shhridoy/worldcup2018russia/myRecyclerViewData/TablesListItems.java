@@ -6,6 +6,7 @@ package com.shhridoy.worldcup2018russia.myRecyclerViewData;
 
 public class TablesListItems {
 
+    private int id;
     private String group;
     private String teamNo;
     private String teamName;
@@ -25,6 +26,18 @@ public class TablesListItems {
         this.teamNo = teamNo;
         this.teamName = teamName;
         this.status = status;
+    }
+
+    public TablesListItems(int id, String group, String teamNo, String teamName, String status) {
+        this.id = id;
+        this.group = group;
+        this.teamNo = teamNo;
+        this.teamName = teamName;
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getGroup() {
