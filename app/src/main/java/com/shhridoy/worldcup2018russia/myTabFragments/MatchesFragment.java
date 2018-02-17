@@ -157,9 +157,7 @@ public class MatchesFragment extends Fragment {
         matchesListItems.clear();
         noData = cursor.getCount() == 0;
 
-        if (noData) {
-            Toast.makeText(getContext(), "Data doesn't sync yet!!", Toast.LENGTH_SHORT).show();
-        } else {
+        if (!noData) {
             while (cursor.moveToNext()) {
                 String round1 = cursor.getString(2);
                 if (ROUND.equals(round1)) {

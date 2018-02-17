@@ -144,9 +144,7 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
         listItemsPlayers.clear();
         noData = cursor.getCount() == 0;
 
-        if (noData) {
-            Toast.makeText(getContext(), "Data doesn't sync yet!!", Toast.LENGTH_SHORT).show();
-        } else {
+        if (!noData) {
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
