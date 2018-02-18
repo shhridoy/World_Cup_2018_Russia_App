@@ -16,7 +16,8 @@
         android:id="@+id/CardViewListItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="2dp">
+        app:cardCornerRadius="2dp"
+        android:background="?android:attr/selectableItemBackground">
 
         <LinearLayout
             android:orientation="vertical"
