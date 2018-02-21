@@ -27,6 +27,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<GoalsListItems> goalsListItems = null;
     private Context context;
     private String tag;
+    private String matchDetails = null;
 
     public RecyclerViewAdapter(List<MatchesListItems> itemsList, Context context, String tag) {
         this.itemsList = itemsList;
@@ -158,6 +159,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 holder.tvScore.setText(listItem.getScore());
                 holder.imgvTeam1.setImageResource(Flags.getFlag(listItem.getTeam1()));
                 holder.imgvTeam2.setImageResource(Flags.getFlag(listItem.getTeam2()));
+                matchDetails = listItem.getDetails();
                 break;
         }
     }
@@ -245,12 +247,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         public void onClick(View v) {
             String t =  null;
-            if (tag.equals("Matches")) {
-                t = tvTeam1.getText()+ " and "+tvTeam2.getText()+" match.";
-            } else if (tag.equals("Tables")) {
-                t = tvGroup.getText().toString();
-            } else {
-                t = tvName.getText().toString();
+            switch (tag) {
+                case "Matches":
+                    t = tvTeam1.getText() + " and " + tvTeam2.getText() + " match.";
+                    break;
+                case "Tables":
+                    t = tvGroup.getText().toString();
+                    break;
+                default:
+                    t = tvName.getText().toString();
+                    break;
             }
             Toast.makeText(context, "Clicked on "+t, Toast.LENGTH_SHORT).show();
         }

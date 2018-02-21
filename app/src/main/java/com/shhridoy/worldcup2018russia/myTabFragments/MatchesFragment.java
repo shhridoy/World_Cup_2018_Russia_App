@@ -167,7 +167,8 @@ public class MatchesFragment extends Fragment {
                     String team1 = cursor.getString(3);
                     String team2 = cursor.getString(4);
                     String score = cursor.getString(5);
-                    MatchesListItems list = new MatchesListItems(id, date, round, team1, team2, score);
+                    String details = cursor.getString(6);
+                    MatchesListItems list = new MatchesListItems(id, date, round, team1, team2, score, details);
                     matchesListItems.add(list);
                 }
             }
@@ -176,15 +177,15 @@ public class MatchesFragment extends Fragment {
         }
     }
 
-    private void saveMatchesData (String id, String date, String round, String team1, String team2, String score) {
-        boolean added = dbHelper.insertMatchesData(id, date, round, team1, team2, score);
+    private void saveMatchesData (String id, String date, String round, String team1, String team2, String score, String details) {
+        boolean added = dbHelper.insertMatchesData(id, date, round, team1, team2, score, details);
         if (!added) {
             Toast.makeText(getContext(), "Data can't be added!!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void updateMatchesData(String id, String date, String round, String team1, String team2, String score) {
-        boolean updated = dbHelper.updateMatchesData(id, date, round, team1, team2, score);
+    private void updateMatchesData(String id, String date, String round, String team1, String team2, String score, String details) {
+        boolean updated = dbHelper.updateMatchesData(id, date, round, team1, team2, score, details);
         if (!updated) {
             Toast.makeText(getContext(), "Doesn't updated!", Toast.LENGTH_SHORT).show();
         }
@@ -216,10 +217,11 @@ public class MatchesFragment extends Fragment {
                                 String team1 = object.getString("team1");
                                 String team2 = object.getString("team2");
                                 String score = object.getString("score");
+                                String details = object.getString("details");
                                 if (noData) {
-                                    saveMatchesData(id, date, round, team1, team2, score);
+                                    saveMatchesData(id, date, round, team1, team2, score, details);
                                 } else {
-                                    updateMatchesData(id, date, round, team1, team2, score);
+                                    updateMatchesData(id, date, round, team1, team2, score, details);
                                 }
                             }
 

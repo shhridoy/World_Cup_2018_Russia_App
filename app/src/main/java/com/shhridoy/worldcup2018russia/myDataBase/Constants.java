@@ -18,6 +18,7 @@ public class Constants {
     public static final String TEAM1 = "team1";
     public static final String TEAM2 = "team2";
     public static final String SCORE = "score";
+    public static final String DETAILS = "details";
 
     public static final String CREATE_MATCHES_TABLE = "CREATE TABLE "+ MATCHES_TABLE +
             "( " +
@@ -26,7 +27,8 @@ public class Constants {
             ROUND +" TEXT, " +
             TEAM1 + " TEXT, " +
             TEAM2 + " TEXT, " +
-            SCORE + " TEXT);";
+            SCORE + " TEXT, " +
+            DETAILS +" TEXT);";
 
     public static final String DROP_MATCHES_TABLE = "DROP TABLE IF EXISTS " + MATCHES_TABLE;
 

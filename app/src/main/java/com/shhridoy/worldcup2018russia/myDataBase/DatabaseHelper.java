@@ -51,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // INSERT VALUES IN MATCHES TABLE
-    public boolean insertMatchesData (String id, String date, String round, String team1, String team2, String score) {
+    public boolean insertMatchesData (String id, String date, String round, String team1, String team2, String score, String details) {
 
         try {
             ContentValues cv = new ContentValues();
@@ -61,6 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cv.put(Constants.TEAM1, team1);
             cv.put(Constants.TEAM2, team2);
             cv.put(Constants.SCORE, score);
+            cv.put(Constants.DETAILS, details);
             long result  = this.getWritableDatabase().insert(Constants.MATCHES_TABLE, Constants.M_ID, cv);
             this.getWritableDatabase().close();
             if (result > 0) {
@@ -73,7 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // UPDATE VALUES IN MATCHES TABLE
-    public boolean updateMatchesData (String id, String date, String round, String team1, String team2, String score) {
+    public boolean updateMatchesData (String id, String date, String round, String team1, String team2, String score, String details) {
         try {
             ContentValues cv = new ContentValues();
             cv.put(Constants.DATE, date);
@@ -81,6 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cv.put(Constants.TEAM1, team1);
             cv.put(Constants.TEAM2, team2);
             cv.put(Constants.SCORE, score);
+            cv.put(Constants.DETAILS, details);
             int result = this.getWritableDatabase()
                     .update(Constants.MATCHES_TABLE, cv, Constants.M_ID+"='"+id+"'", null);
             this.getWritableDatabase().close();

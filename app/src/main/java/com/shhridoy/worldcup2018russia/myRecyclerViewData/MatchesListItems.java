@@ -12,14 +12,16 @@ public class MatchesListItems {
     private String team1;
     private String team2;
     private String score;
+    private String details;
 
-    public MatchesListItems(String id, String date, String round, String team1, String team2, String score) {
+    public MatchesListItems(String id, String date, String round, String team1, String team2, String score, String details) {
         this.id = id;
         this.date = date;
         this.round = round;
         this.team1 = team1;
         this.team2 = team2;
         this.score = score;
+        this.details = details;
     }
 
     public MatchesListItems(String date, String round, String team1, String team2, String score) {
@@ -52,5 +54,9 @@ public class MatchesListItems {
 
     public String getScore() {
         return score;
+    }
+
+    public String getDetails() {
+        return details;
     }
 }
