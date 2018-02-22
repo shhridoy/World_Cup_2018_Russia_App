@@ -2,6 +2,11 @@ package com.shhridoy.worldcup2018russia.myRecyclerViewData;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +16,7 @@ import android.widget.Toast;
 
 
 import com.shhridoy.worldcup2018russia.R;
+import com.shhridoy.worldcup2018russia.myTabFragments.MatchDetailsFragment;
 
 import java.util.List;
 
@@ -27,7 +33,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<GoalsListItems> goalsListItems = null;
     private Context context;
     private String tag;
-    private String matchDetails = null;
+    private String matchDetails = null, matchDateTime = null;
 
     public RecyclerViewAdapter(List<MatchesListItems> itemsList, Context context, String tag) {
         this.itemsList = itemsList;
@@ -249,7 +255,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             String t =  null;
             switch (tag) {
                 case "Matches":
-                    t = tvTeam1.getText() + " and " + tvTeam2.getText() + " match.";
+                    Fragment fragment = new MatchDetailsFragment();
+                    FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("DATE_TIME", tvDateTime.getText().toString());
+                    bundle.putString("ROUND", tvRound.getText().toString());
+                    bundle.putString("TEAM1", tvTeam1.getText().toString());
+                    bundle.putString("TEAM2", tvTeam2.getText().toString());
+                    bundle.putString("SCORE", tvScore.getText().toString());
+                    bundle.putString("DETAILS", matchDetails);
+                    fragment.setArguments(bundle);
+                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
                     break;
                 case "Tables":
                     t = tvGroup.getText().toString();

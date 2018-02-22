@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_grey_200"
+    android:id="@+id/scrollViewMatchDetails">
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayoutMatchDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/CardView1MatchDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/RLListItem"
+                android:background="?android:attr/selectableItemBackground">
+
+                <RelativeLayout
+                    android:id="@+id/RL2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_date_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:text="Thu 14.06.2018 21:00"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/md_grey_900"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="start" />
+
+                    <TextView
+                        android:id="@+id/tv_round"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd"
+                        android:text="Round 1"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/md_grey_900"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:gravity="end" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="10dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ImageTeam1MatchDetails"
+                        android:layout_width="95dp"
+                        android:layout_height="90dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ru"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <TextView
+                        android:id="@+id/TextViewScoreMatchDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="1 : 0"
+                        android:textStyle="bold"
+                        android:textColor="#000000"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_alignTop="@id/ImageTeam1MatchDetails"
+                        android:layout_alignBottom="@id/ImageTeam1MatchDetails"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"/>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ImageTeam2MatchDetails"
+                        android:layout_width="95dp"
+                        android:layout_height="90dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/sa"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+
+                    <TextView
+                        android:id="@+id/TextViewTeam1MatchDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="95dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="Russia"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#000000"
+                        android:textStyle="normal"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:layout_below="@id/ImageTeam1MatchDetails"
+                        android:gravity="center"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true" />
+
+                    <TextView
+                        android:id="@+id/TextViewTeam2MatchDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="95dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="Saudi Arabia"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#000000"
+                        android:textStyle="normal"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:layout_below="@id/ImageTeam2MatchDetails"
+                        android:gravity="center"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/CardView2MatchDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/CardView1MatchDetails"
+            app:cardCornerRadius="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp">
+
+            <TextView
+                android:id="@+id/TextViewMatchDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Details"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#000000"
+                android:textStyle="normal"
+                android:gravity="center"/>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+    <!--<android.support.v7.widget.CardView
+        android:id="@+id/CardViewMatchDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="2dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/RLListItem"
+            android:background="?android:attr/selectableItemBackground">
+
+            <RelativeLayout
+                android:id="@+id/RL2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/tv_date_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textStart"
+                    android:text="Thu 14.06.2018 21:00"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/md_grey_700"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="start" />
+
+                <TextView
+                    android:id="@+id/tv_round"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="Round 1"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/md_grey_700"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:gravity="end" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    android:id="@+id/tv_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="1 : 0"
+                    android:textStyle="normal"
+                    android:textColor="#000000"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignBottom="@+id/teamImage_1"
+                    android:layout_alignTop="@+id/teamImage_1"
+                    android:gravity="center_vertical"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/teamImage_1"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ru"
+                    android:layout_toLeftOf="@id/tv_score"
+                    android:layout_toStartOf="@id/tv_score"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_team1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_centerVertical="true"
+                    android:text="Russia"
+                    android:layout_alignBottom="@id/teamImage_1"
+                    android:layout_alignTop="@id/teamImage_1"
+                    android:textSize="17sp"
+                    android:textColor="@color/md_grey_900"
+                    android:textStyle="normal"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:layout_gravity="start"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/teamImage_2"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/sa"
+                    android:layout_toRightOf="@id/tv_score"
+                    android:layout_toEndOf="@id/tv_score"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_team2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="Saudi Arabia"
+                    android:layout_alignBottom="@id/teamImage_2"
+                    android:layout_alignTop="@id/teamImage_2"
+                    android:textSize="17sp"
+                    android:textColor="@color/md_grey_900"
+                    android:textStyle="normal"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:maxEms="10"
+                    android:ellipsize="end"
+                    android:layout_gravity="end" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>-->
+
+</ScrollView>

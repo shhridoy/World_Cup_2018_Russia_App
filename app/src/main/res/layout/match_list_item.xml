@@ -16,14 +16,14 @@
         android:id="@+id/CardViewListItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="2dp"
-        android:background="?android:attr/selectableItemBackground">
+        app:cardCornerRadius="2dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/RLListItem">
+            android:id="@+id/RLListItem"
+            android:background="?android:attr/selectableItemBackground">
 
             <RelativeLayout
                 android:id="@+id/RL2"

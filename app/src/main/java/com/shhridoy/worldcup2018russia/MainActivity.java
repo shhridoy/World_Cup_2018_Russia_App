@@ -1,14 +1,12 @@
 package com.shhridoy.worldcup2018russia;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,22 +16,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
+import android.widget.Toast;
 
-import com.shhridoy.worldcup2018russia.myFragments.Fragment1;
-import com.shhridoy.worldcup2018russia.myFragments.HomeFragment;
-import com.shhridoy.worldcup2018russia.myPagerClasses.PagerAdapter;
+import com.shhridoy.worldcup2018russia.myNavFragments.SettingsFragment;
+import com.shhridoy.worldcup2018russia.myNavFragments.HomeFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    Toolbar toolbar;
+    FloatingActionButton fab;
+    DrawerLayout drawer;
+    ActionBarDrawerToggle toggle;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,60 +46,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_home));
+        navigationView.setCheckedItem(R.id.nav_home);
 
-        /*TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Matches"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tables"));
-        tabLayout.addTab(tabLayout.newTab().setText("Goals"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(adapter);
-
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        // action bar back arrow button click handler
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+            public void onClick(View view) {
+                onBackPressed();
             }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });*/
-
-        /*Fragment fragment = null;
-        FragmentTransaction fragmentTransaction;
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragment = new HomeFragment();
-        //fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.content_frame, fragment);
-        fragmentTransaction.commit();*/
-
+        });
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
         } else {
-            super.onBackPressed();
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            if (fragmentManager.findFragmentByTag("Settings") != null && fragmentManager.findFragmentByTag("Settings").isVisible()) {
+
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Settings")).commit();
+
+                if(fragmentManager.findFragmentByTag("Home") != null){
+                    fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Home")).commit();
+                    enableHamburgerAndDisableBackArrow(R.id.nav_home);
+                    navigationView.setCheckedItem(R.id.nav_home);
+                }
+
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -109,13 +100,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
             return true;
         }
 
@@ -128,19 +118,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
         if (id == R.id.nav_home) {
-            Fragment fragment = new HomeFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, fragment);
-            fragmentTransaction.commit();
+
+            if(fragmentManager.findFragmentByTag("Home") != null) {
+                //if the fragment exists, show it.
+                fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Home")).commit();
+            } else {
+                //if the fragment does not exist, add it to fragment manager.
+                fragmentManager.beginTransaction().add(R.id.content_frame, new HomeFragment(), "Home").commit();
+            }
+            if(fragmentManager.findFragmentByTag("Settings") != null){
+                //if the other fragment is visible, hide it.
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Settings")).commit();
+            }
+
+            enableHamburgerAndDisableBackArrow(R.id.nav_home);
+
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
+
+            if(fragmentManager.findFragmentByTag("Settings") != null) {
+                //if the fragment exists, show it.
+                fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Settings")).commit();
+            } else {
+                //if the fragment does not exist, add it to fragment manager.
+                fragmentManager.beginTransaction().add(R.id.content_frame, new SettingsFragment(), "Settings").commit();
+            }
+            if(fragmentManager.findFragmentByTag("Home") != null){
+                //if the other fragment is visible, hide it.
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Home")).commit();
+            }
+            enableHamburgerAndDisableBackArrow(R.id.nav_settings);
+
         } else if (id == R.id.nav_slideshow) {
-            Fragment fragment = new Fragment1();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.replace(R.id.content_frame, fragment);
-            fragmentTransaction.commit();
+
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -149,10 +161,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private void enableHamburgerAndDisableBackArrow(int id) {
+        if (id == R.id.nav_home) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            toggle.setDrawerIndicatorEnabled(true);
+            getSupportActionBar().setTitle("WC 2018 Russia");
+        } else {
+            toggle.setDrawerIndicatorEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            if (id == R.id.nav_settings) {
+                getSupportActionBar().setTitle("Settings");
+            } else {
+                getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+            }
+        }
     }
 
 }

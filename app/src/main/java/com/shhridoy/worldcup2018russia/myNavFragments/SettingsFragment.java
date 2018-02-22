@@ -1,4 +1,4 @@
-package com.shhridoy.worldcup2018russia.myFragments;
+package com.shhridoy.worldcup2018russia.myNavFragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,19 +13,18 @@ import com.shhridoy.worldcup2018russia.R;
  * Created by Dream Land on 2/21/2018.
  */
 
-public class Fragment1 extends Fragment {
+public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_1, container, false);
+        View rootView = inflater.inflate(R.layout.settings_fragment, container, false);
 
-        return view;
+        return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Fragment 1");
     }
 }
