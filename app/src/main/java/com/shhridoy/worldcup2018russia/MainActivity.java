@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //select first items from navigation menu while view created
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_home));
         navigationView.setCheckedItem(R.id.nav_home);
 
@@ -85,6 +87,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navigationView.setCheckedItem(R.id.nav_home);
                 }
 
+            } else if (fragmentManager.findFragmentByTag("MatchDetails") != null && fragmentManager.findFragmentByTag("MatchDetails").isVisible()) {
+
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("MatchDetails")).commit();
+
+                if(fragmentManager.findFragmentByTag("Home") != null){
+                    fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Home")).commit();
+                    enableHamburgerAndDisableBackArrow(R.id.nav_home);
+                    navigationView.setCheckedItem(R.id.nav_home);
+                }
+
             } else {
                 super.onBackPressed();
             }
@@ -105,7 +117,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
+            if (getSupportFragmentManager().findFragmentByTag("Home") != null && getSupportFragmentManager().findFragmentByTag("Home").isVisible()) {
+                getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("Home")).commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.content_frame, new HomeFragment(), "Home").commit();
+            }
             return true;
         }
 
@@ -129,9 +144,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //if the fragment does not exist, add it to fragment manager.
                 fragmentManager.beginTransaction().add(R.id.content_frame, new HomeFragment(), "Home").commit();
             }
+
             if(fragmentManager.findFragmentByTag("Settings") != null){
                 //if the other fragment is visible, hide it.
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Settings")).commit();
+            }
+
+            if (fragmentManager.findFragmentByTag("MatchDetails") != null) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("MatchDetails")).commit();
             }
 
             enableHamburgerAndDisableBackArrow(R.id.nav_home);
@@ -148,6 +168,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(fragmentManager.findFragmentByTag("Home") != null){
                 //if the other fragment is visible, hide it.
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Home")).commit();
+            }
+            if (fragmentManager.findFragmentByTag("MatchDetails") != null) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("MatchDetails")).commit();
             }
             enableHamburgerAndDisableBackArrow(R.id.nav_settings);
 

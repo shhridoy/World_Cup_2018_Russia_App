@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 
 import com.shhridoy.worldcup2018russia.R;
+import com.shhridoy.worldcup2018russia.myNavFragments.HomeFragment;
 import com.shhridoy.worldcup2018russia.myTabFragments.MatchDetailsFragment;
 
 import java.util.List;
@@ -257,7 +258,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 case "Matches":
                     Fragment fragment = new MatchDetailsFragment();
                     FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     Bundle bundle = new Bundle();
                     bundle.putString("DATE_TIME", tvDateTime.getText().toString());
                     bundle.putString("ROUND", tvRound.getText().toString());
@@ -266,9 +266,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     bundle.putString("SCORE", tvScore.getText().toString());
                     bundle.putString("DETAILS", matchDetails);
                     fragment.setArguments(bundle);
-                    fragmentTransaction.replace(R.id.content_frame, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+
+                    if (fragmentManager.findFragmentByTag("MatchDetails") != null) {
+                        //fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("MatchDetails")).commit();
+                        fragmentManager.beginTransaction().remove(fragmentManager.findFragmentByTag("MatchDetails")).commit();
+                        fragmentManager.beginTransaction().add(R.id.content_frame, fragment, "MatchDetails").commit();
+                    } else {
+                        fragmentManager.beginTransaction().add(R.id.content_frame, fragment, "MatchDetails").commit();
+                    }
+
+                    if (fragmentManager.findFragmentByTag("Settings") != null){
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Settings")).commit();
+                    }
+
+                    if (fragmentManager.findFragmentByTag("Home") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Home")).commit();
+                    }
+
                     break;
                 case "Tables":
                     t = tvGroup.getText().toString();
