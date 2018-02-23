@@ -82,49 +82,61 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 TablesListItems tableItem = tablesListItems.get(position);
                 holder.tvGroup.setText(tableItem.getGroup());
 
-                String[] splitTeamNo = tableItem.getTeamNo().split(" ");
-                holder.tvTeamNo1.setText(splitTeamNo[0]);
-                holder.tvTeamNo2.setText(splitTeamNo[1]);
-                holder.tvTeamNo3.setText(splitTeamNo[2]);
-                holder.tvTeamNo4.setText(splitTeamNo[3]);
+                try {
+                    String[] splitTeamNo = tableItem.getTeamNo().split(" ");
+                    holder.tvTeamNo1.setText(splitTeamNo[0]);
+                    holder.tvTeamNo2.setText(splitTeamNo[1]);
+                    holder.tvTeamNo3.setText(splitTeamNo[2]);
+                    holder.tvTeamNo4.setText(splitTeamNo[3]);
+                } catch (Exception e) {
+                    Toast.makeText(context, "Exception arise while splitting team no.!!", Toast.LENGTH_SHORT).show();
+                }
 
-                String[] splitTeamName = tableItem.getTeamName().split(", ");
-                holder.tvTeamName1.setText(splitTeamName[0]);
-                holder.tvTeamName2.setText(splitTeamName[1]);
-                holder.tvTeamName3.setText(splitTeamName[2]);
-                holder.tvTeamName4.setText(splitTeamName[3]);
+                try {
+                    String[] splitTeamName = tableItem.getTeamName().split(", ");
+                    holder.tvTeamName1.setText(splitTeamName[0]);
+                    holder.tvTeamName2.setText(splitTeamName[1]);
+                    holder.tvTeamName3.setText(splitTeamName[2]);
+                    holder.tvTeamName4.setText(splitTeamName[3]);
 
-                holder.imgTeamFlag1.setImageResource(Flags.getFlag(splitTeamName[0]));
-                holder.imgTeamFlag2.setImageResource(Flags.getFlag(splitTeamName[1]));
-                holder.imgTeamFlag3.setImageResource(Flags.getFlag(splitTeamName[2]));
-                holder.imgTeamFlag4.setImageResource(Flags.getFlag(splitTeamName[3]));
+                    holder.imgTeamFlag1.setImageResource(Flags.getFlag(splitTeamName[0]));
+                    holder.imgTeamFlag2.setImageResource(Flags.getFlag(splitTeamName[1]));
+                    holder.imgTeamFlag3.setImageResource(Flags.getFlag(splitTeamName[2]));
+                    holder.imgTeamFlag4.setImageResource(Flags.getFlag(splitTeamName[3]));
+                } catch (Exception e) {
+                    Toast.makeText(context, "Exception arise while splitting team name.!!", Toast.LENGTH_SHORT).show();
+                }
 
-                String[] splitTeamStatus = tableItem.getStatus().split(", ");
+                try {
+                    String[] splitTeamStatus = tableItem.getStatus().split(", ");
 
-                String team1Status = splitTeamStatus[0];
-                String[] team1Split = team1Status.split(" ");
-                holder.tvStatusP1.setText(team1Split[0]);
-                holder.tvStatusGrd1.setText(team1Split[1]);
-                holder.tvStatusPts1.setText(team1Split[2]);
+                    String team1Status = splitTeamStatus[0];
+                    String[] team1Split = team1Status.split(" ");
+                    holder.tvStatusP1.setText(team1Split[0]);
+                    holder.tvStatusGrd1.setText(team1Split[1]);
+                    holder.tvStatusPts1.setText(team1Split[2]);
 
-                String team2Status = splitTeamStatus[1];
-                String[] team2Split = team2Status.split(" ");
-                holder.tvStatusP2.setText(team2Split[0]);
-                holder.tvStatusGrd2.setText(team2Split[1]);
-                holder.tvStatusPts2.setText(team2Split[2]);
+                    String team2Status = splitTeamStatus[1];
+                    String[] team2Split = team2Status.split(" ");
+                    holder.tvStatusP2.setText(team2Split[0]);
+                    holder.tvStatusGrd2.setText(team2Split[1]);
+                    holder.tvStatusPts2.setText(team2Split[2]);
 
 
-                String team3Status = splitTeamStatus[2];
-                String[] team3Split = team3Status.split(" ");
-                holder.tvStatusP3.setText(team3Split[0]);
-                holder.tvStatusGrd3.setText(team3Split[1]);
-                holder.tvStatusPts3.setText(team3Split[2]);
+                    String team3Status = splitTeamStatus[2];
+                    String[] team3Split = team3Status.split(" ");
+                    holder.tvStatusP3.setText(team3Split[0]);
+                    holder.tvStatusGrd3.setText(team3Split[1]);
+                    holder.tvStatusPts3.setText(team3Split[2]);
 
-                String team4Status = splitTeamStatus[3];
-                String[] team4Split = team4Status.split(" ");
-                holder.tvStatusP4.setText(team4Split[0]);
-                holder.tvStatusGrd4.setText(team4Split[1]);
-                holder.tvStatusPts4.setText(team4Split[2]);
+                    String team4Status = splitTeamStatus[3];
+                    String[] team4Split = team4Status.split(" ");
+                    holder.tvStatusP4.setText(team4Split[0]);
+                    holder.tvStatusGrd4.setText(team4Split[1]);
+                    holder.tvStatusPts4.setText(team4Split[2]);
+                } catch (Exception e) {
+                    Toast.makeText(context, "Exception arise while splitting team status.!!", Toast.LENGTH_SHORT).show();
+                }
 
                 break;
 
@@ -133,17 +145,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 holder.tvNo.setText((position+1)+".");
                 holder.tvName.setText(goalList.getName());
                 holder.tvGoal.setText(goalList.getGoal());
-                // TAG SHOULD BE JUST LIKE THIS (T SPAIN)
-                String[] tagSplit = goalList.getTag().split(" ");
-                holder.teamImg.setImageResource(Flags.getFlag(tagSplit[1]));
+                try {
+                    // TAG SHOULD BE JUST LIKE THIS (T SPAIN)
+                    String[] tagSplit = goalList.getTag().split(" ");
+                    holder.teamImg.setImageResource(Flags.getFlag(tagSplit[1]));
+                } catch (Exception e) {
+                    Toast.makeText(context, "Exception arise while splitting goal tag.!!", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             default:
                 final MatchesListItems listItem = itemsList.get(position);
-                String[] splitDateTime = listItem.getDate().split("/");
-                String international = splitDateTime[0];
-                String bangladeshi = splitDateTime[1];
-                holder.tvDateTime.setText(bangladeshi);
+                try {
+                    String[] splitDateTime = listItem.getDate().split("/");
+                    String international = splitDateTime[0];
+                    String bangladeshi = splitDateTime[1];
+                    holder.tvDateTime.setText(bangladeshi);
+                } catch (Exception e) {
+                    Toast.makeText(context, "Exception arise while splitting Date and Time.!!", Toast.LENGTH_SHORT).show();
+                }
                 holder.tvRound.setText(listItem.getRound());
 
                 if (listItem.getTeam1().equals("Saudi Arabia") || listItem.getTeam1().equals("Switzerland") ||

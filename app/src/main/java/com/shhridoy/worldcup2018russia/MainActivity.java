@@ -1,12 +1,21 @@
 package com.shhridoy.worldcup2018russia;
 
+import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +30,10 @@ import android.widget.Toast;
 import com.shhridoy.worldcup2018russia.myNavFragments.SettingsFragment;
 import com.shhridoy.worldcup2018russia.myNavFragments.HomeFragment;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar;
@@ -28,6 +41,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     NavigationView navigationView;
+
+    // PERMISSION CODE
+    public static final int MULTIPLE_PERMISSIONS = 10;
+
+    // PERMISSION LIST
+    String[] permissionsList = new String[] {
+            Manifest.permission.INTERNET,
+            Manifest.permission.SET_ALARM,
+            Manifest.permission.RECEIVE_BOOT_COMPLETED
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +89,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 onBackPressed();
             }
         });
+
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
+            checkPermissions();
+        }
     }
 
     @Override
@@ -205,6 +233,78 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
             }
+        }
+    }
+
+    private void setNotification () {
+        boolean alarmActive = (PendingIntent.getBroadcast(
+                this,
+                100,
+                new Intent(this, NotificationReceiver.class),
+                PendingIntent.FLAG_NO_CREATE) != null);
+
+        if (!alarmActive) {
+            Calendar calendar = Calendar.getInstance();
+            //calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 1);
+            calendar.set(Calendar.MINUTE, 0);
+            //calendar.set(Calendar.SECOND, 30);
+
+            Intent intent = new Intent(this, NotificationReceiver.class);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    this,
+                    100,
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            );
+
+            AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+            if (alarmManager != null) {
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            }
+        }
+    }
+
+    private  void checkPermissions() {
+
+        /*if (checkPermissions()) {
+            //  permissions  granted.
+        }*/
+
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p : permissionsList) {
+            result = ContextCompat.checkSelfPermission(this, p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),MULTIPLE_PERMISSIONS );
+            //return false;
+        }
+        //return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+
+            case MULTIPLE_PERMISSIONS:{
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    // permissions granted.
+                    Toast.makeText(this, "Permission granted.", Toast.LENGTH_SHORT).show();
+                } else {
+                    String permissionss = "";
+                    for (String per : permissionsList) {
+                        permissionss += "\n" + per;
+                    }
+                    // permissions list of don't granted permission
+                    Toast.makeText(this, "Permission doesn't granted.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
         }
     }
 
