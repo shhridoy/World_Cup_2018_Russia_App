@@ -80,6 +80,7 @@ public class SettingsFragment extends Fragment {
             calendar.set(Calendar.MINUTE, min);
             //calendar.set(Calendar.SECOND, 30);
 
+
             Intent intent = new Intent(getContext(), NotificationReceiver.class);
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
