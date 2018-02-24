@@ -54,18 +54,19 @@ public class SettingsFragment extends Fragment {
         et1 = rootView.findViewById(R.id.ET1);
         et2 = rootView.findViewById(R.id.ET2);
         btn = rootView.findViewById(R.id.BTN);
+        et1.setVisibility(View.INVISIBLE);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setNotification(Integer.parseInt(et1.getText().toString()), Integer.parseInt(et2.getText().toString()));
+                setNotification(Integer.parseInt(et2.getText().toString()));
             }
         });
 
         return rootView;
     }
 
-    private void setNotification (int hour, int min) {
+    private void setNotification (int min) {
         boolean alarmActive = (PendingIntent.getBroadcast(
                 getContext(),
                 100,
@@ -75,7 +76,7 @@ public class SettingsFragment extends Fragment {
         if (!alarmActive) {
             Calendar calendar = Calendar.getInstance();
             //calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            //calendar.set(Calendar.HOUR_OF_DAY, hour);
             calendar.set(Calendar.MINUTE, min);
             //calendar.set(Calendar.SECOND, 30);
 
@@ -90,7 +91,7 @@ public class SettingsFragment extends Fragment {
 
             AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
             if (alarmManager != null) {
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
             }
         }
     }
