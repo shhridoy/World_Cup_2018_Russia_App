@@ -1,26 +1,17 @@
 package com.shhridoy.worldcup2018russia.myNavFragments;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.shhridoy.worldcup2018russia.NotificationReceiver;
 import com.shhridoy.worldcup2018russia.R;
-
-import java.util.Calendar;
 
 /**
  * Created by Dream Land on 2/21/2018.
@@ -28,10 +19,8 @@ import java.util.Calendar;
 
 public class SettingsFragment extends Fragment {
 
-    Switch aSwitch;
-    TextView tv;
-    EditText et1, et2;
-    Button btn;
+    Switch switchNotification, switchSound, switchVibration;
+    boolean isNotificationOn, isSoundOn, isVibrationOn;
 
     @Nullable
     @Override
@@ -39,66 +28,93 @@ public class SettingsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.settings_fragment, container, false);
 
-        aSwitch = rootView.findViewById(R.id.switch1);
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (aSwitch.isChecked()) {
-                    Toast.makeText(getContext(), "Is checked!!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), "Isn't checked!!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        initializeViews(rootView);
 
-        et1 = rootView.findViewById(R.id.ET1);
-        et2 = rootView.findViewById(R.id.ET2);
-        btn = rootView.findViewById(R.id.BTN);
-        et1.setVisibility(View.INVISIBLE);
+        isNotificationOn = getSettings("Notification");
+        isSoundOn = getSettings("Sound");
+        isVibrationOn = getSettings("Vibration");
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setNotification(Integer.parseInt(et2.getText().toString()));
-            }
-        });
+        setSwitchesCheck();
+
+        switchOnCheckChangeListeners();
 
         return rootView;
-    }
-
-    private void setNotification (int min) {
-        boolean alarmActive = (PendingIntent.getBroadcast(
-                getContext(),
-                100,
-                new Intent(getContext(), NotificationReceiver.class),
-                PendingIntent.FLAG_NO_CREATE) != null);
-
-        if (!alarmActive) {
-            Calendar calendar = Calendar.getInstance();
-            //calendar.setTimeInMillis(System.currentTimeMillis());
-            //calendar.set(Calendar.HOUR_OF_DAY, hour);
-            calendar.set(Calendar.MINUTE, min);
-            //calendar.set(Calendar.SECOND, 30);
-
-
-            Intent intent = new Intent(getContext(), NotificationReceiver.class);
-
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                    getContext(),
-                    100,
-                    intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT
-            );
-
-            AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-            if (alarmManager != null) {
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
-            }
-        }
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void initializeViews(View v) {
+        switchNotification = v.findViewById(R.id.switchNotifications);
+        switchSound = v.findViewById(R.id.switchSound);
+        switchVibration = v.findViewById(R.id.switchVibration);
+    }
+
+    private void setSwitchesCheck(){
+        if (isNotificationOn) {
+            switchNotification.setChecked(true);
+        } else {
+            switchNotification.setChecked(false);
+        }
+
+        if (isSoundOn) {
+            switchSound.setChecked(true);
+        } else {
+            switchSound.setChecked(false);
+        }
+
+        if (isVibrationOn) {
+            switchVibration.setChecked(true);
+        } else {
+            switchVibration.setChecked(false);
+        }
+    }
+
+    private void switchOnCheckChangeListeners() {
+        switchNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (switchNotification.isChecked()) {
+                    setSettings("Notification", true);
+                } else {
+                    setSettings("Notification", false);
+                }
+            }
+        });
+
+        switchSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (switchSound.isChecked()) {
+                    setSettings("Sound", true);
+                } else {
+                    setSettings("Sound", false);
+                }
+            }
+        });
+
+        switchVibration.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (switchVibration.isChecked()) {
+                    setSettings("Vibration", true);
+                } else {
+                    setSettings("Vibration", false);
+                }
+            }
+        });
+    }
+
+    private void setSettings(String key, boolean value) {
+        PreferenceManager.getDefaultSharedPreferences(getContext())
+                .edit()
+                .putBoolean(key, value)
+                .apply();
+    }
+
+    private boolean getSettings(String key) {
+        return PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key, true);
     }
 }

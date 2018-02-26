@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
             checkPermissions();
         }
+
+        setNotification();
     }
 
     @Override
@@ -243,11 +245,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new Intent(this, NotificationReceiver.class),
                 PendingIntent.FLAG_NO_CREATE) != null);
 
+        Calendar c = Calendar.getInstance();
+        int min = c.get(Calendar.MINUTE);
+
         if (!alarmActive) {
             Calendar calendar = Calendar.getInstance();
             //calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 1);
-            calendar.set(Calendar.MINUTE, 0);
+            //calendar.set(Calendar.HOUR_OF_DAY, 1);
+            calendar.set(Calendar.MINUTE, min+2);
             //calendar.set(Calendar.SECOND, 30);
 
             Intent intent = new Intent(this, NotificationReceiver.class);
@@ -261,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
             if (alarmManager != null) {
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
             }
         }
     }

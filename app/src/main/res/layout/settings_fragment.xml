@@ -1,35 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/md_grey_50">
 
-    <EditText
-        android:id="@+id/ET1"
-        android:hint="Hour"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/ET2"
-        android:hint="Minute"
-        android:layout_below="@id/ET1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/NotificationsSecTitleTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notifications"
+            android:textColor="@color/md_grey_700"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
 
-    <Button
-        android:id="@+id/BTN"
-        android:layout_below="@id/ET2"
-        android:text="SET"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <View
+            android:id="@+id/View1"
+            android:layout_below="@id/NotificationsSecTitleTV"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/md_grey_300"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="10dp"/>
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:text="Toast Switch" />
+        <ImageView
+            android:id="@+id/NotificationsImgView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/View1"
+            android:src="@drawable/ic_action_notifications"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"/>
 
-</RelativeLayout>
+        <Switch
+            android:id="@+id/switchNotifications"
+            android:layout_below="@id/View1"
+            android:layout_toRightOf="@id/NotificationsImgView"
+            android:layout_toEndOf="@id/NotificationsImgView"
+            android:layout_alignBottom="@id/NotificationsImgView"
+            android:layout_alignTop="@id/NotificationsImgView"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notifications On"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#000000"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <ImageView
+            android:id="@+id/SoundImgView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/NotificationsImgView"
+            android:src="@drawable/ic_action_sound"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <Switch
+            android:id="@+id/switchSound"
+            android:layout_below="@id/switchNotifications"
+            android:layout_toRightOf="@id/SoundImgView"
+            android:layout_toEndOf="@id/SoundImgView"
+            android:layout_alignBottom="@id/SoundImgView"
+            android:layout_alignTop="@id/SoundImgView"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sound On"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#000000"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <ImageView
+            android:id="@+id/VibrationImgView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/SoundImgView"
+            android:src="@drawable/ic_action_vibration"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <Switch
+            android:id="@+id/switchVibration"
+            android:layout_below="@id/switchSound"
+            android:layout_toRightOf="@id/VibrationImgView"
+            android:layout_toEndOf="@id/VibrationImgView"
+            android:layout_alignBottom="@id/VibrationImgView"
+            android:layout_alignTop="@id/VibrationImgView"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vibration On"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#000000"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -116,6 +116,8 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .setContentIntent(pendingIntent)
                 .setDefaults(NotificationCompat.DEFAULT_ALL);
 
+        // notificationManager.cancelAll();
+
         if (notificationManager != null) {
             notificationManager.notify(ID, builder.build());
         }
