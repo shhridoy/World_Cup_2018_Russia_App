@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myNavFragments.HomeFragment;
 import com.shhridoy.worldcup2018russia.myTabFragments.MatchDetailsFragment;
+import com.shhridoy.worldcup2018russia.myUtilities.Settings;
 
 import java.util.List;
 
@@ -157,13 +158,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             default:
                 final MatchesListItems listItem = itemsList.get(position);
                 try {
+
                     String[] splitDateTime = listItem.getDate().split("/");
                     String international = splitDateTime[0];
                     String bangladeshi = splitDateTime[1];
-                    holder.tvDateTime.setText(bangladeshi);
+                    if (Settings.getSettings(context, "International Zone")) {
+                        holder.tvDateTime.setText(international);
+                    } else {
+                        holder.tvDateTime.setText(bangladeshi);
+                    }
+
                 } catch (Exception e) {
                     Toast.makeText(context, "Exception arise while splitting Date and Time.!!", Toast.LENGTH_SHORT).show();
                 }
+
                 holder.tvRound.setText(listItem.getRound());
 
                 if (listItem.getTeam1().equals("Saudi Arabia") || listItem.getTeam1().equals("Switzerland") ||
@@ -173,6 +181,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 } else {
                     holder.tvTeam1.setTextSize(16);
                 }
+
                 if ( listItem.getTeam2().equals("Saudi Arabia") ||
                     listItem.getTeam2().equals("Switzerland") ||
                     listItem.getTeam2().equals("South Korea") || listItem.getTeam1().contains("of")
@@ -181,6 +190,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 } else {
                     holder.tvTeam2.setTextSize(16);
                 }
+
                 holder.tvTeam1.setText(listItem.getTeam1());
                 holder.tvTeam2.setText(listItem.getTeam2());
                 holder.tvScore.setText(listItem.getScore());
@@ -273,7 +283,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onClick(View v) {
-            String t =  null;
             switch (tag) {
                 case "Matches":
                     Fragment fragment = new MatchDetailsFragment();
@@ -305,13 +314,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     break;
                 case "Tables":
-                    t = tvGroup.getText().toString();
+                    String t = tvGroup.getText().toString();
                     break;
                 default:
-                    t = tvName.getText().toString();
+                    String tt = tvName.getText().toString();
                     break;
             }
-            Toast.makeText(context, "Clicked on "+t, Toast.LENGTH_SHORT).show();
         }
     }
 

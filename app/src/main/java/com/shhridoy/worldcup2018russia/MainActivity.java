@@ -6,15 +6,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -29,6 +28,7 @@ import android.widget.Toast;
 
 import com.shhridoy.worldcup2018russia.myNavFragments.SettingsFragment;
 import com.shhridoy.worldcup2018russia.myNavFragments.HomeFragment;
+import com.shhridoy.worldcup2018russia.myUtilities.NotificationReceiver;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
 
     // PERMISSION CODE
-    public static final int MULTIPLE_PERMISSIONS = 10;
+    public static final int MULTIPLE_PERMISSIONS = 28;
 
     // PERMISSION LIST
     String[] permissionsList = new String[] {
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setAction("Action", null).show();
                 fab.hide();
             }
-        });
+        });*/
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
@@ -146,11 +146,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            if (getSupportFragmentManager().findFragmentByTag("Home") != null && getSupportFragmentManager().findFragmentByTag("Home").isVisible()) {
-                getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("Home")).commit();
-                getSupportFragmentManager().beginTransaction().add(R.id.content_frame, new HomeFragment(), "Home").commit();
+        if (id == R.id.action_sync) {
+            if (isInternetOn()) {
+                if (getSupportFragmentManager().findFragmentByTag("Home") != null
+                        && getSupportFragmentManager().findFragmentByTag("Home").isVisible()) {
+                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("Home")).commit();
+                    getSupportFragmentManager().beginTransaction().add(R.id.content_frame, new HomeFragment(), "Home").commit();
+                }
+            } else {
+                Toast.makeText(this, "Please Check Internet Connection!!", Toast.LENGTH_SHORT).show();
             }
+
             return true;
         }
 
@@ -311,6 +317,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
         }
+    }
+
+    private boolean isInternetOn() {
+
+        // get Connectivity Manager object to check connection
+        ConnectivityManager connec = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Check for network connections
+        assert connec != null;
+        if (connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTED ||
+                connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTING ||
+                connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.CONNECTING ||
+                connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.CONNECTED) {
+
+            return true;
+        } else if (connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.DISCONNECTED ||
+                connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.DISCONNECTED) {
+
+            return false;
+        }
+
+        return false;
     }
 
 }

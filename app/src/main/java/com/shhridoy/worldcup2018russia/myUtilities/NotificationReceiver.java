@@ -1,4 +1,4 @@
-package com.shhridoy.worldcup2018russia;
+package com.shhridoy.worldcup2018russia.myUtilities;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
@@ -11,8 +11,11 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.shhridoy.worldcup2018russia.MainActivity;
+import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.Flags;
+import com.shhridoy.worldcup2018russia.myUtilities.Settings;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,10 +63,8 @@ public class NotificationReceiver extends BroadcastReceiver {
                         && Integer.parseInt(splitDate[2]) == currYear) {
 
                     String[] splitZone = dateTime.split("/");
-                    String international = splitZone[0];
-                    String bangladeshi = splitZone[1];
-
-                    dateList.add(bangladeshi);
+                    String timeZone = Settings.getSettings(context, "International Zone") ? splitZone[0] : splitZone[1];
+                    dateList.add(timeZone);
                     team1List.add(team1);
                     team2List.add(team2);
 
@@ -113,14 +114,24 @@ public class NotificationReceiver extends BroadcastReceiver {
                 //.setContent(remoteViews)
                 .setCustomBigContentView(remoteViews)
                 .setAutoCancel(true)
-                .setContentIntent(pendingIntent)
-                .setDefaults(NotificationCompat.DEFAULT_ALL);
+                .setContentIntent(pendingIntent);
 
-        // notificationManager.cancelAll();
+        if (Settings.getSettings(context, "Sound") && Settings.getSettings(context, "Vibration")) {
+            builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        } else if (Settings.getSettings(context, "Sound")) {
+            builder.setDefaults(NotificationCompat.DEFAULT_SOUND);
+        } else if (Settings.getSettings(context, "Vibration")) {
+            builder.setDefaults(NotificationCompat.DEFAULT_VIBRATE);
+        }
 
         if (notificationManager != null) {
-            notificationManager.notify(ID, builder.build());
+            if (Settings.getSettings(context, "Notification")) {
+                notificationManager.notify(ID, builder.build());
+            } else {
+                notificationManager.cancelAll();
+            }
         }
+
     }
 
 }

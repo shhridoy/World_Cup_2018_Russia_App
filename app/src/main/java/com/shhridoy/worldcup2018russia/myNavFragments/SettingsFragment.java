@@ -8,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.shhridoy.worldcup2018russia.R;
+import com.shhridoy.worldcup2018russia.myUtilities.Settings;
 
 /**
  * Created by Dream Land on 2/21/2018.
@@ -20,7 +23,9 @@ import com.shhridoy.worldcup2018russia.R;
 public class SettingsFragment extends Fragment {
 
     Switch switchNotification, switchSound, switchVibration;
-    boolean isNotificationOn, isSoundOn, isVibrationOn;
+    RadioButton rbInternational, rbBangladeshi;
+    RadioGroup radioGroup;
+    boolean isNotificationOn, isSoundOn, isVibrationOn, isInternational;
 
     @Nullable
     @Override
@@ -30,13 +35,15 @@ public class SettingsFragment extends Fragment {
 
         initializeViews(rootView);
 
-        isNotificationOn = getSettings("Notification");
-        isSoundOn = getSettings("Sound");
-        isVibrationOn = getSettings("Vibration");
+        isNotificationOn = Settings.getSettings(getContext(), "Notification");
+        isSoundOn = Settings.getSettings(getContext(), "Sound");
+        isVibrationOn = Settings.getSettings(getContext(), "Vibration");
+        isInternational = Settings.getSettings(getContext(), "International Zone");
 
-        setSwitchesCheck();
+        setSwitchAndButtonsCheck();
 
         switchOnCheckChangeListeners();
+        radioButtonsClicks();
 
         return rootView;
     }
@@ -50,9 +57,12 @@ public class SettingsFragment extends Fragment {
         switchNotification = v.findViewById(R.id.switchNotifications);
         switchSound = v.findViewById(R.id.switchSound);
         switchVibration = v.findViewById(R.id.switchVibration);
+        radioGroup = v.findViewById(R.id.radioGroup);
+        rbInternational = v.findViewById(R.id.RadioButtonInternational);
+        rbBangladeshi = v.findViewById(R.id.RadioButtonBangladesh);
     }
 
-    private void setSwitchesCheck(){
+    private void setSwitchAndButtonsCheck(){
         if (isNotificationOn) {
             switchNotification.setChecked(true);
         } else {
@@ -70,6 +80,12 @@ public class SettingsFragment extends Fragment {
         } else {
             switchVibration.setChecked(false);
         }
+
+        if (isInternational) {
+            rbInternational.setChecked(true);
+        } else {
+            rbBangladeshi.setChecked(true);
+        }
     }
 
     private void switchOnCheckChangeListeners() {
@@ -77,9 +93,9 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (switchNotification.isChecked()) {
-                    setSettings("Notification", true);
+                    Settings.setSettings(getContext(), "Notification", true);
                 } else {
-                    setSettings("Notification", false);
+                    Settings.setSettings(getContext(), "Notification", false);
                 }
             }
         });
@@ -88,9 +104,9 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (switchSound.isChecked()) {
-                    setSettings("Sound", true);
+                    Settings.setSettings(getContext(), "Sound", true);
                 } else {
-                    setSettings("Sound", false);
+                    Settings.setSettings(getContext(), "Sound", false);
                 }
             }
         });
@@ -99,22 +115,28 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (switchVibration.isChecked()) {
-                    setSettings("Vibration", true);
+                    Settings.setSettings(getContext(), "Vibration", true);
                 } else {
-                    setSettings("Vibration", false);
+                    Settings.setSettings(getContext(), "Vibration", false);
                 }
             }
         });
     }
 
-    private void setSettings(String key, boolean value) {
-        PreferenceManager.getDefaultSharedPreferences(getContext())
-                .edit()
-                .putBoolean(key, value)
-                .apply();
+    private void radioButtonsClicks(){
+        rbInternational.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Settings.setSettings(getContext(), "International Zone", true);
+            }
+        });
+
+        rbBangladeshi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Settings.setSettings(getContext(), "International Zone", false);
+            }
+        });
     }
 
-    private boolean getSettings(String key) {
-        return PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key, true);
-    }
 }

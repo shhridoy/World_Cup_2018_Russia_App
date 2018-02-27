@@ -14,7 +14,8 @@
         <RelativeLayout
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            tools:ignore="UselessParent">
 
             <TextView
                 android:id="@+id/RoundChooserTV"
@@ -22,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:padding="5dp"
-                android:text="Round 1"
+                android:text="@string/round_1"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/md_grey_900"
                 android:textStyle="normal"
