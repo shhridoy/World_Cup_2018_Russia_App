@@ -35,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -74,13 +75,12 @@ public class MatchesFragment extends Fragment {
         noData = dbHelper.retrieveMatchesData().getCount() == 0;
 
         roundItems = new String[]{"Round 1", "Round 2", "Round 3", "Round of 16", "Quarter-finals", "Semi-finals", "3rd Place Playoff", "Final"};
-        dateItems = new String[]{"14 Jun - 19 Jun", "19 Jun - 24 Jun", "25 Jun - 28 Jun", "30 Jun - 03 Jul", "06 Jul - 07 Jul", "10 Jul - 11 Jul", "14 Jul", "15 Jul"};
+        dateItems = new String[]{"14 Jun - 19 Jun", "20 Jun - 24 Jun", "25 Jun - 29 Jun", "30 Jun - 04 Jul", "06 Jul - 08 Jul", "11 Jul - 12 Jul", "14 Jul", "15 Jul"};
 
         spinnerAdapter = new SpinnerAdapter(roundItems, dateItems, getContext());
         chooserSpinner.setAdapter(spinnerAdapter);
-        chooserSpinner.setSelection(0);
 
-        ROUND = roundItems[0];
+        setRoundSpinnerSelection();
 
         chooserSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -113,7 +113,7 @@ public class MatchesFragment extends Fragment {
         String[] dates;
         Context context;
 
-        public SpinnerAdapter(String[] rounds, String[] dates, Context context) {
+        SpinnerAdapter(String[] rounds, String[] dates, Context context) {
             this.rounds = rounds;
             this.dates = dates;
             this.context = context;
@@ -254,6 +254,39 @@ public class MatchesFragment extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
+    }
+
+    private void setRoundSpinnerSelection() {
+        Calendar c = Calendar.getInstance();
+        int currYear = c.get(Calendar.YEAR); // like 2018
+        int currMonth = c.get(Calendar.MONTH)+1; // count month from 0 to 11 (1, 2, 3 and so on)
+        int currDay = c.get(Calendar.DATE); // like 1, 2, 3 and so on
+
+        if (currDay <= 19 && currMonth <= 6 && currYear == 2018) {
+            chooserSpinner.setSelection(0);
+            ROUND = roundItems[0];
+        } else if ((currDay >= 20 && currDay <= 24) && currMonth == 6 && currYear == 2018) {
+            chooserSpinner.setSelection(1);
+            ROUND = roundItems[1];
+        } else if ((currDay >= 25 && currDay <= 29) && currMonth == 6 && currYear == 2018) {
+            chooserSpinner.setSelection(2);
+            ROUND = roundItems[2];
+        } else if ((currDay >= 30 && currDay <= 4) && currMonth == 7 && currYear == 2018) {
+            chooserSpinner.setSelection(3);
+            ROUND = roundItems[3];
+        } else if ((currDay >= 5 && currDay <= 8) && currMonth == 7 && currYear == 2018) {
+            chooserSpinner.setSelection(4);
+            ROUND = roundItems[4];
+        } else if ((currDay >= 9 && currDay <= 12) && currMonth == 7 && currYear == 2018) {
+            chooserSpinner.setSelection(5);
+            ROUND = roundItems[5];
+        } else if ((currDay >= 13 && currDay <= 14) && currMonth == 7 && currYear == 2018) {
+            chooserSpinner.setSelection(6);
+            ROUND = roundItems[6];
+        } else {
+            chooserSpinner.setSelection(7);
+            ROUND = roundItems[7];
+        }
     }
 
     private boolean isInternetOn() {

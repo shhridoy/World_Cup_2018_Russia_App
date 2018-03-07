@@ -12,26 +12,33 @@
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_action_settings"
             android:title="@string/settings_nav" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Developer Options">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_about"
+                    android:icon="@drawable/ic_action_person"
+                    android:title="About" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="More">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_rate_app"
+                android:icon="@drawable/ic_action_star"
+                android:title="Rate App" />
+            <item
+                android:id="@+id/nav_more_apps"
+                android:icon="@drawable/ic_action_apps"
+                android:title="More Apps" />
         </menu>
     </item>
 

@@ -7,11 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.shhridoy.worldcup2018russia.myNavFragments.AboutFragment;
 import com.shhridoy.worldcup2018russia.myNavFragments.SettingsFragment;
 import com.shhridoy.worldcup2018russia.myNavFragments.HomeFragment;
 import com.shhridoy.worldcup2018russia.myUtilities.NotificationReceiver;
@@ -127,6 +128,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navigationView.setCheckedItem(R.id.nav_home);
                 }
 
+            } else  if (fragmentManager.findFragmentByTag("About") != null && fragmentManager.findFragmentByTag("About").isVisible()) {
+
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("About")).commit();
+
+                if (fragmentManager.findFragmentByTag("Home") != null) {
+                    fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Home")).commit();
+                    enableHamburgerAndDisableBackArrow(R.id.nav_home);
+                    navigationView.setCheckedItem(R.id.nav_home);
+                }
+
             } else {
                 super.onBackPressed();
             }
@@ -150,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (isInternetOn()) {
                 if (getSupportFragmentManager().findFragmentByTag("Home") != null
                         && getSupportFragmentManager().findFragmentByTag("Home").isVisible()) {
+
                     getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("Home")).commit();
                     getSupportFragmentManager().beginTransaction().add(R.id.content_frame, new HomeFragment(), "Home").commit();
                 }
@@ -181,12 +193,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentManager.beginTransaction().add(R.id.content_frame, new HomeFragment(), "Home").commit();
             }
 
-            if(fragmentManager.findFragmentByTag("Settings") != null){
+            if(fragmentManager.findFragmentByTag("Settings") != null && fragmentManager.findFragmentByTag("Settings").isVisible()){
                 //if the other fragment is visible, hide it.
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Settings")).commit();
             }
 
-            if (fragmentManager.findFragmentByTag("MatchDetails") != null) {
+            if (fragmentManager.findFragmentByTag("About") != null && fragmentManager.findFragmentByTag("About").isVisible()) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("About")).commit();
+            }
+
+            if (fragmentManager.findFragmentByTag("MatchDetails") != null && fragmentManager.findFragmentByTag("MatchDetails").isVisible()) {
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("MatchDetails")).commit();
             }
 
@@ -201,23 +217,70 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //if the fragment does not exist, add it to fragment manager.
                 fragmentManager.beginTransaction().add(R.id.content_frame, new SettingsFragment(), "Settings").commit();
             }
-            if(fragmentManager.findFragmentByTag("Home") != null){
+
+            if(fragmentManager.findFragmentByTag("Home") != null && fragmentManager.findFragmentByTag("Home").isVisible()){
                 //if the other fragment is visible, hide it.
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Home")).commit();
             }
-            if (fragmentManager.findFragmentByTag("MatchDetails") != null) {
+
+            if (fragmentManager.findFragmentByTag("MatchDetails") != null && fragmentManager.findFragmentByTag("MatchDetails").isVisible()) {
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("MatchDetails")).commit();
             }
+
+            if (fragmentManager.findFragmentByTag("About") != null && fragmentManager.findFragmentByTag("About").isVisible()) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("About")).commit();
+            }
+
             enableHamburgerAndDisableBackArrow(R.id.nav_settings);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_about) {
 
-        } else if (id == R.id.nav_manage) {
+            if(fragmentManager.findFragmentByTag("About") != null) {
+                //if the fragment exists, show it.
+                fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("About")).commit();
+            } else {
+                //if the fragment does not exist, add it to fragment manager.
+                fragmentManager.beginTransaction().add(R.id.content_frame, new AboutFragment(), "About").commit();
+            }
+
+            if(fragmentManager.findFragmentByTag("Home") != null && fragmentManager.findFragmentByTag("Home").isVisible()){
+                //if the other fragment is visible, hide it.
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Home")).commit();
+            }
+
+            if (fragmentManager.findFragmentByTag("MatchDetails") != null && fragmentManager.findFragmentByTag("MatchDetails").isVisible()) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("MatchDetails")).commit();
+            }
+
+            if (fragmentManager.findFragmentByTag("Settings") != null && fragmentManager.findFragmentByTag("Settings").isVisible()) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Settings")).commit();
+            }
+
+            enableHamburgerAndDisableBackArrow(R.id.nav_settings);
 
         } else if (id == R.id.nav_share) {
+            String playStoreLink = "https://play.google.com/store/apps/details?id=" + getPackageName();
+            String textShare = "App: " + getResources().getString(R.string.app_name) + "\nType: Sports\nDownload Link: " + playStoreLink;
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, textShare);
+            shareIntent.setType("text/plain");
+            this.startActivity(Intent.createChooser(shareIntent, "Share "+getResources().getString(R.string.app_name)));
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_rate_app) {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+            }
 
+        } else if (id == R.id.nav_more_apps) {
+            final String DEV_ID = "6869327098906954532";
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://dev?id="+DEV_ID)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/dev?id="+DEV_ID)));
+            }
         }
 
         //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -238,6 +301,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().setHomeButtonEnabled(true);
             if (id == R.id.nav_settings) {
                 getSupportActionBar().setTitle("Settings");
+            } else if (id == R.id.nav_about) {
+                getSupportActionBar().setTitle("About");
             } else {
                 getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
             }

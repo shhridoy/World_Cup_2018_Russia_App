@@ -37,6 +37,8 @@
     <string name="p">P.</string>
     <string name="egypt">Egypt</string>
     <string name="uruguay">Uruguay</string>
+    <string name="rate_apps">Rate App</string>
+    <string name="more">More</string>
 
 
 </resources>

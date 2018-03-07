@@ -304,12 +304,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         fragmentManager.beginTransaction().add(R.id.content_frame, fragment, "MatchDetails").commit();
                     }
 
-                    if (fragmentManager.findFragmentByTag("Settings") != null){
+                    if (fragmentManager.findFragmentByTag("Settings") != null && fragmentManager.findFragmentByTag("Settings").isVisible()){
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Settings")).commit();
                     }
 
-                    if (fragmentManager.findFragmentByTag("Home") != null) {
+                    if (fragmentManager.findFragmentByTag("Home") != null && fragmentManager.findFragmentByTag("Home").isVisible()) {
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Home")).commit();
+                    }
+
+                    if (fragmentManager.findFragmentByTag("About") != null && fragmentManager.findFragmentByTag("About").isVisible()) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("About")).commit();
                     }
 
                     break;
