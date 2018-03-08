@@ -46,6 +46,7 @@ public class MatchesFragment extends Fragment {
 
     Spinner chooserSpinner;
     RecyclerView recyclerView;
+    TextView tvTip;
     RecyclerView.Adapter adapter;
     List<MatchesListItems> matchesListItems;
     SpinnerAdapter spinnerAdapter;
@@ -65,6 +66,7 @@ public class MatchesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.matches_fragment, container, false);
 
         chooserSpinner = rootView.findViewById(R.id.RoundChooserSpiner);
+        tvTip = rootView.findViewById(R.id.TVTip);
         recyclerView = rootView.findViewById(R.id.RecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -99,8 +101,10 @@ public class MatchesFragment extends Fragment {
 
         if (isInternetOn()) {
             retrieveDataFromJson();
+            tvTip.setVisibility(View.INVISIBLE);
         } else {
-            Toast.makeText(getContext(), "Please Check Internet Connection!!", Toast.LENGTH_SHORT).show();
+            tvTip.setVisibility(View.VISIBLE);
+            //Toast.makeText(getContext(), "Please Check Internet Connection!!", Toast.LENGTH_SHORT).show();
         }
 
         return rootView;

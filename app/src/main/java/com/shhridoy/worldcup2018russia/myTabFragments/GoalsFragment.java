@@ -48,6 +48,8 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
     TextView tvNameTitle, tvGoalTitle;
     LinearLayout ll1, ll2;
 
+    TextView tvTip;
+
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     List<GoalsListItems> listItemsTeams, listItemsPlayers;
@@ -76,8 +78,10 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
 
         if (isInternetOn()) {
             retrieveDataFromJson();
+            tvTip.setVisibility(View.INVISIBLE);
         } else {
-            Toast.makeText(getContext(), "Please Check Internet Connection!!", Toast.LENGTH_SHORT).show();
+            tvTip.setVisibility(View.VISIBLE);
+            //Toast.makeText(getContext(), "Please Check Internet Connection!!", Toast.LENGTH_SHORT).show();
         }
 
         rb1.setOnClickListener(this);
@@ -132,6 +136,8 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
         ll2 = v.findViewById(R.id.LL2);
         tvNameTitle = v.findViewById(R.id.tv_name_title);
         tvGoalTitle = v.findViewById(R.id.tv_goals_title);
+
+        tvTip = v.findViewById(R.id.TVTip);
 
         recyclerView = v.findViewById(R.id.RecyclerView);
         recyclerView.setHasFixedSize(true);

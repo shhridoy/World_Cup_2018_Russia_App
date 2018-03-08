@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -40,6 +41,7 @@ import java.util.List;
 public class TablesFragment extends Fragment {
 
     RecyclerView recyclerView;
+    TextView tvTip;
     RecyclerView.Adapter adapter;
     List<TablesListItems> listItems;
 
@@ -55,6 +57,7 @@ public class TablesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tables_fragment, container, false);
 
+        tvTip = rootView.findViewById(R.id.TVTip);
         recyclerView = rootView.findViewById(R.id.RecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -68,8 +71,10 @@ public class TablesFragment extends Fragment {
 
         if (isInternetOn()) {
             retrieveDataFromJson();
+            tvTip.setVisibility(View.INVISIBLE);
         } else {
-            Toast.makeText(getContext(), "Please Check Internet Connection!!", Toast.LENGTH_SHORT).show();
+            tvTip.setVisibility(View.VISIBLE);
+            //Toast.makeText(getContext(), "Please Check Internet Connection!!", Toast.LENGTH_SHORT).show();
         }
 
         return rootView;
