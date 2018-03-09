@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.shhridoy.worldcup2018russia.myNavFragments.AboutFragment;
+import com.shhridoy.worldcup2018russia.myNavFragments.FeedbackFragment;
 import com.shhridoy.worldcup2018russia.myNavFragments.SettingsFragment;
 import com.shhridoy.worldcup2018russia.myNavFragments.HomeFragment;
 import com.shhridoy.worldcup2018russia.myUtilities.NotificationReceiver;
@@ -138,6 +139,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navigationView.setCheckedItem(R.id.nav_home);
                 }
 
+            } else if (fragmentManager.findFragmentByTag("Feedback") != null && fragmentManager.findFragmentByTag("Feedback").isVisible()) {
+
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Feedback")).commit();
+
+                if (fragmentManager.findFragmentByTag("Home") != null) {
+                    fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Home")).commit();
+                    enableHamburgerAndDisableBackArrow(R.id.nav_home);
+                    navigationView.setCheckedItem(R.id.nav_home);
+                }
+
             } else {
                 super.onBackPressed();
             }
@@ -206,6 +217,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("MatchDetails")).commit();
             }
 
+            if (fragmentManager.findFragmentByTag("Feedback") != null && fragmentManager.findFragmentByTag("Feedback").isVisible()) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Feedback")).commit();
+            }
+
             enableHamburgerAndDisableBackArrow(R.id.nav_home);
 
         } else if (id == R.id.nav_settings) {
@@ -229,6 +244,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if (fragmentManager.findFragmentByTag("About") != null && fragmentManager.findFragmentByTag("About").isVisible()) {
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("About")).commit();
+            }
+
+            if (fragmentManager.findFragmentByTag("Feedback") != null && fragmentManager.findFragmentByTag("Feedback").isVisible()) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Feedback")).commit();
             }
 
             enableHamburgerAndDisableBackArrow(R.id.nav_settings);
@@ -256,8 +275,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Settings")).commit();
             }
 
+            if (fragmentManager.findFragmentByTag("Feedback") != null && fragmentManager.findFragmentByTag("Feedback").isVisible()) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Feedback")).commit();
+            }
+
             enableHamburgerAndDisableBackArrow(R.id.nav_settings);
 
+        } else if (id == R.id.nav_feedback) {
+
+            if (fragmentManager.findFragmentByTag("Feedback") != null) {
+                //if the fragment exists, show it.
+                fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Feedback")).commit();
+            } else {
+                //if the fragment does not exist, add it to fragment manager.
+                fragmentManager.beginTransaction().add(R.id.content_frame, new FeedbackFragment(), "Feedback").commit();
+            }
+
+            if(fragmentManager.findFragmentByTag("Home") != null && fragmentManager.findFragmentByTag("Home").isVisible()){
+                //if the other fragment is visible, hide it.
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Home")).commit();
+            }
+
+            if (fragmentManager.findFragmentByTag("MatchDetails") != null && fragmentManager.findFragmentByTag("MatchDetails").isVisible()) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("MatchDetails")).commit();
+            }
+
+            if (fragmentManager.findFragmentByTag("Settings") != null && fragmentManager.findFragmentByTag("Settings").isVisible()) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Settings")).commit();
+            }
+
+            if (fragmentManager.findFragmentByTag("About") != null && fragmentManager.findFragmentByTag("About").isVisible()) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("About")).commit();
+            }
+
+            enableHamburgerAndDisableBackArrow(R.id.nav_settings);
         } else if (id == R.id.nav_share) {
             String playStoreLink = "https://play.google.com/store/apps/details?id=" + getPackageName();
             String textShare = "App: " + getResources().getString(R.string.app_name) + "\nType: Sports\nDownload Link: " + playStoreLink;
@@ -303,6 +354,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportActionBar().setTitle("Settings");
             } else if (id == R.id.nav_about) {
                 getSupportActionBar().setTitle("About");
+            } else if (id == R.id.nav_feedback) {
+                getSupportActionBar().setTitle("User Feedback");
             } else {
                 getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
             }

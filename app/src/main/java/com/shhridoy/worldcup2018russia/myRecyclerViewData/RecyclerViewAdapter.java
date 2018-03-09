@@ -316,6 +316,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("About")).commit();
                     }
 
+                    if (fragmentManager.findFragmentByTag("Feedback") != null && fragmentManager.findFragmentByTag("Feedback").isVisible()) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Feedback")).commit();
+                    }
+
                     break;
                 case "Tables":
                     String t = tvGroup.getText().toString();
