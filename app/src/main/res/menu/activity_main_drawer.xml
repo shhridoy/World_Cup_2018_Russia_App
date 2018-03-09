@@ -21,6 +21,10 @@
                     android:id="@+id/nav_about"
                     android:icon="@drawable/ic_action_person"
                     android:title="About" />
+                <item
+                    android:id="@+id/nav_feedback"
+                    android:icon="@drawable/ic_action_feedback"
+                    android:title="Feedback" />
             </group>
         </menu>
     </item>

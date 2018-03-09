@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/md_grey_300">
+
+    <RelativeLayout
+        android:id="@+id/RLDIalog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/TVTitleEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            android:text="Email: "
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/Card1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/TVTitleEmail"
+            android:layout_toEndOf="@id/TVTitleEmail"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="8dp">
+
+            <EditText
+                android:id="@+id/ETEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/TVTitleEmail"
+                android:inputType="textEmailAddress"
+                android:layout_gravity="start"
+                android:hint="Email address here"
+                android:padding="5dp"
+                android:textAlignment="textStart"
+                android:background="@android:color/transparent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="normal" />
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/TVTitleSubject"
+            android:layout_below="@id/Card1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            android:text="Subject: "
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/Card2"
+            android:layout_below="@id/Card1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/TVTitleSubject"
+            android:layout_toEndOf="@id/TVTitleSubject"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="8dp">
+
+            <EditText
+                android:id="@+id/ETSubject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/TVTitleEmail"
+                android:inputType="textEmailAddress"
+                android:layout_gravity="start"
+                android:hint="Enter subject here"
+                android:padding="5dp"
+                android:textAlignment="textStart"
+                android:background="@android:color/transparent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="normal" />
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/TVTitleMessage"
+            android:layout_below="@id/Card1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            android:text="Subject: "
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/Card3"
+            android:layout_below="@id/Card1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/TVTitleSubject"
+            android:layout_toEndOf="@id/TVTitleSubject"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="8dp">
+
+            <EditText
+                android:id="@+id/ETMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/TVTitleEmail"
+                android:inputType="textEmailAddress"
+                android:layout_gravity="start"
+                android:hint="Enter subject here"
+                android:padding="5dp"
+                android:textAlignment="textStart"
+                android:background="@android:color/transparent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="normal" />
+
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/LL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="5"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="8dp">
+
+                <Button
+                    android:id="@+id/BackButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:text="Cancel"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#000000"
+                    android:textStyle="normal" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="5"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="8dp">
+
+                <Button
+                    android:id="@+id/SendButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:text="Send All"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#000000"
+                    android:textStyle="normal" />
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/LL"
+            android:layout_below="@id/TVTitleEmail"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/CardViewSMSType"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="#ffffff"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="8dp">
+
+                <EditText
+                    android:id="@+id/ETDialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/LL"
+                    android:layout_below="@id/TVTitleEmail"
+                    android:layout_gravity="start"
+                    android:hint="Type here..."
+                    android:padding="5dp"
+                    android:textAlignment="textStart"
+                    android:background="@android:color/transparent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="normal" />
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>-->
+
+    </RelativeLayout>
+
+</RelativeLayout>
+
