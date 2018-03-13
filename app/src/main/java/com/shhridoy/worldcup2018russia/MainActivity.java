@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle toggle;
     NavigationView navigationView;
 
+    public static boolean isYourTeam = false;
+
     // PERMISSION CODE
     public static final int MULTIPLE_PERMISSIONS = 28;
 
@@ -120,6 +122,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navigationView.setCheckedItem(R.id.nav_home);
                 }
 
+                isYourTeam = false;
+
             } else if (fragmentManager.findFragmentByTag("Your Teams") != null && fragmentManager.findFragmentByTag("Your Teams").isVisible()) {
 
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Your Teams")).commit();
@@ -130,14 +134,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navigationView.setCheckedItem(R.id.nav_home);
                 }
 
+                isYourTeam = false;
+
             } else if (fragmentManager.findFragmentByTag("MatchDetails") != null && fragmentManager.findFragmentByTag("MatchDetails").isVisible()) {
 
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("MatchDetails")).commit();
 
-                if(fragmentManager.findFragmentByTag("Home") != null){
-                    fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Home")).commit();
-                    enableHamburgerAndDisableBackArrow(R.id.nav_home);
-                    navigationView.setCheckedItem(R.id.nav_home);
+                if (isYourTeam) {
+                    if (fragmentManager.findFragmentByTag("Your Teams") != null) {
+                        fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Your Teams")).commit();
+                        enableHamburgerAndDisableBackArrow(R.id.nav_your_teams);
+                        navigationView.setCheckedItem(R.id.nav_your_teams);
+                    }
+                } else {
+                    if(fragmentManager.findFragmentByTag("Home") != null){
+                        fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Home")).commit();
+                        enableHamburgerAndDisableBackArrow(R.id.nav_home);
+                        navigationView.setCheckedItem(R.id.nav_home);
+                    }
+
+                    isYourTeam = false;
                 }
 
             } else  if (fragmentManager.findFragmentByTag("About") != null && fragmentManager.findFragmentByTag("About").isVisible()) {
@@ -150,6 +166,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navigationView.setCheckedItem(R.id.nav_home);
                 }
 
+                isYourTeam = false;
+
             } else if (fragmentManager.findFragmentByTag("Feedback") != null && fragmentManager.findFragmentByTag("Feedback").isVisible()) {
 
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Feedback")).commit();
@@ -159,6 +177,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     enableHamburgerAndDisableBackArrow(R.id.nav_home);
                     navigationView.setCheckedItem(R.id.nav_home);
                 }
+
+                isYourTeam = false;
 
             } else {
                 super.onBackPressed();
@@ -208,9 +228,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
 
             if (fragmentManager.findFragmentByTag("Home") != null) {
+                isYourTeam = false;
                 //if the fragment exists, show it.
                 fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Home")).commit();
             } else {
+                isYourTeam = false;
                 //if the fragment does not exist, add it to fragment manager.
                 fragmentManager.beginTransaction().add(R.id.content_frame, new HomeFragment(), "Home").commit();
             }
@@ -241,9 +263,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_settings) {
 
             if(fragmentManager.findFragmentByTag("Settings") != null) {
+                isYourTeam = false;
                 //if the fragment exists, show it.
                 fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Settings")).commit();
             } else {
+                isYourTeam = false;
                 //if the fragment does not exist, add it to fragment manager.
                 fragmentManager.beginTransaction().add(R.id.content_frame, new SettingsFragment(), "Settings").commit();
             }
@@ -275,9 +299,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if(fragmentManager.findFragmentByTag("Your Teams") != null) {
                 //if the fragment exists, show it.
+                isYourTeam = true;
                 fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Your Teams")).commit();
             } else {
                 //if the fragment does not exist, add it to fragment manager.
+                isYourTeam = true;
                 fragmentManager.beginTransaction().add(R.id.content_frame, new YourTeamsFragment(), "Your Teams").commit();
             }
 
@@ -308,9 +334,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_about) {
 
             if(fragmentManager.findFragmentByTag("About") != null) {
+                isYourTeam = false;
                 //if the fragment exists, show it.
                 fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("About")).commit();
             } else {
+                isYourTeam = false;
                 //if the fragment does not exist, add it to fragment manager.
                 fragmentManager.beginTransaction().add(R.id.content_frame, new AboutFragment(), "About").commit();
             }
@@ -341,9 +369,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_feedback) {
 
             if (fragmentManager.findFragmentByTag("Feedback") != null) {
+                isYourTeam = false;
                 //if the fragment exists, show it.
                 fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Feedback")).commit();
             } else {
+                isYourTeam = false;
                 //if the fragment does not exist, add it to fragment manager.
                 fragmentManager.beginTransaction().add(R.id.content_frame, new FeedbackFragment(), "Feedback").commit();
             }
@@ -418,6 +448,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportActionBar().setTitle("About");
             } else if (id == R.id.nav_feedback) {
                 getSupportActionBar().setTitle("User Feedback");
+            } else if (id == R.id.nav_your_teams) {
+                getSupportActionBar().setTitle("My Teams");
             } else {
                 getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
             }

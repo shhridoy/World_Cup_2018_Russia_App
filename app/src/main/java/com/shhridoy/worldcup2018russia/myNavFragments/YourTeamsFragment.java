@@ -1,20 +1,29 @@
 package com.shhridoy.worldcup2018russia.myNavFragments;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
+import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
+import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dream Land on 3/10/2018.
@@ -39,21 +48,6 @@ public class YourTeamsFragment extends Fragment {
             retrieveData(s);
         }
 
-        /*for (int i=0; i<arr1.length; i++){
-            TextView textView = new TextView(getContext());
-            textView.setText(arr1[i]);
-            textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            textView.setGravity(Gravity.CENTER);
-            ll.addView(textView);
-            for (int j=i; j<arr2.length; j=j+2) {
-                TextView tv = new TextView(getContext());
-                tv.setText(arr2[j]);
-                tv.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                tv.setGravity(Gravity.CENTER);
-                ll.addView(tv);
-            }
-        }*/
-
         return rootView;
     }
 
@@ -63,13 +57,10 @@ public class YourTeamsFragment extends Fragment {
         textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(17);
+        textView.setTextColor(Color.WHITE);
         textView.setTypeface(null, Typeface.BOLD);
         textView.setPadding(5, 5, 5, 5);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            textView.setBackground(getContext().getResources().getDrawable(R.drawable.shape1));
-        } else {
-            textView.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimary));
-        }
+        textView.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimary));
         ll.addView(textView);
         try {
             DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
@@ -83,12 +74,22 @@ public class YourTeamsFragment extends Fragment {
                     String round = cursor.getString(2);
                     String score = cursor.getString(5);
                     String details = cursor.getString(6);
-                    TextView tv = new TextView(getContext());
+                    /*TextView tv = new TextView(getContext());
                     tv.setText(round+"\n"+date);
                     tv.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     tv.setGravity(Gravity.CENTER);
                     tv.setPadding(5, 5, 5, 5);
-                    ll.addView(tv);
+                    ll.addView(tv);*/
+                    RecyclerView recyclerView = new RecyclerView(getContext());
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    MatchesListItems list = new MatchesListItems(id, date, round, team1, team2, score, details);
+                    List<MatchesListItems> matchesListItems = new ArrayList<>();
+                    matchesListItems.add(list);
+                    RecyclerViewAdapter adapter = new RecyclerViewAdapter(matchesListItems, getContext(), "Matches");
+                    recyclerView.setAdapter(adapter);
+                    ll.addView(recyclerView);
                 }
             }
         } catch (Exception e) {
