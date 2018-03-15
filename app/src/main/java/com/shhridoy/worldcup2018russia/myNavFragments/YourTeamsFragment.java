@@ -3,7 +3,6 @@ package com.shhridoy.worldcup2018russia.myNavFragments;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,13 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
+import com.shhridoy.worldcup2018russia.myUtilities.SharedPreference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,8 @@ import java.util.List;
 public class YourTeamsFragment extends Fragment {
 
     LinearLayout ll;
+    SharedPreference sp;
+    ArrayList arrayList;
 
     @Nullable
     @Override
@@ -44,9 +45,16 @@ public class YourTeamsFragment extends Fragment {
         String[] arr1 = {"Brazil", "Argentina", "Germany"};
         String[] arr2 = {"1","2","3","4","5", "6", "7", "8", "9"};
 
-        for (String s : arr1) {
-            retrieveData(s);
+        sp = new SharedPreference();
+        arrayList = sp.loadFavorites(getContext());
+
+        for (int i=0; i<arrayList.size(); i++) {
+            retrieveData(arrayList.get(i).toString());
         }
+
+        /*for (String s : arr1) {
+            retrieveData(s);
+        }*/
 
         return rootView;
     }
