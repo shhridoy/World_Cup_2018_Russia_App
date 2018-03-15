@@ -297,10 +297,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_your_teams) {
 
-            if(fragmentManager.findFragmentByTag("Your Teams") != null) {
-                //if the fragment exists, show it.
+            if (fragmentManager.findFragmentByTag("Your Teams") != null) {
+                //whether fragment exists, or not add it.
                 isYourTeam = true;
-                fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Your Teams")).commit();
+                fragmentManager.beginTransaction().remove(fragmentManager.findFragmentByTag("Your Teams")).commit();
+                fragmentManager.beginTransaction().add(R.id.content_frame, new YourTeamsFragment(), "Your Teams").commit();
+                //fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Your Teams")).commit();
             } else {
                 //if the fragment does not exist, add it to fragment manager.
                 isYourTeam = true;

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
@@ -22,6 +23,7 @@ import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
 import com.shhridoy.worldcup2018russia.myUtilities.SharedPreference;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,19 +44,14 @@ public class YourTeamsFragment extends Fragment {
 
         ll = rootView.findViewById(R.id.LLYourTeams);
 
-        String[] arr1 = {"Brazil", "Argentina", "Germany"};
-        String[] arr2 = {"1","2","3","4","5", "6", "7", "8", "9"};
-
         sp = new SharedPreference();
-        arrayList = sp.loadFavorites(getContext());
+        arrayList = sp.loadMyTeams(getContext());
+
+        Collections.sort(arrayList);
 
         for (int i=0; i<arrayList.size(); i++) {
             retrieveData(arrayList.get(i).toString());
         }
-
-        /*for (String s : arr1) {
-            retrieveData(s);
-        }*/
 
         return rootView;
     }
@@ -82,12 +79,6 @@ public class YourTeamsFragment extends Fragment {
                     String round = cursor.getString(2);
                     String score = cursor.getString(5);
                     String details = cursor.getString(6);
-                    /*TextView tv = new TextView(getContext());
-                    tv.setText(round+"\n"+date);
-                    tv.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    tv.setGravity(Gravity.CENTER);
-                    tv.setPadding(5, 5, 5, 5);
-                    ll.addView(tv);*/
                     RecyclerView recyclerView = new RecyclerView(getContext());
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
