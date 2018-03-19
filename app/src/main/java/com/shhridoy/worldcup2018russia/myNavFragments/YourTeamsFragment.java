@@ -20,6 +20,7 @@ import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
+import com.shhridoy.worldcup2018russia.myRecyclerViewData.TablesListItems;
 import com.shhridoy.worldcup2018russia.myUtilities.SharedPreference;
 
 import java.util.ArrayList;
@@ -44,16 +45,32 @@ public class YourTeamsFragment extends Fragment {
 
         ll = rootView.findViewById(R.id.LLYourTeams);
 
-        sp = new SharedPreference();
-        arrayList = sp.loadMyTeams(getContext());
+        //sp = new SharedPreference();
+        //arrayList = sp.loadMyTeams(getContext());
 
-        Collections.sort(arrayList);
+        //Collections.sort(arrayList);
 
-        for (int i=0; i<arrayList.size(); i++) {
+        /*for (int i=0; i<arrayList.size(); i++) {
             retrieveData(arrayList.get(i).toString());
         }
 
+*/
+        retrivalFunc();
+
         return rootView;
+    }
+
+    private void retrivalFunc() {
+        DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
+        Cursor c = databaseHelper.getMyTeams();
+
+        if (c.getCount() == 0) {
+            Toast.makeText(getContext(), "No teams was selected. Select your teams from settings. :)", Toast.LENGTH_LONG).show();
+        } else {
+            while (c.moveToNext()) {
+                retrieveData(c.getString(0));
+            }
+        }
     }
 
     private void retrieveData(String name) {

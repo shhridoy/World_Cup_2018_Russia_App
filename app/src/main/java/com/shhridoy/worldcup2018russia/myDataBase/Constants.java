@@ -70,4 +70,13 @@ public class Constants {
 
     public static final String DROP_GOAL_TABLE = "DROP TABLE IF EXISTS " + GOAL_TABLE;
 
+    // MY TEAMS TABLE CONSTANTS
+    public static final String MY_TEAMS_TABLE = "my_teams";
+    public static final String MY_TEAM_NAME = "my_team_name";
+
+    public static final String CREATE_MY_TEAMS_TABLE = "CREATE TABLE " + MY_TEAMS_TABLE +
+            "( " + MY_TEAM_NAME + " TEXT PRIMARY KEY);";
+
+    public static final String DROP_MY_TEAMS_TABLE = "DROP TABLE IF EXISTS " + MY_TEAMS_TABLE;
+
 }

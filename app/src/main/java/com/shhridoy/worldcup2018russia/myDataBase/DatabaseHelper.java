@@ -39,7 +39,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
             Log.i("GOAL TABLE ERROR", e.getMessage());
         }
-
+        try {
+            sqLiteDatabase.execSQL(Constants.CREATE_MY_TEAMS_TABLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("MY TEAMS TABLE ERROR", e.getMessage());
+        }
     }
 
     @Override
@@ -47,6 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(Constants.DROP_MATCHES_TABLE);
         sqLiteDatabase.execSQL(Constants.DROP_POINTS_TABLE);
         sqLiteDatabase.execSQL(Constants.DROP_GOAL_TABLE);
+        sqLiteDatabase.execSQL(Constants.DROP_MY_TEAMS_TABLE);
         onCreate(sqLiteDatabase);
     }
 
@@ -201,6 +207,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor retrieveGoalsData() {
         return this.getReadableDatabase()
                 .rawQuery("SELECT * FROM "+Constants.GOAL_TABLE+" ORDER BY "+Constants.GOALS+" DESC", null);
+    }
+
+    // INSERT OR ADD VALUES IN MY TEAMS TABLE
+    public boolean insertMyTeamsData(String teamName) {
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(Constants.MY_TEAM_NAME, teamName);
+            long result = this.getWritableDatabase().insert(Constants.MY_TEAMS_TABLE, Constants.MY_TEAM_NAME, cv);
+            this.getWritableDatabase().close();
+            if (result > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // DELETE / REMOVE FROM MY TEAMS TABLE
+    public boolean removeFromMyTeams(String name) {
+        try {
+
+            int result = this.getWritableDatabase().delete(Constants.MY_TEAMS_TABLE, Constants.MY_TEAM_NAME +" = '"+name+"'", null);
+            if (result > 0){
+                return true;
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // RETRIEVE ALL DATA FROM GOALS TABLE ORDER BY NUMBER OF GOALS IN DESCENDING MODE
+    public Cursor getMyTeams() {
+        return this.getReadableDatabase()
+                .rawQuery("SELECT * FROM "+Constants.MY_TEAMS_TABLE+" ORDER BY "+Constants.MY_TEAM_NAME+" ASC", null);
     }
 
 }
