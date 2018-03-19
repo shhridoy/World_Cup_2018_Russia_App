@@ -20,4 +20,13 @@
 
     </ScrollView>
 
+    <TextView
+        android:id="@+id/TVYourTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/team_select_notice"
+        android:layout_centerInParent="true"
+        android:gravity="center"/>
+
 </RelativeLayout>

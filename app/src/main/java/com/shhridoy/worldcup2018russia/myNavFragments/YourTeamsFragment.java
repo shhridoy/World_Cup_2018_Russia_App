@@ -31,6 +31,7 @@ import java.util.List;
 public class YourTeamsFragment extends Fragment {
 
     LinearLayout ll;
+    TextView tv;
 
     @Nullable
     @Override
@@ -39,6 +40,7 @@ public class YourTeamsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.your_teams_fragment, container, false);
 
         ll = rootView.findViewById(R.id.LLYourTeams);
+        tv = rootView.findViewById(R.id.TVYourTeam);
 
         retrivalFunc();
 
@@ -50,8 +52,11 @@ public class YourTeamsFragment extends Fragment {
         Cursor c = databaseHelper.getMyTeams();
 
         if (c.getCount() == 0) {
-            Toast.makeText(getContext(), "No teams was selected. Select your teams from settings. :)", Toast.LENGTH_LONG).show();
+            tv.setVisibility(View.VISIBLE);
+            ll.setVisibility(View.INVISIBLE);
         } else {
+            tv.setVisibility(View.INVISIBLE);
+            ll.setVisibility(View.VISIBLE);
             while (c.moveToNext()) {
                 retrieveData(c.getString(0));
             }

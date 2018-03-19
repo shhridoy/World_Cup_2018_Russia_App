@@ -41,7 +41,7 @@ import java.util.List;
 public class TablesFragment extends Fragment {
 
     RecyclerView recyclerView;
-    TextView tvTip;
+    TextView tvTip, tvNotice;
     RecyclerView.Adapter adapter;
     List<TablesListItems> listItems;
 
@@ -58,6 +58,7 @@ public class TablesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.tables_fragment, container, false);
 
         tvTip = rootView.findViewById(R.id.TVTip);
+        tvNotice = rootView.findViewById(R.id.TVNotice);
         recyclerView = rootView.findViewById(R.id.RecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -85,7 +86,10 @@ public class TablesFragment extends Fragment {
         listItems.clear();
         noData = cursor.getCount() == 0;
 
-        if (!noData) {
+        if (noData) {
+            tvNotice.setVisibility(View.VISIBLE);
+        } else {
+            tvNotice.setVisibility(View.INVISIBLE);
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
                 String groupNo = cursor.getString(1);

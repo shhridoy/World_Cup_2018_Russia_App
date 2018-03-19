@@ -40,16 +40,18 @@
     <string name="rate_apps">Rate App</string>
     <string name="more">More</string>
 
-    <string name="about_app">The content of this app is being retrieved data from the server and added to the local database. So you can browse the application even there are no internet connections. To sync the latest update of the app data you need your internet connections on. This app will notify you twice a day for the matches of the current day.  If anything seems wrong with this app please let me know. I would be very thankful for that. \nIf you like the app, do not forget to rate it, and give your valuable review.</string>
+    <string name="about_app">The content of this app is retrieving data from the server and added to the local database. So you can browse the application even there are no internet connections. To sync the latest update of the app data you need your internet connections on. This app will notify you twice a day for the matches of the current day.  If anything seems wrong with this app please let me know. I would be very thankful for that. \nIf you like the app, do not forget to rate it, and give your valuable review.</string>
 
-    <string name="user_guide">The first time you need to open your internet connection to sync data. Then you can see all the data in offline mode. You can also control the notification, notification sound and vibration as well from the settings. The user can choose the time zone from time zones in the settings where two time zones available. In order to get updated data, you need to keep your data connection on.</string>
+    <string name="user_guide">The first time you need to open your internet connection to sync data. Then you can see all the data in offline mode. You can also control the notification, notification sound and vibration as well from the settings. The user can choose the time zone from time zones in the settings where two time zones are available. In order to get updated data, you need to keep your data connection on. Users can select their favorite teams from the Team Selection in Settings and the match schedule of these teams will appear in your teams fragment.</string>
 
     <string name="developer">Md. Saiful Haque Hridoy\nNoakhali Science and Technology University
-        \n<b>Email</b>\n<a href="mailto:md.saifulhq@gmail.com">md.saifulhq@gmail.com\n\n\n</a></string>
+        \n<b>Email</b>\n<a href="mailto:md.saifulhq@gmail.com">md.saifulhq@gmail.com\n</a></string>
 
     <!-- ad-mob id's -->
     <string name="admob_app_id">ca-app-pub-1019292850972147~6122674318</string>
     <string name="footer_ad_unit">ca-app-pub-1019292850972147/9758666993</string>
     <string name="interestial_fullscreen_ad">ca-app-pub-1019292850972147/1425306432</string>
+
+    <string name="team_select_notice">No teams is selected!!\n\nYou need to go to the Settings and select your teams to appear here.</string>
 
 </resources>

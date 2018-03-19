@@ -48,7 +48,7 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
     TextView tvNameTitle, tvGoalTitle;
     LinearLayout ll1, ll2;
 
-    TextView tvTip;
+    TextView tvTip, tvNotice;
 
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -138,6 +138,7 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
         tvGoalTitle = v.findViewById(R.id.tv_goals_title);
 
         tvTip = v.findViewById(R.id.TVTip);
+        tvNotice = v.findViewById(R.id.TVNotice);
 
         recyclerView = v.findViewById(R.id.RecyclerView);
         recyclerView.setHasFixedSize(true);
@@ -150,7 +151,10 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
         listItemsPlayers.clear();
         noData = cursor.getCount() == 0;
 
-        if (!noData) {
+        if (noData) {
+            tvNotice.setVisibility(View.VISIBLE);
+        } else {
+            tvNotice.setVisibility(View.INVISIBLE);
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);

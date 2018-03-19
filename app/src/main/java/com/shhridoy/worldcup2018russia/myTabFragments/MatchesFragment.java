@@ -47,6 +47,7 @@ public class MatchesFragment extends Fragment {
     Spinner chooserSpinner;
     RecyclerView recyclerView;
     TextView tvTip;
+    TextView tvNotice;
     RecyclerView.Adapter adapter;
     List<MatchesListItems> matchesListItems;
     SpinnerAdapter spinnerAdapter;
@@ -67,6 +68,7 @@ public class MatchesFragment extends Fragment {
 
         chooserSpinner = rootView.findViewById(R.id.RoundChooserSpiner);
         tvTip = rootView.findViewById(R.id.TVTip);
+        tvNotice = rootView.findViewById(R.id.TVNotice);
         recyclerView = rootView.findViewById(R.id.RecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -161,7 +163,10 @@ public class MatchesFragment extends Fragment {
         matchesListItems.clear();
         noData = cursor.getCount() == 0;
 
-        if (!noData) {
+        if (noData) {
+            tvNotice.setVisibility(View.VISIBLE);
+        } else {
+            tvNotice.setVisibility(View.INVISIBLE);
             while (cursor.moveToNext()) {
                 String round1 = cursor.getString(2);
                 if (ROUND.equals(round1)) {
@@ -266,7 +271,7 @@ public class MatchesFragment extends Fragment {
         int currMonth = c.get(Calendar.MONTH)+1; // count month from 0 to 11 (1, 2, 3 and so on)
         int currDay = c.get(Calendar.DATE); // like 1, 2, 3 and so on
 
-        if (currDay <= 19 && currMonth <= 6 && currYear == 2018) {
+        if (currDay <= 19 && currMonth == 6 && currYear == 2018) {
             chooserSpinner.setSelection(0);
             ROUND = roundItems[0];
         } else if ((currDay >= 20 && currDay <= 24) && currMonth == 6 && currYear == 2018) {
@@ -287,6 +292,9 @@ public class MatchesFragment extends Fragment {
         } else if ((currDay >= 13 && currDay <= 14) && currMonth == 7 && currYear == 2018) {
             chooserSpinner.setSelection(6);
             ROUND = roundItems[6];
+        } else if (currMonth < 6 && currYear == 2018) {
+            chooserSpinner.setSelection(0);
+            ROUND = roundItems[0];
         } else {
             chooserSpinner.setSelection(7);
             ROUND = roundItems[7];

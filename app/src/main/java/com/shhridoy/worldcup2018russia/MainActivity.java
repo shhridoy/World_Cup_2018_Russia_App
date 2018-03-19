@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // PERMISSION CODE
     public static final int MULTIPLE_PERMISSIONS = 28;
 
+    // GOOGLE DEVELOPER PAGE ID
+    final String DEV_ID = "6869327098906954532";
+
     // PERMISSION LIST
     String[] permissionsList = new String[] {
             Manifest.permission.INTERNET,
@@ -456,7 +459,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
         } else if (id == R.id.nav_more_apps) {
-            final String DEV_ID = "6869327098906954532";
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://dev?id="+DEV_ID)));
             } catch (android.content.ActivityNotFoundException anfe) {
@@ -464,7 +466,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
