@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
 import com.shhridoy.worldcup2018russia.myUtilities.Settings;
-import com.shhridoy.worldcup2018russia.myUtilities.SharedPreference;
 
 import java.util.ArrayList;
 
@@ -37,8 +36,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     RelativeLayout rlTeamSelection;
 
     DatabaseHelper databaseHelper;
-
-    SharedPreference sp;
 
     // Views of Team Selection Dialog
     RelativeLayout rl1, rl2, rl3, rl4, rl5, rl6, rl7, rl8, rl9, rl10, rl11, rl12, rl13, rl14, rl15, rl16;
@@ -66,8 +63,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         isInternational = Settings.getSettings(getContext(), "International Zone");
 
         setSwitchAndButtonsCheck();
-
-        sp = new SharedPreference();
 
         switchNotification.setOnCheckedChangeListener(this);
         switchSound.setOnCheckedChangeListener(this);
@@ -138,11 +133,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             case R.id.DialogRL1:
                 if (checkBox1.isChecked()) {
                     checkBox1.setChecked(false);
-                    //sp.removeMyTeams(getContext(), tvTeam1.getText().toString());
                     removeMyTeams(tvTeam1.getText().toString());
                 } else {
                     checkBox1.setChecked(true);
-                    //sp.addMyTeams(getContext(), tvTeam1.getText().toString());
                     addMyTeams(tvTeam1.getText().toString());
                 }
                 break;
@@ -150,11 +143,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             case R.id.DialogRL2:
                 if (checkBox2.isChecked()) {
                     checkBox2.setChecked(false);
-                    //sp.removeMyTeams(getContext(), tvTeam2.getText().toString());
                     removeMyTeams(tvTeam2.getText().toString());
                 } else {
                     checkBox2.setChecked(true);
-                    //sp.addMyTeams(getContext(), tvTeam2.getText().toString());
                     addMyTeams(tvTeam2.getText().toString());
                 }
                 break;
@@ -162,11 +153,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             case R.id.DialogRL3:
                 if (checkBox3.isChecked()) {
                     checkBox3.setChecked(false);
-                    //sp.removeMyTeams(getContext(), tvTeam3.getText().toString());
                     removeMyTeams(tvTeam3.getText().toString());
                 } else {
                     checkBox3.setChecked(true);
-                    //sp.addMyTeams(getContext(), tvTeam3.getText().toString());
                     addMyTeams(tvTeam3.getText().toString());
                 }
                 break;
@@ -174,11 +163,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             case R.id.DialogRL4:
                 if (checkBox4.isChecked()) {
                     checkBox4.setChecked(false);
-                    //sp.removeMyTeams(getContext(), tvTeam4.getText().toString());
                     removeMyTeams(tvTeam4.getText().toString());
                 } else {
                     checkBox4.setChecked(true);
-                    //sp.addMyTeams(getContext(), tvTeam4.getText().toString());
                     addMyTeams(tvTeam4.getText().toString());
                 }
                 break;
@@ -186,11 +173,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             case R.id.DialogRL5:
                 if (checkBox5.isChecked()) {
                     checkBox5.setChecked(false);
-                    //sp.removeMyTeams(getContext(), tvTeam5.getText().toString());
                     removeMyTeams(tvTeam5.getText().toString());
                 } else {
                     checkBox5.setChecked(true);
-                    //sp.addMyTeams(getContext(), tvTeam5.getText().toString());
                     addMyTeams(tvTeam5.getText().toString());
                 }
                 break;
@@ -198,11 +183,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             case R.id.DialogRL6:
                 if (checkBox6.isChecked()) {
                     checkBox6.setChecked(false);
-                    //sp.removeMyTeams(getContext(), tvTeam6.getText().toString());
                     removeMyTeams(tvTeam6.getText().toString());
                 } else {
                     checkBox6.setChecked(true);
-                    //sp.addMyTeams(getContext(), tvTeam6.getText().toString());
                     addMyTeams(tvTeam6.getText().toString());
                 }
                 break;
@@ -210,11 +193,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             case R.id.DialogRL7:
                 if (checkBox7.isChecked()) {
                     checkBox7.setChecked(false);
-                    //sp.removeMyTeams(getContext(), tvTeam7.getText().toString());
                     removeMyTeams(tvTeam7.getText().toString());
                 } else {
                     checkBox7.setChecked(true);
-                    //sp.addMyTeams(getContext(), tvTeam7.getText().toString());
                     addMyTeams(tvTeam7.getText().toString());
                 }
                 break;
@@ -222,250 +203,250 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             case R.id.DialogRL8:
                 if (checkBox8.isChecked()) {
                     checkBox8.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam8.getText().toString());
+                    removeMyTeams(tvTeam8.getText().toString());
                 } else {
                     checkBox8.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam8.getText().toString());
+                    addMyTeams(tvTeam8.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL9:
                 if (checkBox9.isChecked()) {
                     checkBox9.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam9.getText().toString());
+                    removeMyTeams(tvTeam9.getText().toString());
                 } else {
                     checkBox9.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam9.getText().toString());
+                    addMyTeams(tvTeam9.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL10:
                 if (checkBox10.isChecked()) {
                     checkBox10.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam10.getText().toString());
+                    removeMyTeams(tvTeam10.getText().toString());
                 } else {
                     checkBox10.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam10.getText().toString());
+                    addMyTeams(tvTeam10.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL11:
                 if (checkBox11.isChecked()) {
                     checkBox11.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam11.getText().toString());
+                    removeMyTeams(tvTeam11.getText().toString());
                 } else {
                     checkBox11.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam11.getText().toString());
+                    addMyTeams(tvTeam11.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL12:
                 if (checkBox12.isChecked()) {
                     checkBox12.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam12.getText().toString());
+                    removeMyTeams(tvTeam12.getText().toString());
                 } else {
                     checkBox12.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam12.getText().toString());
+                    addMyTeams(tvTeam12.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL13:
                 if (checkBox13.isChecked()) {
                     checkBox13.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam13.getText().toString());
+                    removeMyTeams(tvTeam13.getText().toString());
                 } else {
                     checkBox13.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam13.getText().toString());
+                    addMyTeams(tvTeam13.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL14:
                 if (checkBox14.isChecked()) {
                     checkBox14.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam14.getText().toString());
+                    removeMyTeams(tvTeam14.getText().toString());
                 } else {
                     checkBox14.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam14.getText().toString());
+                    addMyTeams(tvTeam14.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL15:
                 if (checkBox15.isChecked()) {
                     checkBox15.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam15.getText().toString());
+                    removeMyTeams(tvTeam15.getText().toString());
                 } else {
                     checkBox15.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam15.getText().toString());
+                    addMyTeams(tvTeam15.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL16:
                 if (checkBox16.isChecked()) {
                     checkBox16.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam16.getText().toString());
+                    removeMyTeams(tvTeam16.getText().toString());
                 } else {
                     checkBox16.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam16.getText().toString());
+                    addMyTeams(tvTeam16.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL17:
                 if (checkBox17.isChecked()) {
                     checkBox17.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam17.getText().toString());
+                    removeMyTeams(tvTeam17.getText().toString());
                 } else {
                     checkBox17.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam17.getText().toString());
+                    addMyTeams(tvTeam17.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL18:
                 if (checkBox18.isChecked()) {
                     checkBox18.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam18.getText().toString());
+                    removeMyTeams(tvTeam18.getText().toString());
                 } else {
                     checkBox18.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam18.getText().toString());
+                    addMyTeams(tvTeam18.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL19:
                 if (checkBox19.isChecked()) {
                     checkBox19.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam19.getText().toString());
+                    removeMyTeams(tvTeam19.getText().toString());
                 } else {
                     checkBox19.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam19.getText().toString());
+                    addMyTeams(tvTeam19.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL20:
                 if (checkBox20.isChecked()) {
                     checkBox20.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam20.getText().toString());
+                    removeMyTeams(tvTeam20.getText().toString());
                 } else {
                     checkBox20.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam20.getText().toString());
+                    addMyTeams(tvTeam20.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL21:
                 if (checkBox21.isChecked()) {
                     checkBox21.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam21.getText().toString());
+                    removeMyTeams(tvTeam21.getText().toString());
                 } else {
                     checkBox21.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam21.getText().toString());
+                    addMyTeams(tvTeam21.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL22:
                 if (checkBox22.isChecked()) {
                     checkBox22.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam22.getText().toString());
+                    removeMyTeams(tvTeam22.getText().toString());
                 } else {
                     checkBox22.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam22.getText().toString());
+                    addMyTeams(tvTeam22.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL23:
                 if (checkBox23.isChecked()) {
                     checkBox23.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam23.getText().toString());
+                    removeMyTeams(tvTeam23.getText().toString());
                 } else {
                     checkBox23.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam23.getText().toString());
+                    addMyTeams(tvTeam23.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL24:
                 if (checkBox24.isChecked()) {
                     checkBox24.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam24.getText().toString());
+                    removeMyTeams(tvTeam24.getText().toString());
                 } else {
                     checkBox24.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam24.getText().toString());
+                    addMyTeams(tvTeam24.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL25:
                 if (checkBox25.isChecked()) {
                     checkBox25.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam25.getText().toString());
+                    removeMyTeams(tvTeam25.getText().toString());
                 } else {
                     checkBox25.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam25.getText().toString());
+                    addMyTeams(tvTeam25.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL26:
                 if (checkBox26.isChecked()) {
                     checkBox26.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam26.getText().toString());
+                    removeMyTeams(tvTeam26.getText().toString());
                 } else {
                     checkBox26.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam26.getText().toString());
+                    addMyTeams(tvTeam26.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL27:
                 if (checkBox27.isChecked()) {
                     checkBox27.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam27.getText().toString());
+                    removeMyTeams(tvTeam27.getText().toString());
                 } else {
                     checkBox27.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam27.getText().toString());
+                    addMyTeams(tvTeam27.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL28:
                 if (checkBox28.isChecked()) {
                     checkBox28.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam28.getText().toString());
+                    removeMyTeams(tvTeam28.getText().toString());
                 } else {
                     checkBox28.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam28.getText().toString());
+                    addMyTeams(tvTeam28.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL29:
                 if (checkBox29.isChecked()) {
                     checkBox29.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam29.getText().toString());
+                    removeMyTeams(tvTeam29.getText().toString());
                 } else {
                     checkBox29.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam29.getText().toString());
+                    addMyTeams(tvTeam29.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL30:
                 if (checkBox30.isChecked()) {
                     checkBox30.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam30.getText().toString());
+                    removeMyTeams(tvTeam30.getText().toString());
                 } else {
                     checkBox30.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam30.getText().toString());
+                    addMyTeams(tvTeam30.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL31:
                 if (checkBox31.isChecked()) {
                     checkBox31.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam31.getText().toString());
+                    removeMyTeams(tvTeam31.getText().toString());
                 } else {
                     checkBox31.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam31.getText().toString());
+                    addMyTeams(tvTeam31.getText().toString());
                 }
                 break;
 
             case R.id.DialogRL32:
                 if (checkBox32.isChecked()) {
                     checkBox32.setChecked(false);
-                    sp.removeMyTeams(getContext(), tvTeam32.getText().toString());
+                    removeMyTeams(tvTeam32.getText().toString());
                 } else {
                     checkBox32.setChecked(true);
-                    sp.addMyTeams(getContext(), tvTeam32.getText().toString());
+                    addMyTeams(tvTeam32.getText().toString());
                 }
                 break;
 
@@ -680,21 +661,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         textViews.add(tvTeam31);
         textViews.add(tvTeam32);
 
-        /*ArrayList list = sp.loadMyTeams(getContext());
-
-        ArrayList<String> arrayList = list;
-
-        for (int j=0; j<textViews.size(); j++) {
-            if (arrayList.contains(textViews.get(j).getText().toString())) {
-                checkBoxes.get(j).setChecked(true);
-            }
-        }*/
-
         try {
             databaseHelper = new DatabaseHelper(getContext());
-
             Cursor c = databaseHelper.getMyTeams();
-
             if (c.getCount() != 0) {
                 while (c.moveToNext()) {
                     String name = c.getString(0);

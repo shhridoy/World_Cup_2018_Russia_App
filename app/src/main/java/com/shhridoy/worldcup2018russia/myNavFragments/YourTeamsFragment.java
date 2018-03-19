@@ -20,11 +20,8 @@ import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
-import com.shhridoy.worldcup2018russia.myRecyclerViewData.TablesListItems;
-import com.shhridoy.worldcup2018russia.myUtilities.SharedPreference;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,8 +31,6 @@ import java.util.List;
 public class YourTeamsFragment extends Fragment {
 
     LinearLayout ll;
-    SharedPreference sp;
-    ArrayList arrayList;
 
     @Nullable
     @Override
@@ -45,16 +40,6 @@ public class YourTeamsFragment extends Fragment {
 
         ll = rootView.findViewById(R.id.LLYourTeams);
 
-        //sp = new SharedPreference();
-        //arrayList = sp.loadMyTeams(getContext());
-
-        //Collections.sort(arrayList);
-
-        /*for (int i=0; i<arrayList.size(); i++) {
-            retrieveData(arrayList.get(i).toString());
-        }
-
-*/
         retrivalFunc();
 
         return rootView;
