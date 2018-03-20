@@ -17,10 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+
+        <activity android:name=".SplashScreenActivity"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,15 +27,21 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".myUtilities.NotificationReceiver"
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+        <receiver
+            android:name=".myUtilities.NotificationReceiver"
             android:enabled="true"
             android:exported="true"
-            tools:ignore="ExportedReceiver" >
-
+            tools:ignore="ExportedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-
         </receiver>
 
     </application>

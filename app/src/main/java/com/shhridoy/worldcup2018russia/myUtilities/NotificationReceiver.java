@@ -38,9 +38,6 @@ public class NotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, 2018);
-        c.set(Calendar.MONTH, 5);
-        c.set(Calendar.DATE, 16);
         int currYear = c.get(Calendar.YEAR); // like 2018
         int currMonth = c.get(Calendar.MONTH)+1; // count month from 0 to 11 (1, 2, 3 and so on)
         int currDay = c.get(Calendar.DATE); // like 1, 2, 3 and so on
@@ -49,13 +46,9 @@ public class NotificationReceiver extends BroadcastReceiver {
             DatabaseHelper databaseHelper = new DatabaseHelper(context);
             Cursor cursor = databaseHelper.retrieveMatchesData();
             while (cursor.moveToNext()){
-                //String id = cursor.getString(0);
                 String dateTime = cursor.getString(1);
-                //String round = cursor.getString(2);
                 String team1 = cursor.getString(3);
                 String team2 = cursor.getString(4);
-                //String score = cursor.getString(5);
-                //String details = cursor.getString(6);
 
                 String[] splitedDateTime = dateTime.split(" ");
                 String[] splitDate = splitedDateTime[1].split("\\.");

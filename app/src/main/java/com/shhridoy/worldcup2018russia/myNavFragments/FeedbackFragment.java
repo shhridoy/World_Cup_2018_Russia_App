@@ -56,4 +56,5 @@ public class FeedbackFragment extends Fragment {
         etMessage = v.findViewById(R.id.ETMessage);
         btnSend = v.findViewById(R.id.SendButton);
     }
+
 }

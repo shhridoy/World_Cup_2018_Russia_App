@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myNavFragments.HomeFragment;
 import com.shhridoy.worldcup2018russia.myTabFragments.MatchDetailsFragment;
+import com.shhridoy.worldcup2018russia.myUtilities.AnimationUtil;
 import com.shhridoy.worldcup2018russia.myUtilities.Settings;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context context;
     private String tag;
     private String matchDetails = null, matchDateTime = null;
+    private int previousPosition = -1;
 
     public RecyclerViewAdapter(List<MatchesListItems> itemsList, Context context, String tag) {
         this.itemsList = itemsList;
@@ -199,6 +201,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 matchDetails = listItem.getDetails();
                 break;
         }
+
+        if (position > previousPosition) { // scrolling down
+            AnimationUtil.animate(holder.itemView, true);
+        } else { // scrolling up
+            AnimationUtil.animate(holder.itemView, false);
+        }
+        previousPosition = position;
+        AnimationUtil.setFadeAnimation(holder.itemView);
     }
 
     @Override

@@ -8,8 +8,10 @@
     android:background="@color/md_grey_300">
 
     <RelativeLayout
+        android:id="@+id/RLFeedback"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="45dp"
         tools:ignore="UselessParent">
 
         <TextView

@@ -89,6 +89,7 @@ public class YourTeamsFragment extends Fragment {
                     RecyclerView recyclerView = new RecyclerView(getContext());
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerView.setClipToPadding(false);
                     recyclerView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     MatchesListItems list = new MatchesListItems(id, date, round, team1, team2, score, details);
                     List<MatchesListItems> matchesListItems = new ArrayList<>();

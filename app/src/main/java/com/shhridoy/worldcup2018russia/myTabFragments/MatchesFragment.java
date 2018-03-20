@@ -1,5 +1,6 @@
 package com.shhridoy.worldcup2018russia.myTabFragments;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
@@ -52,6 +53,7 @@ public class MatchesFragment extends Fragment {
     List<MatchesListItems> matchesListItems;
     SpinnerAdapter spinnerAdapter;
     String[] roundItems, dateItems;
+    ActionBar toolbar;
 
     // FIRST URL FOR JSON PURSING USING VOLLEY
     static String MATCHES_LINK = "https://shhridoy.github.io/json/worldcup2018/matches.json";
@@ -69,6 +71,7 @@ public class MatchesFragment extends Fragment {
         chooserSpinner = rootView.findViewById(R.id.RoundChooserSpiner);
         tvTip = rootView.findViewById(R.id.TVTip);
         tvNotice = rootView.findViewById(R.id.TVNotice);
+        toolbar = getActivity().getActionBar();
         recyclerView = rootView.findViewById(R.id.RecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
