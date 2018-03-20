@@ -10,8 +10,10 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -142,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    boolean backButoonPressedOnce = false;
+
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -220,7 +224,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isYourTeam = false;
 
             } else {
-                super.onBackPressed();
+
+                if(backButoonPressedOnce) {
+                    super.onBackPressed();
+                    return;
+                }
+
+                this.backButoonPressedOnce = true;
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.COR), "Please Press Back Again to Exit", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        backButoonPressedOnce = false;
+                    }
+                }, 2000);
+
             }
         }
     }
