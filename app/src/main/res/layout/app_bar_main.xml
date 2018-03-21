@@ -33,7 +33,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+        ads:adUnitId="@string/footer_ad_unit">
     </com.google.android.gms.ads.AdView>
 
 </android.support.design.widget.CoordinatorLayout>

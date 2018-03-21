@@ -21,7 +21,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="30dp">
+                android:paddingBottom="40dp">
 
                 <TextView
                     android:id="@+id/TVAboutAppTitle"

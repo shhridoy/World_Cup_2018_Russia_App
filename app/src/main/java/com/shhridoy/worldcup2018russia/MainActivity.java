@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -622,7 +621,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mInterstitialAd = new InterstitialAd(this);
 
         // set the ad unit ID
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId(getString(R.string.interestitial_fullscreen_ad));
 
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
