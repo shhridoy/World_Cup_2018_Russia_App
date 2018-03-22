@@ -92,7 +92,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     holder.tvTeamNo3.setText(splitTeamNo[2]);
                     holder.tvTeamNo4.setText(splitTeamNo[3]);
                 } catch (Exception e) {
-                    Toast.makeText(context, "Exception arise while splitting team no.!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Exception arise while splitting team no.!!", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
 
                 try {
@@ -107,7 +108,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     holder.imgTeamFlag3.setImageResource(Flags.getFlag(splitTeamName[2]));
                     holder.imgTeamFlag4.setImageResource(Flags.getFlag(splitTeamName[3]));
                 } catch (Exception e) {
-                    Toast.makeText(context, "Exception arise while splitting team name.!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Exception arise while splitting team name.!!", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
 
                 try {
@@ -138,7 +140,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     holder.tvStatusGrd4.setText(team4Split[1]);
                     holder.tvStatusPts4.setText(team4Split[2]);
                 } catch (Exception e) {
-                    Toast.makeText(context, "Exception arise while splitting team status.!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Exception arise while splitting team status.!!", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
 
                 break;
@@ -153,7 +156,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     String[] tagSplit = goalList.getTag().split(" ");
                     holder.teamImg.setImageResource(Flags.getFlag(tagSplit[1]));
                 } catch (Exception e) {
-                    Toast.makeText(context, "Exception arise while splitting goal tag.!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Exception arise while splitting goal tag.!!", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
                 break;
 
@@ -171,7 +175,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     }
 
                 } catch (Exception e) {
-                    Toast.makeText(context, "Exception arise while splitting Date and Time.!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Exception arise while splitting Date and Time.!!", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
 
                 holder.tvRound.setText(listItem.getRound());

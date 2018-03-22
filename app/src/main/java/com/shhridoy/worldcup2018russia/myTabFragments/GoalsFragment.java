@@ -228,7 +228,7 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(getContext(), "Exception arises!!", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getContext(), "Exception arises!!", Toast.LENGTH_LONG).show();
                         }
                     }
                 },
