@@ -11,7 +11,7 @@ public class Flags {
     public static int getFlag(String country) {
         if (country.contains("Russia")) {
             return R.drawable.ru;
-        } else if (country.contains("Saudi Arabia")) {
+        } else if (country.contains("Saudi Arabia") || country.contains("Saudi") || country.contains("Arab")) {
             return R.drawable.sa;
         } else if (country.contains("Egypt")) {
             return R.drawable.eg;
@@ -45,7 +45,7 @@ public class Flags {
             return R.drawable.br;
         } else if (country.contains("Switzerland")) {
             return R.drawable.ch;
-        } else if (country.contains("Costa Rica")) {
+        } else if (country.contains("Costa Rica") || country.contains("Costa") || country.contains("Rica")) {
             return R.drawable.cr;
         } else if (country.contains("Serbia")) {
             return R.drawable.rs;
@@ -55,7 +55,7 @@ public class Flags {
             return R.drawable.mx;
         } else if (country.contains("Sweden")) {
             return R.drawable.se;
-        } else if (country.contains("South Korea")) {
+        } else if (country.contains("South Korea") || country.contains("South") || country.contains("Korea")) {
             return R.drawable.kr;
         } else if (country.contains("Belgium")) {
             return R.drawable.be;
