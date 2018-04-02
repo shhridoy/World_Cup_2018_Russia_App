@@ -215,7 +215,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -291,11 +290,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if(fragmentManager.findFragmentByTag("Settings") != null) {
                 isYourTeam = false;
-                //if the fragment exists, show it.
                 fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("Settings")).commit();
             } else {
                 isYourTeam = false;
-                //if the fragment does not exist, add it to fragment manager.
                 fragmentManager.beginTransaction().add(R.id.content_frame, new SettingsFragment(), "Settings").commit();
             }
 
