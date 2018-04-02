@@ -297,7 +297,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             if(fragmentManager.findFragmentByTag("Home") != null && fragmentManager.findFragmentByTag("Home").isVisible()){
-                //if the other fragment is visible, hide it.
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("Home")).commit();
             }
 
