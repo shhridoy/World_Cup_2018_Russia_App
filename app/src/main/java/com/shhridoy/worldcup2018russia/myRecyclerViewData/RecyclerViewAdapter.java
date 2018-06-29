@@ -36,7 +36,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<GoalsListItems> goalsListItems = null;
     private Context context;
     private String tag;
-    private String matchDetails = null, matchDateTime = null;
     private int previousPosition = -1;
 
     public RecyclerViewAdapter(List<MatchesListItems> itemsList, Context context, String tag) {
@@ -203,7 +202,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 holder.tvScore.setText(listItem.getScore());
                 holder.imgvTeam1.setImageResource(Flags.getFlag(listItem.getTeam1()));
                 holder.imgvTeam2.setImageResource(Flags.getFlag(listItem.getTeam2()));
-                matchDetails = listItem.getDetails();
                 break;
         }
 
@@ -308,7 +306,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     bundle.putString("TEAM1", tvTeam1.getText().toString());
                     bundle.putString("TEAM2", tvTeam2.getText().toString());
                     bundle.putString("SCORE", tvScore.getText().toString());
-                    bundle.putString("DETAILS", matchDetails);
                     fragment.setArguments(bundle);
 
                     if (fragmentManager.findFragmentByTag("MatchDetails") != null) {

@@ -1,6 +1,7 @@
 package com.shhridoy.worldcup2018russia.myTabFragments;
 
 import android.app.ActionBar;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shhridoy.worldcup2018russia.R;
+import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.Flags;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -37,6 +39,7 @@ public class MatchDetailsFragment extends Fragment {
         iniViewsAndValues(rootView);
         getValues();
         setValues();
+        retrieveDetailsFromDB();
 
         return rootView;
     }
@@ -74,7 +77,6 @@ public class MatchDetailsFragment extends Fragment {
             team1 = bundle.getString("TEAM1");
             team2 = bundle.getString("TEAM2");
             score = bundle.getString("SCORE");
-            details = bundle.getString("DETAILS");
         }
     }
 
@@ -87,5 +89,20 @@ public class MatchDetailsFragment extends Fragment {
         tvDetails.setText(details);
         imgTeam1.setImageResource(Flags.getFlag(team1));
         imgTeam2.setImageResource(Flags.getFlag(team2));
+    }
+
+    private void retrieveDetailsFromDB() {
+        DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
+        Cursor cursor = databaseHelper.retrieveMatchesData();
+
+        while (cursor.moveToNext()) {
+            String r = cursor.getString(2);
+            String t1 = cursor.getString(3);
+            String t2 = cursor.getString(4);
+            if (r.equalsIgnoreCase(round) && t1.equalsIgnoreCase(team1) && t2.equalsIgnoreCase(team2)) {
+                details = cursor.getString(6);
+                break;
+            }
+        }
     }
 }
