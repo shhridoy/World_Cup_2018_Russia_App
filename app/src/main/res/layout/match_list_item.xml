@@ -47,6 +47,12 @@
                     tools:ignore="RelativeOverlap" />
 
                 <TextView
+                    android:id="@+id/matchesIdInvisibleTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"/>
+
+                <TextView
                     android:id="@+id/tv_round"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -178,6 +178,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     e.printStackTrace();
                 }
 
+                holder.tvIDInvisible.setText(listItem.getId());
                 holder.tvRound.setText(listItem.getRound());
 
                 if (listItem.getTeam1().equals("Saudi Arabia") || listItem.getTeam1().equals("Switzerland") ||
@@ -229,7 +230,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         // Matches View
-        TextView tvDateTime, tvRound, tvTeam1, tvTeam2, tvScore;
+        TextView tvDateTime, tvRound, tvTeam1, tvTeam2, tvScore, tvIDInvisible;
         CircleImageView imgvTeam1, imgvTeam2;
 
         // Tables View
@@ -288,6 +289,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     tvScore = itemView.findViewById(R.id.tv_score);
                     imgvTeam1 = itemView.findViewById(R.id.teamImage_1);
                     imgvTeam2 = itemView.findViewById(R.id.teamImage_2);
+                    tvIDInvisible = itemView.findViewById(R.id.matchesIdInvisibleTV);
                     break;
             }
 
@@ -306,6 +308,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     bundle.putString("TEAM1", tvTeam1.getText().toString());
                     bundle.putString("TEAM2", tvTeam2.getText().toString());
                     bundle.putString("SCORE", tvScore.getText().toString());
+                    bundle.putString("ID", tvIDInvisible.getText().toString());
                     fragment.setArguments(bundle);
 
                     if (fragmentManager.findFragmentByTag("MatchDetails") != null) {

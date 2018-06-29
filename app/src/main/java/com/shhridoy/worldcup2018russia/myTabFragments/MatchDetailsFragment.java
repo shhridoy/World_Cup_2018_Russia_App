@@ -27,6 +27,7 @@ public class MatchDetailsFragment extends Fragment {
     CircleImageView imgTeam1, imgTeam2;
     Bundle bundle;
     String dateTime, round, team1, team2, score, details;
+    String id;
     ActionBar actionBar;
     ActionBarDrawerToggle toggle;
 
@@ -38,8 +39,8 @@ public class MatchDetailsFragment extends Fragment {
 
         iniViewsAndValues(rootView);
         getValues();
-        setValues();
         retrieveDetailsFromDB();
+        setValues();
 
         return rootView;
     }
@@ -77,6 +78,7 @@ public class MatchDetailsFragment extends Fragment {
             team1 = bundle.getString("TEAM1");
             team2 = bundle.getString("TEAM2");
             score = bundle.getString("SCORE");
+            id = bundle.getString("ID");
         }
     }
 
@@ -96,10 +98,7 @@ public class MatchDetailsFragment extends Fragment {
         Cursor cursor = databaseHelper.retrieveMatchesData();
 
         while (cursor.moveToNext()) {
-            String r = cursor.getString(2);
-            String t1 = cursor.getString(3);
-            String t2 = cursor.getString(4);
-            if (r.equalsIgnoreCase(round) && t1.equalsIgnoreCase(team1) && t2.equalsIgnoreCase(team2)) {
+            if (cursor.getString(0).equalsIgnoreCase(id)) {
                 details = cursor.getString(6);
                 break;
             }
