@@ -20,4 +20,15 @@ public class Settings {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, true);
     }
 
+    public static void setTheme(Context context, String value) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString("Theme", value)
+                .apply();
+    }
+
+    public static String getTheme(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString("Theme", "Default");
+    }
+
 }

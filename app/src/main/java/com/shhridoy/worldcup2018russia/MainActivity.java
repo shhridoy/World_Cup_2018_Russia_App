@@ -39,6 +39,7 @@ import com.shhridoy.worldcup2018russia.myNavFragments.SettingsFragment;
 import com.shhridoy.worldcup2018russia.myNavFragments.HomeFragment;
 import com.shhridoy.worldcup2018russia.myNavFragments.YourTeamsFragment;
 import com.shhridoy.worldcup2018russia.myUtilities.NotificationReceiver;
+import com.shhridoy.worldcup2018russia.myUtilities.Settings;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,6 +71,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (Settings.getTheme(this).equalsIgnoreCase("Red")){
+            setTheme(R.style.AppThemeRed);
+        } else if (Settings.getTheme(this).equalsIgnoreCase("Purple")){
+            setTheme(R.style.AppThemePurple);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);

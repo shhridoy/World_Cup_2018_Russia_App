@@ -12,12 +12,79 @@
         android:layout_marginBottom="40dp">
 
         <TextView
+            android:id="@+id/ThemeSecTitleTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Themes"
+            android:textColor="@color/md_grey_700"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+        <View
+            android:id="@+id/View0"
+            android:layout_below="@id/ThemeSecTitleTV"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/md_grey_300"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="10dp"/>
+
+        <RelativeLayout
+            android:id="@+id/RLThemeSelection"
+            android:layout_below="@id/View0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/ThemeSelectionImgView"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:background="@color/colorPrimary"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/ThemeChooserTextView"
+                android:layout_toRightOf="@id/ThemeSelectionImgView"
+                android:layout_toEndOf="@id/ThemeSelectionImgView"
+                android:layout_alignBottom="@id/ThemeSelectionImgView"
+                android:layout_alignTop="@id/ThemeSelectionImgView"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Your Theme"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"/>
+
+        </RelativeLayout>
+
+        <TextView
             android:id="@+id/NotificationsSecTitleTV"
+            android:layout_below="@id/RLThemeSelection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/notifications"
             android:textColor="@color/md_grey_700"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"

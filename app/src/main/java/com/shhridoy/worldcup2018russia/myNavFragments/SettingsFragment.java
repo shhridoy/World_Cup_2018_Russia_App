@@ -33,7 +33,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     Switch switchNotification, switchSound, switchVibration;
     RadioButton rbInternational, rbBangladeshi;
     RadioGroup radioGroup;
-    RelativeLayout rlTeamSelection;
+    RelativeLayout rlThemeSelection, rlTeamSelection;
 
     DatabaseHelper databaseHelper;
 
@@ -71,6 +71,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         rbInternational.setOnClickListener(this);
         rbBangladeshi.setOnClickListener(this);
 
+        rlThemeSelection.setOnClickListener(this);
         rlTeamSelection.setOnClickListener(this);
 
         return rootView;
@@ -122,6 +123,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 break;
             case R.id.RadioButtonBangladesh:
                 Settings.setSettings(getContext(), "International Zone", false);
+                break;
+
+            // THEME SELECTION DIALOG OPENER
+            case R.id.RLThemeSelection:
+                Toast.makeText(getContext(), "Clicked on theme selection", Toast.LENGTH_SHORT).show();
                 break;
 
             // TEAM SELECTION DIALOG OPEN HANDLER
@@ -461,6 +467,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         rbInternational = v.findViewById(R.id.RadioButtonInternational);
         rbBangladeshi = v.findViewById(R.id.RadioButtonBangladesh);
         rlTeamSelection = v.findViewById(R.id.RLTeamSelection);
+        rlThemeSelection = v.findViewById(R.id.RLThemeSelection);
     }
 
     private void setSwitchAndButtonsCheck(){
