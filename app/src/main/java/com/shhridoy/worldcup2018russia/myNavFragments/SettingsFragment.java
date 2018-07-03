@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -33,7 +35,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     Switch switchNotification, switchSound, switchVibration;
     RadioButton rbInternational, rbBangladeshi;
     RadioGroup radioGroup;
-    RelativeLayout rlThemeSelection, rlTeamSelection;
+    RelativeLayout rlTeamSelection;
+
+    ImageButton defBtn, redBtn, purpleBtn;
 
     DatabaseHelper databaseHelper;
 
@@ -71,7 +75,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         rbInternational.setOnClickListener(this);
         rbBangladeshi.setOnClickListener(this);
 
-        rlThemeSelection.setOnClickListener(this);
+        defBtn.setOnClickListener(this);
+        redBtn.setOnClickListener(this);
+        purpleBtn.setOnClickListener(this);
+
         rlTeamSelection.setOnClickListener(this);
 
         return rootView;
@@ -117,17 +124,33 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View view) {
         switch (view.getId()) {
 
+            case R.id.ThemeSelectionImgBtnDefault:
+                Toast.makeText(getContext(), "Default", Toast.LENGTH_SHORT).show();
+                defBtn.setImageResource(R.drawable.ic_action_check);
+                redBtn.setImageResource(0);
+                purpleBtn.setImageResource(0);
+                break;
+
+            case R.id.ThemeSelectionImgBtnRed:
+                Toast.makeText(getContext(), "Red", Toast.LENGTH_SHORT).show();
+                redBtn.setImageResource(R.drawable.ic_action_check);
+                defBtn.setImageResource(0);
+                purpleBtn.setImageResource(0);
+                break;
+
+            case R.id.ThemeSelectionImgBtnPurple:
+                Toast.makeText(getContext(), "Purple", Toast.LENGTH_SHORT).show();
+                purpleBtn.setImageResource(R.drawable.ic_action_check);
+                defBtn.setImageResource(0);
+                redBtn.setImageResource(0);
+                break;
+
             // RADIO BUTTONS HANDLER
             case R.id.RadioButtonInternational:
                 Settings.setSettings(getContext(), "International Zone", true);
                 break;
             case R.id.RadioButtonBangladesh:
                 Settings.setSettings(getContext(), "International Zone", false);
-                break;
-
-            // THEME SELECTION DIALOG OPENER
-            case R.id.RLThemeSelection:
-                Toast.makeText(getContext(), "Clicked on theme selection", Toast.LENGTH_SHORT).show();
                 break;
 
             // TEAM SELECTION DIALOG OPEN HANDLER
@@ -467,7 +490,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         rbInternational = v.findViewById(R.id.RadioButtonInternational);
         rbBangladeshi = v.findViewById(R.id.RadioButtonBangladesh);
         rlTeamSelection = v.findViewById(R.id.RLTeamSelection);
-        rlThemeSelection = v.findViewById(R.id.RLThemeSelection);
+        defBtn = v.findViewById(R.id.ThemeSelectionImgBtnDefault);
+        redBtn = v.findViewById(R.id.ThemeSelectionImgBtnRed);
+        purpleBtn = v.findViewById(R.id.ThemeSelectionImgBtnPurple);
     }
 
     private void setSwitchAndButtonsCheck(){

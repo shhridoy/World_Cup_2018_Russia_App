@@ -72,13 +72,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (Settings.getTheme(this).equalsIgnoreCase("Red")){
+        /*if (Settings.getTheme(this).equalsIgnoreCase("Red")){
             setTheme(R.style.AppThemeRed);
         } else if (Settings.getTheme(this).equalsIgnoreCase("Purple")){
             setTheme(R.style.AppThemePurple);
         } else {
             setTheme(R.style.AppTheme);
-        }
+        }*/
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
