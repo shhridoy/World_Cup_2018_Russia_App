@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myPagerClasses.PagerAdapter;
+import com.shhridoy.worldcup2018russia.myUtilities.Settings;
 
 /**
  * Created by Dream Land on 2/21/2018.
@@ -28,6 +29,12 @@ public class HomeFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("Tables"));
         tabLayout.addTab(tabLayout.newTab().setText("Goals"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        if (Settings.getTheme(getContext()).equals("Red")) {
+            tabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary1));
+        } else if (Settings.getTheme(getContext()).equals("Purple")) {
+            tabLayout.setBackgroundColor(getResources().getColor(R.color.md_purple_500));
+        }
 
         final ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter(getFragmentManager(), tabLayout.getTabCount());

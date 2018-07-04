@@ -59,7 +59,7 @@ public class MatchDetailsFragment extends Fragment {
         tvTeam1 = v.findViewById(R.id.TextViewTeam1MatchDetails);
         tvTeam2 = v.findViewById(R.id.TextViewTeam2MatchDetails);
         tvScore = v.findViewById(R.id.TextViewScoreMatchDetails);
-        tvDetails = v.findViewById(R.id.TextViewMatchDetails);
+        tvDetails = v.findViewById(R.id.TextViewMatchDetailsTittles);
         imgTeam1 = v.findViewById(R.id.ImageTeam1MatchDetails);
         imgTeam2 = v.findViewById(R.id.ImageTeam2MatchDetails);
         dateTime = null;

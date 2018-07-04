@@ -22,7 +22,9 @@
     <string name="_00">00</string>
     <string name="round_1">Round 1</string>
     <string name="_1_0">1 : 0</string>
-    <string name="details">Details</string>
+
+    <string name="details">Shots\n\nShots on target\n\nPossession\n\nPasses\n\nPass accuracy\n\nFouls\n\nYellow cards\n\nRed cards\n\nOffsides\n\nCorners</string>
+
     <string name="saudi_arabia">Saudi Arabia</string>
     <string name="notifications">Notifications</string>
     <string name="notifications_on">Notifications On</string>

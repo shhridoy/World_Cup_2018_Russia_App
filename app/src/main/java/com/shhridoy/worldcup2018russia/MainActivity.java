@@ -4,8 +4,10 @@ import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -16,6 +18,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -25,6 +29,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -56,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static boolean isYourTeam = false;
 
+    public String theme;
+
     // PERMISSION CODE
     public static final int MULTIPLE_PERMISSIONS = 28;
 
@@ -72,13 +79,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        /*if (Settings.getTheme(this).equalsIgnoreCase("Red")){
+        if (Settings.getTheme(this).equals("Red")){
             setTheme(R.style.AppThemeRed);
-        } else if (Settings.getTheme(this).equalsIgnoreCase("Purple")){
+        } else if (Settings.getTheme(this).equals("Purple")){
             setTheme(R.style.AppThemePurple);
-        } else {
-            setTheme(R.style.AppTheme);
-        }*/
+        }
+
+        theme = Settings.getTheme(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -130,6 +137,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
 
         } else {
+
+            if (!theme.equals(Settings.getTheme(this))) {
+                restartAppWarningDialog();
+            }
 
             FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -258,6 +269,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
+        if (!theme.equals(Settings.getTheme(this))) {
+            restartAppWarningDialog();
+        }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -680,6 +695,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         );
         params.setMargins(0, 0, 0, 70);
         frameLayout.setLayoutParams(params);
+    }
+
+    private void restartAppWarningDialog() {
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle(Html.fromHtml("<font color='#FFDB11'><big>Apps theme has been modified!!</big></font>"));
+        builder.setMessage(Html.fromHtml("<font color='#000000'><big>You need to restart the app in order to change its effect!!</big></font>"));
+
+        /*builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                dialog.cancel();
+            }
+        });*/
+        builder.setPositiveButton(Html.fromHtml("<b>OK</b>"),new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                finish();
+                startActivity(getIntent());
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+
+        //Customize the positive button
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        //pbutton.setBackgroundColor(Color.rgb(232,232,232));
+        pbutton.setTextColor(Color.parseColor("#FFDB11"));
+        pbutton.setTextSize(20);
+
     }
 
 }

@@ -124,22 +124,23 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View view) {
         switch (view.getId()) {
 
+            // THEME SELECTIONS
             case R.id.ThemeSelectionImgBtnDefault:
-                Toast.makeText(getContext(), "Default", Toast.LENGTH_SHORT).show();
+                Settings.setTheme(getContext(), "Default");
                 defBtn.setImageResource(R.drawable.ic_action_check);
                 redBtn.setImageResource(0);
                 purpleBtn.setImageResource(0);
                 break;
 
             case R.id.ThemeSelectionImgBtnRed:
-                Toast.makeText(getContext(), "Red", Toast.LENGTH_SHORT).show();
+                Settings.setTheme(getContext(), "Red");
                 redBtn.setImageResource(R.drawable.ic_action_check);
                 defBtn.setImageResource(0);
                 purpleBtn.setImageResource(0);
                 break;
 
             case R.id.ThemeSelectionImgBtnPurple:
-                Toast.makeText(getContext(), "Purple", Toast.LENGTH_SHORT).show();
+                Settings.setTheme(getContext(), "Purple");
                 purpleBtn.setImageResource(R.drawable.ic_action_check);
                 defBtn.setImageResource(0);
                 redBtn.setImageResource(0);
@@ -496,6 +497,21 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void setSwitchAndButtonsCheck(){
+
+        if (Settings.getTheme(getContext()).equals("Red")) {
+            defBtn.setImageResource(0);
+            redBtn.setImageResource(R.drawable.ic_action_check);
+            purpleBtn.setImageResource(0);
+        } else if (Settings.getTheme(getContext()).equals("Purple")) {
+            defBtn.setImageResource(0);
+            redBtn.setImageResource(0);
+            purpleBtn.setImageResource(R.drawable.ic_action_check);
+        } else {
+            defBtn.setImageResource(R.drawable.ic_action_check);
+            redBtn.setImageResource(0);
+            purpleBtn.setImageResource(0);
+        }
+
         if (isNotificationOn) {
             switchNotification.setChecked(true);
         } else {
