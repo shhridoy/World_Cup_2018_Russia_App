@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
@@ -23,7 +24,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MatchDetailsFragment extends Fragment {
 
-    TextView tvDateTime, tvRound, tvTeam1, tvTeam2, tvScore, tvDetails;
+    TextView tvDateTime, tvRound, tvTeam1, tvTeam2, tvScore, tvDetailsTitles;
+    TextView tvTeam1Scorers, tvTeam2Scorers, tvTeam1Details, tvTeam2Details, tvStadiumTitle, tvStadium;
     CircleImageView imgTeam1, imgTeam2;
     Bundle bundle;
     String dateTime, round, team1, team2, score, details;
@@ -59,9 +61,16 @@ public class MatchDetailsFragment extends Fragment {
         tvTeam1 = v.findViewById(R.id.TextViewTeam1MatchDetails);
         tvTeam2 = v.findViewById(R.id.TextViewTeam2MatchDetails);
         tvScore = v.findViewById(R.id.TextViewScoreMatchDetails);
-        tvDetails = v.findViewById(R.id.TextViewMatchDetailsTittles);
+        tvDetailsTitles = v.findViewById(R.id.TextViewMatchDetailsTittles);
         imgTeam1 = v.findViewById(R.id.ImageTeam1MatchDetails);
         imgTeam2 = v.findViewById(R.id.ImageTeam2MatchDetails);
+        tvTeam1Scorers = v.findViewById(R.id.Team1Scorers);
+        tvTeam2Scorers = v.findViewById(R.id.Team2Scorers);
+        tvTeam1Details = v.findViewById(R.id.TextViewMatchDetailsTeam1);
+        tvTeam2Details = v.findViewById(R.id.TextViewMatchDetailsTeam2);
+        tvStadium = v.findViewById(R.id.TextViewMatchDetailsStadium);
+        tvStadiumTitle = v.findViewById(R.id.TextViewMatchDetailsStadiumTittle);
+
         dateTime = null;
         round = null;
         team1 = null;
@@ -88,9 +97,38 @@ public class MatchDetailsFragment extends Fragment {
         tvTeam1.setText(team1);
         tvTeam2.setText(team2);
         tvScore.setText(score);
-        tvDetails.setText(details);
         imgTeam1.setImageResource(Flags.getFlag(team1));
         imgTeam2.setImageResource(Flags.getFlag(team2));
+
+        //Toast.makeText(getContext(), details, Toast.LENGTH_LONG).show();
+
+        if (!details.equals(" ") || !details.equals("  ")) {
+            try {
+                String[] splitDetails = details.split("@@");
+
+                String[] goalScorers = splitDetails[0].split("@");
+                String team1GoalScorers = goalScorers[0];
+                String team2GoalScorers = goalScorers[1];
+
+                tvTeam1Scorers.setText(team1GoalScorers);
+                tvTeam2Scorers.setText(team2GoalScorers);
+
+                String[] matchDetails = splitDetails[1].split("@");
+                String team1MatchDetails = matchDetails[0];
+                String team2MatchDetails = matchDetails[1];
+
+                tvDetailsTitles.setText(getResources().getString(R.string.details));
+                tvTeam1Details.setText(team1MatchDetails);
+                tvTeam2Details.setText(team2MatchDetails);
+
+                String stadium = splitDetails[2];
+                tvStadiumTitle.setText("Stadium");
+                tvStadium.setText(stadium);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void retrieveDetailsFromDB() {

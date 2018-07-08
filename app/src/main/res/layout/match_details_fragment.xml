@@ -169,24 +169,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="Yury Gazinsky 12'\nDenis Cheryshev 43', 90+1'\nArtem Dzyuba 71'\nAleksandr Golovin 90+4'"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#000000"
                         android:textStyle="normal"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp" />
+                        />
 
                     <TextView
                         android:id="@+id/Team2Scorers"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="Ahmed Akter"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#000000"
                         android:textStyle="normal"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true" />
 
@@ -214,26 +209,26 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp">
 
                 <TextView
                     android:id="@+id/TextViewMatchDetailsTittles"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="@string/details"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textAlignment="center"
                     android:textColor="#000000"
                     android:textStyle="bold"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    tools:ignore="RelativeOverlap" />
 
                 <TextView
                     android:id="@+id/TextViewMatchDetailsTeam1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="-"
                     android:textAlignment="center"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="#000000"
@@ -246,7 +241,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="-"
                     android:textAlignment="center"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="#000000"
@@ -255,6 +249,30 @@
                     android:layout_marginRight="20dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true" />
+
+                <TextView
+                    android:id="@+id/TextViewMatchDetailsStadiumTittle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/TextViewMatchDetailsTittles"/>
+
+                <TextView
+                    android:id="@+id/TextViewMatchDetailsStadium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textStyle="normal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/TextViewMatchDetailsStadiumTittle"/>
 
             </RelativeLayout>
 
