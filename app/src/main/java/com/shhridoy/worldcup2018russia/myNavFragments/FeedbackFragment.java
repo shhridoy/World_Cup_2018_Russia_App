@@ -4,14 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shhridoy.worldcup2018russia.R;
+import com.shhridoy.worldcup2018russia.myUtilities.Settings;
 
 /**
  * Created by Dream Land on 3/10/2018.
@@ -21,6 +24,10 @@ public class FeedbackFragment extends Fragment {
 
     EditText etSubject, etMessage;
     Button btnSend;
+
+    TextView tvTitleSubject, tvTitleMessage;
+    CardView cardViewSend;
+
     static final String MAIL_ADDRESS = "md.saifulhq@gmail.com";
 
     @Nullable
@@ -30,6 +37,8 @@ public class FeedbackFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.feedback_fragment, container, false);
 
         initializeViews(rootView);
+
+        themeChangingMethod();
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +64,25 @@ public class FeedbackFragment extends Fragment {
         etSubject = v.findViewById(R.id.ETSubject);
         etMessage = v.findViewById(R.id.ETMessage);
         btnSend = v.findViewById(R.id.SendButton);
+        tvTitleMessage = v.findViewById(R.id.TVTitleMessage);
+        tvTitleSubject = v.findViewById(R.id.TVTitleSubject);
+        cardViewSend = v.findViewById(R.id.CardViewSendButton);
+    }
+
+    private void themeChangingMethod() {
+        if (Settings.getTheme(getContext()).equals("Red")){
+            tvTitleSubject.setTextColor(getResources().getColor(R.color.colorPrimary1));
+            tvTitleMessage.setTextColor(getResources().getColor(R.color.colorPrimary1));
+            cardViewSend.setCardBackgroundColor(getResources().getColor(R.color.colorPrimary1));
+        } else if (Settings.getTheme(getContext()).equals("Purple")){
+            tvTitleSubject.setTextColor(getResources().getColor(R.color.md_purple_500));
+            tvTitleMessage.setTextColor(getResources().getColor(R.color.md_purple_500));
+            cardViewSend.setCardBackgroundColor(getResources().getColor(R.color.md_purple_500));
+        } else {
+            tvTitleSubject.setTextColor(getResources().getColor(R.color.colorPrimary));
+            tvTitleMessage.setTextColor(getResources().getColor(R.color.colorPrimary));
+            cardViewSend.setCardBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }
     }
 
 }

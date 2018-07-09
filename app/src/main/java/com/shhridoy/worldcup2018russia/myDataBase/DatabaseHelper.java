@@ -152,7 +152,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // INSERT OR ADD VALUES IN GOALS TABLE
-    public boolean insertGoalsData(String name, String goal, String tag) {
+    public boolean insertGoalsData(String name, int goal, String tag) {
         try {
             ContentValues cv = new ContentValues();
             cv.put(Constants.NAME, name);
@@ -185,7 +185,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // UPDATE VALUES IN GOALS TABLE
-    public boolean updateGoalsData(int id, String name, String goal, String tag) {
+    public boolean updateGoalsData(int id, String name, int goal, String tag) {
         try {
             ContentValues cv = new ContentValues();
             cv.put(Constants.NAME, name);
@@ -206,7 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // RETRIEVE ALL DATA FROM GOALS TABLE ORDER BY NUMBER OF GOALS IN DESCENDING MODE
     public Cursor retrieveGoalsData() {
         return this.getReadableDatabase()
-                .rawQuery("SELECT * FROM "+Constants.GOAL_TABLE+" ORDER BY "+Constants.GOALS+" DESC", null);
+                .rawQuery("SELECT * FROM "+Constants.GOAL_TABLE, null);
     }
 
     // INSERT OR ADD VALUES IN MY TEAMS TABLE

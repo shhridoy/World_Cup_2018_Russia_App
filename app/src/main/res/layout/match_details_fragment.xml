@@ -168,7 +168,8 @@
                         android:id="@+id/Team1Scorers"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#000000"
                         android:textStyle="normal"
@@ -178,12 +179,14 @@
                         android:id="@+id/Team2Scorers"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#000000"
                         android:textStyle="normal"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true" />
+                        android:layout_alignParentRight="true"
+                        tools:ignore="RelativeOverlap" />
 
                 </RelativeLayout>
 
@@ -204,13 +207,14 @@
             android:layout_marginEnd="2dp"
             android:layout_marginRight="2dp"
             android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp">
+            android:layout_marginBottom="2dp"
+            android:paddingBottom="20dp">
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp">
+                android:paddingBottom="30dp">
 
                 <TextView
                     android:id="@+id/TextViewMatchDetailsTittles"

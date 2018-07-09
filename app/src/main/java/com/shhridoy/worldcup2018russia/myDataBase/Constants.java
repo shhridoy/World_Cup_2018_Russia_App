@@ -65,7 +65,7 @@ public class Constants {
             "( " +
             G_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             NAME + " TEXT, " +
-            GOALS + " TEXT, " +
+            GOALS + " INTEGER, " +
             TAG + " TEXT);";
 
     public static final String DROP_GOAL_TABLE = "DROP TABLE IF EXISTS " + GOAL_TABLE;

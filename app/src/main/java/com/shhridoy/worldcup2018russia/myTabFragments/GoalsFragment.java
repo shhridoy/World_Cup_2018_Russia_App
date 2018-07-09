@@ -38,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -161,7 +162,7 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
-                String goal = cursor.getString(2);
+                int goal = cursor.getInt(2);
                 String tag = cursor.getString(3);
                 GoalsListItems goalsListItems = new GoalsListItems(id, name, goal, tag);
                 String[] tagSplit = tag.split(" ");
@@ -176,14 +177,14 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    private void saveGoalsData (String name, String goal, String tag) {
+    private void saveGoalsData (String name, int goal, String tag) {
         boolean added = dbHelper.insertGoalsData(name, goal, tag);
         if (!added) {
             Toast.makeText(getContext(), "Data can't be added!!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void updateGoalsData(int id, String name, String goal, String tag) {
+    private void updateGoalsData(int id, String name, int goal, String tag) {
         boolean updated = dbHelper.updateGoalsData(id, name, goal, tag);
         if (!updated) {
             Toast.makeText(getContext(), "Doesn't updated!", Toast.LENGTH_SHORT).show();
@@ -211,7 +212,7 @@ public class GoalsFragment extends Fragment implements View.OnClickListener{
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = (JSONObject) jsonArray.get(i);
                                 String name = object.getString("name");
-                                String goal = object.getString("goal");
+                                int goal = Integer.parseInt(object.getString("goal"));
                                 String tag = object.getString("tag");
                                 if (noData) {
                                     saveGoalsData(name, goal, tag);

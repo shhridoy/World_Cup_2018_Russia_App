@@ -8,16 +8,16 @@ public class GoalsListItems {
 
     private int id;
     private String name;
-    private String goal;
+    private int goal;
     private String tag;
 
-    public GoalsListItems(String name, String goal, String tag) {
+    public GoalsListItems(String name, int goal, String tag) {
         this.name = name;
         this.goal = goal;
         this.tag = tag;
     }
 
-    public GoalsListItems(int id, String name, String goal, String tag) {
+    public GoalsListItems(int id, String name, int goal, String tag) {
         this.id = id;
         this.name = name;
         this.goal = goal;
@@ -32,7 +32,7 @@ public class GoalsListItems {
         return name;
     }
 
-    public String getGoal() {
+    public int getGoal() {
         return goal;
     }
 

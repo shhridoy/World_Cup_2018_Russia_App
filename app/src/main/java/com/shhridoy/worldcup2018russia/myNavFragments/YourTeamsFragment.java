@@ -20,6 +20,7 @@ import com.shhridoy.worldcup2018russia.R;
 import com.shhridoy.worldcup2018russia.myDataBase.DatabaseHelper;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.MatchesListItems;
 import com.shhridoy.worldcup2018russia.myRecyclerViewData.RecyclerViewAdapter;
+import com.shhridoy.worldcup2018russia.myUtilities.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +73,15 @@ public class YourTeamsFragment extends Fragment {
         textView.setTextColor(Color.WHITE);
         textView.setTypeface(null, Typeface.BOLD);
         textView.setPadding(5, 5, 5, 5);
-        textView.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimary));
+
+        if (Settings.getTheme(getContext()).equals("Red")){
+            textView.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimary1));
+        } else if (Settings.getTheme(getContext()).equals("Purple")){
+            textView.setBackgroundColor(getContext().getResources().getColor(R.color.md_purple_500));
+        } else {
+            textView.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimary));
+        }
+
         ll.addView(textView);
         try {
             DatabaseHelper databaseHelper = new DatabaseHelper(getContext());

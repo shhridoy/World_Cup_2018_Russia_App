@@ -149,7 +149,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 GoalsListItems goalList = goalsListItems.get(position);
                 holder.tvNo.setText((position+1)+".");
                 holder.tvName.setText(goalList.getName());
-                holder.tvGoal.setText(goalList.getGoal());
+                holder.tvGoal.setText(Integer.toString(goalList.getGoal()));
                 try {
                     // TAG SHOULD BE JUST LIKE THIS (T SPAIN)
                     String[] tagSplit = goalList.getTag().split(" ");
@@ -160,7 +160,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
                 break;
 
-            default:
+            default: // MATCHES
                 final MatchesListItems listItem = itemsList.get(position);
                 try {
 
