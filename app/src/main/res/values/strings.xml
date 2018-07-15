@@ -51,8 +51,8 @@
 
     <!-- ad-mob id's -->
     <string name="admob_app_id">ca-app-pub-1019292850972147~6122674318</string>
-    <string name="footer_ad_unit">ca-app-pub-1019292850972147/9758666993</string>
-    <string name="interestitial_fullscreen_ad">ca-app-pub-1019292850972147/1425306432</string>
+    <string name="footer_ad_unit">ca-app-pub-1019292850972147/4725768171</string>
+    <string name="interestitial_fullscreen_ad">ca-app-pub-1019292850972147/1554069109</string>
 
     <string name="team_select_notice">No teams is selected!!\n\nYou need to go to the Settings and select your teams to appear here.</string>
 
