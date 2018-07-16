@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/COR"
-    tools:context="com.shhridoy.worldcup2018russia.MainActivity">
+    tools:context="com.shhridoy.worldcup2018.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
